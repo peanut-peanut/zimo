@@ -1,0 +1,337 @@
+.footer {
+    background: #3f5269;
+    position: relative;
+    height: 80px;
+}
+
+.container {
+    height: 80px;
+    margin: 0 auto;
+    padding: 0 250px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* 左侧版权信息 */
+.copyright {
+    /* flex: 1; */
+}
+
+.copyright span {
+    font-family: PingFang SC;
+    font-size: 16.5px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+
+/* 中间联系人信息 */
+.contactPerson {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* flex: 1; */
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.helpText {
+    font-family: PingFang SC;
+    font-size: 16.5px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+
+.personInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2e3a52;
+}
+
+.personName {
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+/* 联系方式弹窗 */
+.contactPopup {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 15px;
+    z-index: 1000;
+    animation: fadeInUp 0.3s ease;
+}
+
+.popupContent {
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
+        5px 5px 10px 0px rgba(190, 190, 190, 0.25);
+    padding: 22px;
+    display: flex;
+    /* gap: 20px; */
+    width: 370px;
+    /* border: 1px solid rgba(255, 255, 255, 0.2); */
+}
+
+.contactDetails {
+    flex: 1;
+}
+
+.popupHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.popupAvatar {
+    width: 40px;
+    height: 40px;
+    background-color: #3f5269;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.avatarImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.popupName {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2e3a52;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.contactList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    /* gap: 8px; */
+}
+
+.contactItem::before {
+    content: "•";
+    color: #ff6b35;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.contactLabel {
+    margin-left: 6px;
+    font-size: 12px;
+
+    color: #3a3e48;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.contactValue {
+    font-size: 12px;
+
+    color: #3a3e48;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.qrCodeSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qrCodeContainer {
+    height: 100%;
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* gap: 8px; */
+}
+
+.qrCodeImage {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qrCodeLabel {
+    font-size: 16.5px;
+    font-weight: 500;
+    color: #3a3e48;
+    text-align: center;
+}
+
+/* 弹窗箭头 */
+.contactPopup::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 110px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(255, 255, 255, 0.95);
+}
+
+/* 弹窗动画 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* 右侧按钮 */
+.actionButton {
+    /* flex: 1; */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.planButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16.5px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: underline;
+    line-height: normal;
+    letter-spacing: normal;
+    background: none;
+    border: none;
+}
+
+.planButton:hover {
+    color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.emailIcon {
+    flex-shrink: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .copyright,
+    .contactPerson,
+    .actionButton {
+        flex: none;
+        justify-content: center;
+    }
+
+    .actionButton {
+        width: 100%;
+    }
+
+    .planButton {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .contactPopup {
+        position: fixed;
+        bottom: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+    }
+
+    .contactPopup::after {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer {
+        height: auto;
+        padding: 16px 0;
+    }
+
+    .container {
+        padding: 16px;
+        gap: 16px;
+        height: auto;
+    }
+
+    .copyright span,
+    .helpText,
+    .personName {
+        font-size: 14px;
+    }
+
+    .planButton {
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .popupContent {
+        flex-direction: column;
+        min-width: 380px;
+        padding: 16px;
+    }
+
+    .qrCodeSection {
+        align-self: center;
+    }
+}

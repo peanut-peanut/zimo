@@ -1,0 +1,213 @@
+.reviewContainer {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.reviewSlider {
+    display: flex;
+    transition: none;
+    width: max-content;
+    align-items: flex-start;
+}
+
+.reviewCard {
+    flex: 0 0 auto;
+    width: 360px;
+    padding: 22px 45px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-right: 58px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eaeaea;
+    position: relative;
+    height: auto;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.avatarContainer {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: absolute;
+    top: 18px;
+    left: -44px;
+    overflow: hidden;
+}
+
+.userInfo {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.userName {
+    font-weight: bold;
+    color: #2e4057;
+    font-size: 16px;
+    margin-bottom: 2px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    &:hover {
+        color: #ff6b35;
+    }
+}
+
+.userCountry {
+    color: #6b7280;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    &:hover {
+        color: #ff6b35;
+    }
+}
+
+.starRating {
+    display: flex;
+    color: #ffc107;
+    margin-bottom: 0.75rem;
+    font-size: 14px;
+    gap: 6px;
+}
+
+.reviewText {
+    color: #2e4057;
+    line-height: 1.6;
+    font-size: 14px;
+    display: block;
+    overflow: visible;
+    max-height: none;
+    white-space: normal;
+    word-wrap: break-word;
+    hyphens: auto;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    &:hover {
+        color: #ff6b35;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.paginationDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.paginationDot.active {
+    background-color: #ff6b35;
+    transform: scale(1.2);
+}
+
+/* 设置桌面视图的多列布局 */
+@media (min-width: 768px) {
+    .desktopView {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+
+    .mobileView {
+        display: none;
+    }
+}
+
+/* 设置移动视图的单列布局 */
+@media (max-width: 767px) {
+    .desktopView {
+        display: none;
+    }
+
+    .mobileView {
+        display: block;
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 轮播动画效果 */
+.slideAnimation {
+    animation: slideInRight 0.5s ease-in-out forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 轮播按钮 */
+.carouselButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.carouselButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.carouselButton:hover {
+    background-color: #f9fafb;
+    transform: translateY(-2px);
+}
+
+.carouselButton:active {
+    transform: translateY(0);
+}
+
+/* 卡片容器，适应UI图的布局 */
+.reviewWrapper {
+    display: flex;
+    overflow-x: hidden;
+    position: relative;
+    padding: 10px 0;
+    margin: 0 -10px;
+}
