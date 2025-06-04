@@ -291,7 +291,7 @@ const WhyChooseChina = () => {
                                         ? "opacity-0"
                                         : "opacity-100"
                                 }`}
-                                src="/assets/video/zimo.mp4"
+                                src="https://zimo.club/assets/video/zimo.mp4"
                                 preload="metadata"
                             />
 
