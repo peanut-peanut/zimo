@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+    font-family: "AlibabaPuHuiTiRegular";
+    font-style: normal;
+    src: url("/assets/font/AlibabaPuHuiTi-2-55-Regular.otf") format("opentype");
+}
+@font-face {
+    font-family: "AlibabaPuHuiTiMedium";
+    font-style: normal;
+    src: url("/assets/font/AlibabaPuHuiTi-2-65-Medium.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "AlibabaPuHuiTiBold";
+    font-style: normal;
+    src: url("/assets/font/AlibabaPuHuiTi-2-85-Bold.otf") format("opentype");
+}
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-rgb: 255, 255, 255;
+    --primary-color: #2e4057;
+    --secondary-color: #0066cc;
+    --accent-color: #ffcc00;
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background: rgb(var(--background-rgb));
+    font-family: "Inter", sans-serif;
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+.alibaba-font-regular {
+    font-family: "AlibabaPuHuiTiRegular";
+}
+.alibaba-font-medium {
+    font-family: "AlibabaPuHuiTiMedium";
+}
+.alibaba-font-bold {
+    font-family: "AlibabaPuHuiTiBold";
+}
+
+.section-heading {
+    @apply text-3xl font-bold text-center mb-2 relative;
+    font-family: "AlibabaPuHuiTiBold";
+    font-size: 24px;
+    font-weight: 900;
+    line-height: normal;
+    text-align: center;
+    letter-spacing: normal;
+    color: #2e4057;
+    color: var(--primary-color);
+}
+
+/* .section-heading::after {
+    content: "";
+    @apply absolute w-16 h-1 bg-yellow-400 bottom-0 left-1/2 transform -translate-x-1/2 mt-2;
+} */
+
+.section-container {
+    @apply max-w-7xl mx-auto px-4 py-16;
+}
+.section-container-horizontal {
+    padding-left: 13.54vw;
+    padding-right: 13.54vw;
+}
+
+
+.btn-primary {
+    @apply bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md transition-all duration-300;
+}
+
+.btn-secondary {
+    @apply bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md transition-all duration-300;
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.8s ease-in-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.stars {
+    @apply flex;
+}
+
+.star {
+    @apply text-yellow-400 text-xl;
+}
+
+.loading {
+    @apply flex items-center justify-center h-screen;
+}
+
+.spinner {
+    @apply w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin;
+}
+
+.route-loading {
+    @apply flex flex-col items-center justify-center h-screen gap-4 text-gray-700;
+}

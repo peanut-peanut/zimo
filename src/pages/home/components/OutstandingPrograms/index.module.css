@@ -1,0 +1,390 @@
+.programsContainer {
+    position: relative;
+    width: 100%;
+    padding: 60px 0;
+    overflow: hidden;
+}
+
+.backgroundImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 312px;
+    z-index: 1;
+}
+
+.contentWrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.programsHeading {
+    position: relative;
+    text-align: center;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.coloredSquare {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    transform: rotate(12deg);
+}
+
+.carouselContainer {
+    position: relative;
+    width: calc(100% - 16vw);
+    margin: 0 8vw;
+    padding: 0 5.54vw;
+    /* overflow: hidden; */
+}
+
+.carouselInner {
+    position: relative;
+    width: calc(100% + 10px);
+    margin: 20px -5px;
+    padding: 10px 5px;
+    overflow-x: hidden;
+}
+
+.carouselTrack {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    justify-content: space-between;
+    gap: calc((100% - 1000px) / 4);
+}
+
+.programCard {
+    width: 200px;
+    height: 390px;
+    border-radius: 10px;
+    /* border: 1px solid #dbdfec; */
+    box-shadow: -2px 0px 4px 0px rgba(190, 190, 190, 0.25),
+        2px 2px 4px 0px rgba(190, 190, 190, 0.25);
+    overflow: hidden;
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 99;
+}
+
+.programCard:hover {
+    transform: translateY(-5px);
+    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); */
+}
+
+.cardImage {
+    width: 100%;
+    height: 236px;
+    position: relative;
+}
+
+.universityIcon {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 38px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+}
+
+.cardContent {
+    padding: 12px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.programTitle {
+    font-weight: bold;
+    color: #2e4057;
+    font-size: 15px;
+    line-height: 20px;
+    transition: color 0.3s ease;
+}
+
+.universityName {
+    color: #3a3e48;
+    font-size: 12px;
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+}
+
+.navigationArrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    transition: all 0.3s ease;
+    color: #ff6b35;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    outline: none;
+}
+
+.navigationArrow:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.navigationArrow:disabled {
+    cursor: not-allowed;
+}
+
+.prevArrow {
+    left: 0;
+}
+
+.nextArrow {
+    right: 0;
+}
+
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.paginationDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #dbdfec;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.paginationDot.active {
+    background-color: #ff6b35;
+    border: 3px solid #dbdfec;
+    width: 14px;
+    height: 14px;
+}
+
+/* 新的详情页面样式 - 覆盖在carouselInner上 */
+.detailPage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.detailPage.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 确保关闭状态优先级高于激活状态 */
+.detailPage.closing {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.detailPageContent {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background: #ffffff;
+    box-sizing: border-box;
+    /* grey 03 */
+    border: 1px solid #dbdfec;
+    box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
+        5px 5px 10px 0px rgba(190, 190, 190, 0.25);
+}
+
+.detailPageImage {
+    width: 240px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.detailPageInfo {
+    width: calc(100% - 240px);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.detailPageTitle {
+    font-size: 21px;
+    font-weight: 600;
+    color: #2e4057;
+    margin-bottom: 3.5px;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.detailPageUniversity {
+    font-size: 18px;
+    color: #3a3e48;
+    font-weight: 300;
+    margin-bottom: 25px;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.detailPageInfoContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+}
+
+.detailPageInfoGrid {
+    width: 330px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detailPageInfoItem {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detailPageInfoLabel {
+    font-weight: 600;
+    color: #2E4057;
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+    font-size: 16.5px;
+}
+
+.detailPageInfoLabel::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #ff6b35;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.detailPageInfoValue {
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #3a3e48;
+    margin-left: 21px;
+    font-size: 16.5px;
+    font-family: PingFang SC;
+}
+
+.detailPageReasonsTitle {
+    font-size: 16.5px;
+    font-weight: 600;
+    color: #2e4057;
+    margin-bottom: 22px;
+}
+
+.detailPageReasonsList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    flex-grow: 1;
+}
+
+.detailPageReasonItem {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.detailPageReasonNumber {
+    width: 19.5px;
+    height: 19.5px;
+    border-radius: 50%;
+    background-color: #ff6b35;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.detailPageReasonText {
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #3a3e48;
+    font-size: 16.5px;
+}
+
+.detailPageButton {
+    position: absolute;
+    bottom: 22px;
+    right: 22px;
+    width: 110px;
+    height: 33px;
+    background-color: #ff6b35;
+    color: #fff;
+    padding: 7.5px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: normal;
+    cursor: pointer;
+}
+
+.detailPageButton:hover {
+    background-color: #e55a29;
+}

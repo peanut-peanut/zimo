@@ -1,0 +1,121 @@
+/* Section Title Container */
+.sectionTitleContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 60px;
+  max-width: fit-content;
+}
+
+/* Title Text */
+.titleText {
+  font-size: 27px;
+  font-weight: 700;
+  color: #2E4057;
+  text-align: center;
+  margin: 0;
+  padding: 0 32px 0  40px;
+  line-height: 1.2;
+  letter-spacing: normal;
+  font-family: "AlibabaPuHuiTiBold";
+}
+
+/* Decorative Squares */
+.square {
+  width: 10.5px;
+  height: 10.5px;
+  /* transform: rotate(45deg); */
+  /* margin: 0 4px; */
+}
+
+/* Left Decorations */
+.leftDecorations {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Right Decorations */
+.rightDecorations {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Square Colors */
+.yellow {
+  width: 18px;
+  height: 18px;
+  background-color: #FFD255;
+  transform: rotate(-6.14deg);
+  margin-top: 9px;
+}
+
+.red {
+  width: 14px;
+  height: 14px;
+  background-color: #D10022;
+  transform: rotate(-29.38deg);
+  margin-top: -30px;
+  /* margin-left: 2px; */
+}
+.orange {
+  width: 13.5px;
+  height: 13.5px;
+  margin-top: -30px;
+  background-color: #FF9757;
+  transform: rotate(75.01deg);
+
+}
+
+.blue {
+  width: 10.5px;
+  height: 10.5px;
+  margin-top: 7px;
+  margin-left: 4px;
+  background-color: #3BABBE;
+  transform: rotate(18.97deg);
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .titleText {
+    font-size: 24px;
+    padding: 0 16px;
+  }
+  
+  .square {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .leftDecorations,
+  .rightDecorations {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitleContainer {
+    margin-bottom: 32px;
+  }
+  
+  .titleText {
+    font-size: 20px;
+    padding: 0 12px;
+  }
+  
+  .square {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .leftDecorations,
+  .rightDecorations {
+    gap: 4px;
+  }
+} 
