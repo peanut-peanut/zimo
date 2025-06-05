@@ -80,7 +80,7 @@ const WhyChooseChina = defineAsyncComponent(() => import('./components/WhyChoose
 const WhyChooseZimo = defineAsyncComponent(() => import('./components/WhyChooseZimo/index.vue'))
 const StarReviews = defineAsyncComponent(() => import('./components/StarReviews/index.vue'))
 const OutstandingPrograms = defineAsyncComponent(() => import('./components/OutstandingPrograms/index.vue'))
-const ApplicationProcess = defineAsyncComponent(() => import('./components/ApplicationProcess/index.vue'))
+const ApplicationProcess = defineAsyncComponent(() => import('./components/AboutUs/index.vue'))
 const AboutUs = defineAsyncComponent(() => import('./components/AboutUs/index.vue'))
 const Footer = defineAsyncComponent(() => import('./components/Footer/index.vue'))
 
