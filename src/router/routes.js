@@ -9,22 +9,12 @@ export const ROUTES = {
     DETAIL: '/program/:id',
   },
   ABOUT: '/about',
-};
-
-/**
- * 路由类型定义
- */
-export type RouteType = {
-  path: string;
-  exact?: boolean;
-  title?: string;
-  requiresAuth?: boolean;
-};
+}
 
 /**
  * 主路由配置
  */
-export const mainRoutes: RouteType[] = [
+export const mainRoutes = [
   {
     path: ROUTES.HOME,
     exact: true,
@@ -45,13 +35,13 @@ export const mainRoutes: RouteType[] = [
     exact: true,
     title: '关于我们',
   },
-];
+]
 
 /**
  * 获取路由详情页面链接
- * @param id 项目ID
- * @returns 格式化后的路径
+ * @param {string|number} id 项目ID
+ * @returns {string} 格式化后的路径
  */
-export const getProgramDetailPath = (id: string | number): string => {
-  return ROUTES.PROGRAM.DETAIL.replace(':id', id.toString());
-}; 
+export const getProgramDetailPath = (id) => {
+  return ROUTES.PROGRAM.DETAIL.replace(':id', id.toString())
+} 
