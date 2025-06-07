@@ -677,7 +677,7 @@ export default {
 .navigation-arrow {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    //transform: translateY(-50%);
     width: 40px;
     height: 40px;
     border-radius: 50%;
