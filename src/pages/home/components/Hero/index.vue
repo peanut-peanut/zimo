@@ -21,9 +21,9 @@
         </div>
 
         <!-- Subtitle -->
-        <p class="subtitle">
+        <div class="subtitle">
           UNLOCK YOUR LIFE ANSWER IN CHINA
-        </p>
+        </div>
 
         <!-- Search Form -->
         <form @submit="handleSearch" class="search-form">

@@ -258,7 +258,7 @@ export default {
 
 .review-wrapper {
   display: flex;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   padding: 10px 0;
   margin: 0 -10px;
