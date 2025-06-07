@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header :class="['header', { 'header-scrolled': isScrolled }]">
     <div class="header-container">
       <img
         src="/assets/image/Logo.png"
@@ -85,7 +85,11 @@ export default {
     const isMobileMenuOpen = ref(false)
 
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      // 获取Hero组件的高度 (100vh)
+      const heroHeight = window.innerHeight
+      
+      // 当滚动距离超过Hero组件的高度时，才显示橙色背景
+      if (window.scrollY > heroHeight) {
         isScrolled.value = true
       } else {
         isScrolled.value = false
@@ -131,9 +135,15 @@ export default {
   left: 0;
   width: 100%;
   z-index: 50;
-  height: 90px;
+  height: 82px;
   background: linear-gradient(180deg, #383838 0%, rgba(56, 56, 56, 0) 94%);
   transition: all 0.3s ease;
+
+  // Add scrolled state styling
+  &.header-scrolled {
+    background: #FF6B35;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .header-container {
@@ -150,7 +160,7 @@ export default {
 
 .logo {
   position: absolute;
-  top: -20px;
+  top: -28px;
   left: 160px;
   width: 150px;
   height: 120px;
@@ -162,6 +172,7 @@ export default {
   display: none;
   margin-left: 400px;
   gap: 2.5rem;
+  font-size: 16px;
 
   @media (min-width: 768px) {
     display: flex;
