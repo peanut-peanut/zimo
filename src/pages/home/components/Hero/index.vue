@@ -3,7 +3,7 @@
     <!-- Background Image -->
     <div class="background-container">
       <img
-        src="/assets/image/HeaderBackground.png"
+        src="/assets/image/Home/HeaderBackground.png"
         alt="Students studying together"
         class="background-image"
       />

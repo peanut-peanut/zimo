@@ -78,28 +78,28 @@ export default {
                 title: "Have a better understanding of Chinese universities",
                 description:
                     "We can directly connect with schools and have a better understanding of the school's competitiveness and requirements. Our prices are more affordable.",
-                image: "/assets/image/WhyChooseZimo1.png",
+                image: "/assets/image/Home/WhyChooseZimo/WhyChooseZimo1.png",
             },
             {
                 id: 2,
                 title: "more convenient than applying on your own",
                 description:
                     "We provide real-time services and help you solve problems such as language, translation, text optimization, and cross-border payments.",
-                image: "/assets/image/WhyChooseZimo2.png",
+                image: "/assets/image/Home/WhyChooseZimo/WhyChooseZimo2.png",
             },
             {
                 id: 3,
                 title: "one-stop services",
                 description:
                     "After you successfully apply to a school, we provide one-stop services including visa agency, flight ticket booking, airport pick-up upon arrival, dormitory reservation, and school registration.",
-                image: "/assets/image/WhyChooseZimo3.png",
+                image: "/assets/image/Home/WhyChooseZimo/WhyChooseZimo3.png",
             },
             {
                 id: 4,
                 title: "A vast network of partners",
                 description:
                     "As a strategic partner of the China Education Association for International Exchange (CEAIE), ZIMO collaborates with over 400 universities and more than 100 partners, offering more than 30,000 programs and scholarships, opening up unlimited possibilities for you to realize your Chinese dream.",
-                image: "/assets/image/WhyChooseZimo4.png",
+                image: "/assets/image/Home/WhyChooseZimo/WhyChooseZimo4.png",
             },
         ];
 
@@ -115,7 +115,7 @@ export default {
 
 <style lang="less" scoped>
 .choose-zimo-container {
-    background-color: #f6f6f6;
+    background-color: #fff;
     padding: clamp(2rem, 4vw, 4rem) 13.54vw;
     max-width: 100%;
     margin: 0 auto;

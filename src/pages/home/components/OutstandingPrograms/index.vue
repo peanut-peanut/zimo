@@ -7,7 +7,7 @@
         <!-- 背景图容器 -->
         <div class="background-wrapper">
             <img
-                src="/assets/image/OutstandingBackground.png"
+                src="/assets/image/Home/OutstandingPrograms/OutstandingBackground.png"
                 alt="Outstanding Programs"
                 class="background-image"
             />
@@ -287,8 +287,8 @@ const PROGRAMS_DATA = [
         duration: "Bachelor 5 Years",
         language: "Chinese",
         fee: "RMB 24,000 Per Year",
-        image: "/assets/image/OutstandingPrograms1.png",
-        icon: "/assets/image/icon1.png",
+        image: "/assets/image/Home/OutstandingPrograms/OutstandingPrograms1.png",
+        icon: "/assets/image/Home/OutstandingPrograms/icon1.png",
         reasons: [
             "One of the earliest universities of Traditional Chinese Medicine (TCM) founded in China.",
             'NJUCM has been renowned as "the cradle of China\'s higher education in Chinese Medicine".',
@@ -302,8 +302,8 @@ const PROGRAMS_DATA = [
         duration: "Bachelor 6 Years",
         language: "English",
         fee: "RMB 42,000 Per Year",
-        image: "/assets/image/OutstandingPrograms2.png",
-        icon: "/assets/image/icon2.png",
+        image: "/assets/image/Home/OutstandingPrograms/OutstandingPrograms2.png",
+        icon: "/assets/image/Home/OutstandingPrograms/icon2.png",
         reasons: [
             "Internationally recognized medical degree with comprehensive clinical training.",
             "Modern facilities and diverse patient exposure.",
@@ -317,8 +317,8 @@ const PROGRAMS_DATA = [
         duration: "Bachelor 4 Years",
         language: "English",
         fee: "RMB 26,000 Per Year",
-        image: "/assets/image/OutstandingPrograms3.png",
-        icon: "/assets/image/icon3.png",
+        image: "/assets/image/Home/OutstandingPrograms/OutstandingPrograms3.png",
+        icon: "/assets/image/Home/OutstandingPrograms/icon3.png",
         reasons: [
             "World-class civil engineering program focusing on sustainable development.",
             "Strong industry connections and modern laboratory facilities.",
@@ -332,8 +332,8 @@ const PROGRAMS_DATA = [
         duration: "Bachelor 4 Years",
         language: "English",
         fee: "RMB 28,000 Per Year",
-        image: "/assets/image/OutstandingPrograms4.png",
-        icon: "/assets/image/icon4.png",
+        image: "/assets/image/Home/OutstandingPrograms/OutstandingPrograms4.png",
+        icon: "/assets/image/Home/OutstandingPrograms/icon4.png",
         reasons: [
             "Comprehensive mechanical engineering education with specializations in robotics.",
             "Strong research focus and industry partnerships.",
@@ -347,8 +347,8 @@ const PROGRAMS_DATA = [
         duration: "Bachelor 4 Years",
         language: "English",
         fee: "RMB 26,000 Per Year",
-        image: "/assets/image/OutstandingPrograms5.png",
-        icon: "/assets/image/icon5.png",
+        image: "/assets/image/Home/OutstandingPrograms/OutstandingPrograms5.png",
+        icon: "/assets/image/Home/OutstandingPrograms/icon5.png",
         reasons: [
             "Cutting-edge software engineering program with focus on AI and data science.",
             "Industry-aligned curriculum with practical projects and internship opportunities.",
@@ -681,7 +681,7 @@ export default {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: white;
+    background: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;

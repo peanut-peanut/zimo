@@ -4,7 +4,7 @@
       <SectionTitle title="Application Process" />
 
       <img
-        src="/assets/image/ApplicationProcess.jpg"
+        src="/assets/image/Home/ApplicationProcess.jpg"
         alt="Application Process"
         class="process-image"
       />

@@ -29,7 +29,7 @@
                         <!-- 封面图 -->
                         <div v-if="shouldShowCover" class="video-cover">
                             <img
-                                src="/assets/image/VideoThumb.jpg"
+                                src="/assets/image/Home/VideoThumb.jpg"
                                 alt="Video cover"
                                 class="cover-image"
                             />
@@ -39,7 +39,7 @@
                         <div v-if="!isPlaying" class="play-overlay">
                             <div class="play-button">
                                 <img
-                                    src="/assets/image/VideoPlayIcon.png"
+                                    src="/assets/image/Home/VideoPlayIcon.png"
                                     alt="Play"
                                     class="play-icon"
                                 />
