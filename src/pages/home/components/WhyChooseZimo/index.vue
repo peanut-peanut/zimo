@@ -115,7 +115,7 @@ export default {
 
 <style lang="less" scoped>
 .choose-zimo-container {
-    background-color: #f6f6f6;
+    background-color: #fff;
     padding: clamp(2rem, 4vw, 4rem) 13.54vw;
     max-width: 100%;
     margin: 0 auto;

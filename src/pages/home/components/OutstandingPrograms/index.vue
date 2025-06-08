@@ -681,7 +681,7 @@ export default {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: white;
+    background: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
