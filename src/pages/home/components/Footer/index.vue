@@ -24,7 +24,7 @@
                         <div class="contact-details">
                             <div class="popup-header">
                                 <img
-                                    src="/assets/image/Avatar.jpg"
+                                    src="/assets/image/Home/AboutUs/Avatar.jpg"
                                     alt="Mia"
                                     class="avatar-image"
                                 />
@@ -58,7 +58,7 @@
                         <div class="qr-code-section">
                             <div class="qr-code-container">
                                 <img
-                                    src="/assets/image/WhatsApp.png"
+                                    src="/assets/image/Home/AboutUs/WhatsApp.png"
                                     alt="Contact QR Code"
                                     width="100"
                                     height="100"
@@ -75,7 +75,7 @@
             <div class="action-button">
                 <button class="plan-button" @click="handlePlanClick">
                     <img
-                        src="/assets/image/MailIcon.png"
+                        src="/assets/image/Home/MailIcon.png"
                         alt="Email"
                         width="16"
                         height="16"
