@@ -1,12 +1,17 @@
 <template>
-  <div>
-    <h1>Successful cases</h1>
-  </div>
+  <main class="successful-cases-page">
+    <Header />
+  </main>
 </template>
 
 <script>
+import Header from "../home/components/Header/index.vue";
+
 export default {
-  name: 'SuccessfulCases'
+  name: 'SuccessfulCases',
+  components: {
+        Header,
+    },
 }
 </script>
 
