@@ -98,13 +98,13 @@ export default {
     justify-content: center;
     padding: clamp(0.8rem, 2vw, 1.5rem);
     background: #fff;
-    border-radius: 8px;
+    //border-radius: 8px;
     width: 100%;
     min-height: clamp(60px, 8vw, 100px);
     transition: all 0.3s ease;
     cursor: pointer;
     // border虚线
-    border: 1px dashed #999;
+    border: 2px dashed #bbbaba;
 
     // 为每个logo添加错开的淡入动画
     opacity: 0;

@@ -112,7 +112,7 @@ export default {
 
 .card-image {
     width: 100%;
-    height: 150px;
+    height: 160px;
     overflow: hidden;
     
     img {
@@ -128,7 +128,7 @@ export default {
 }
 
 .card-content {
-    height: 150px;
+    height: 140px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
