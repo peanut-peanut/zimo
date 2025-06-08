@@ -13,6 +13,8 @@
         <a href="#" class="nav-link">Home</a>
         <a href="#programs" class="nav-link">Programs</a>
         <a href="#universities" class="nav-link">Universities</a>
+        <a href="/successful-cases" class="nav-link" target="_blank">successful cases</a>
+        <a href="/guides" class="nav-link" target="_blank">Guides</a>
         <a href="#about" class="nav-link">About Us</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
