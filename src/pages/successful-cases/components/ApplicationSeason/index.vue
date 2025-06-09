@@ -1,0 +1,102 @@
+<template>
+  <section class="application-season-section">
+    <div class="application-season-container">
+      <img src="/assets/image/ApplicationSeasonBackground.png" alt="application-season" class="background-image">
+      <div class="overlay"></div>
+      <div class="content">
+        <h1 class="title">2025 Application Season</h1>
+        <div class="subtitle">China’s Top University Admission Victories</div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'About'
+}
+</script>
+
+<style lang="less" scoped>
+.application-season-section {
+  width: 100%;
+}
+
+.application-season-container  {
+  position: relative;
+  width: 100%;
+  font-size: 0;
+}
+
+.background-image {
+  width: 100%;
+  aspect-ratio: 64/25;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(46, 64, 87, 0.63);
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title  {
+  position: relative;
+  font-size: 42px;
+  font-weight: normal;
+  line-height: 50px;
+  text-align: center;
+  letter-spacing: normal;
+  color: #FFFFFF;
+  font-family: "AlibabaPuHuiTiBold";
+  margin-bottom: 45px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 25px;
+      left: -206px;
+      width: 178px;
+      height: 4px;
+      border-radius: 245px;
+      background: linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 25px;
+      right: -206px;
+      width: 178px;
+      height: 4px;
+      transform: rotate(180deg);
+      border-radius: 245px;
+      background: linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+    }
+}
+.subtitle {
+  font-family: "AlibabaPuHuiTiBold";
+  font-size: 42px;
+  font-weight: bold;
+  line-height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  color: #FFFFFF;
+}
+
+
+</style> 
