@@ -16,10 +16,6 @@ import Program from '../pages/program/index.vue'
  */
 const routes = [
   {
-    path: '/',
-    redirect: ROUTES.HOME
-  },
-  {
     path: ROUTES.HOME,
     name: 'Home',
     component: Home,
