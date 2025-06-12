@@ -2,7 +2,7 @@
   <section class="admission-cases">
     <div class="case-lists">
       <div v-for="item in lists" :key="item.caseId" class="case-item">
-        <img src="/assets/image/AdmissionCaseImage.png" alt="AdmissionCaseImage" class="case-item-img">
+        <!-- <img src="/assets/image/AdmissionCaseImage.png" alt="AdmissionCaseImage" class="case-item-img"> -->
         <div class="case-item-card">
           <h2 class="card-title">{{ item.caseTitle }}</h2>
           <ul class="card-details">
