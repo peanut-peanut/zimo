@@ -7,13 +7,13 @@
         ]"
     >
         <div class="header-container">
-            <img src="/assets/image/Logo.png" alt="logo" class="logo" />
+            <img src="/assets/image/Logo.png" alt="logo" class="logo"  />
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
                 <a href="#" class="nav-link">Home</a>
                 <a href="#programs" class="nav-link">Program</a>
-                <a href="#universities" class="nav-link">Universities</a>
+                <!-- <a href="#universities" class="nav-link">Universities</a> -->
                 <a href="/successful-cases" class="nav-link" target="_blank"
                     >Successful cases</a
                 >
@@ -44,13 +44,13 @@
                     </div>
                 </div>
                 <a href="#about" class="nav-link">About Us</a>
-                <a href="#contact" class="nav-link">apply now</a>
+                <a href="#contact" class="nav-link">Apply Now</a>
             </nav>
 
-            <div class="desktop-buttons">
+            <!-- <div class="desktop-buttons">
                 <a href="/login" class="login-button">LOGIN</a>
                 <a href="/register" class="register-button">REGISTER</a>
-            </div>
+            </div> -->
 
             <!-- Mobile Menu Button -->
             <button class="mobile-menu-button" @click="toggleMobileMenu">
@@ -217,7 +217,7 @@ export default {
     left: 0;
     width: 100%;
     z-index: 50;
-    height: 82px;
+    height: 116px;
     background: #ff6b35;
     transition: all 0.3s ease;
 
@@ -227,12 +227,11 @@ export default {
             #383838 0%,
             rgba(56, 56, 56, 0) 94%
         );
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     // Add scrolled state styling
     &.header-scrolled {
         background: #ff6b35;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 }
 
@@ -249,24 +248,23 @@ export default {
 
 .logo {
     position: absolute;
-    top: -28px;
+    top: -30px;
     left: 160px;
-    width: 150px;
-    height: 120px;
+    width: 216px;
+    height: 159px;
     cursor: pointer;
+    z-index: 100;
 }
 
 // 桌面端导航
 .desktop-nav {
-    display: none;
+    // display: none;
     margin: 0 auto;
     padding-right: 60px;
-    gap: 2.5rem;
-    font-size: 16px;
+    font-size: 22px;
 
-    @media (min-width: 768px) {
-        display: flex;
-    }
+   display: flex;
+   gap: 85px;
 }
 
 .nav-link {
