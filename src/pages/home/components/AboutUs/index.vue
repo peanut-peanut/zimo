@@ -34,7 +34,7 @@
                                 @mouseleave="handleWhatsAppMouseLeave"
                             >
                                 <img
-                                    src="/assets/image/PhoneIcon.png"
+                                    src="/assets/image/Home/AboutUs/PhoneIcon.png"
                                     alt="WhatsApp"
                                     width="24"
                                     height="24"
@@ -57,7 +57,7 @@
                                             class="wechat-tooltip-content-image"
                                         >
                                             <img
-                                                src="/assets/image/WhatsApp.png"
+                                                src="/assets/image/Home/AboutUs/WhatsApp.png"
                                                 alt="WhatsApp QR Code"
                                                 width="200"
                                                 height="200"
@@ -76,7 +76,7 @@
                                 @mouseleave="handleTelegramMouseLeave"
                             >
                                 <img
-                                    src="/assets/image/TelegramIcon.png"
+                                    src="/assets/image/Home/AboutUs/TelegramIcon.png"
                                     alt="Telegram"
                                     width="24"
                                     height="24"
@@ -103,7 +103,7 @@
                                 @mouseleave="handleWechatMouseLeave"
                             >
                                 <img
-                                    src="/assets/image/WechatIcon.png"
+                                    src="/assets/image/Home/AboutUs/WechatIcon.png"
                                     alt="WeChat"
                                     width="24"
                                     height="24"
@@ -126,7 +126,7 @@
                                             class="wechat-tooltip-content-image"
                                         >
                                             <img
-                                                src="/assets/image/WechatQrcode.png"
+                                                src="/assets/image/Home/AboutUs/WechatQrcode.png"
                                                 alt="WeChat QR Code"
                                                 width="200"
                                                 height="200"
@@ -146,7 +146,7 @@
                                 @click="handleTikTokClick"
                             >
                                 <img
-                                    src="/assets/image/TikTokIcon.png"
+                                    src="/assets/image/Home/AboutUs/TikTokIcon.png"
                                     alt="TikTok"
                                     width="24"
                                     height="24"
@@ -169,7 +169,7 @@
                                 @click="handleYouTubeClick"
                             >
                                 <img
-                                    src="/assets/image/YoutubeIcon.png"
+                                    src="/assets/image/Home/AboutUs/YoutubeIcon.png"
                                     alt="YouTube"
                                     width="24"
                                     height="18"
@@ -197,7 +197,7 @@
             aria-label="Scroll to top"
         >
             <img
-                src="/assets/image/ScrollToTop.png"
+                src="/assets/image/Home/ScrollToTop.png"
                 alt="Scroll to top"
                 width="60"
                 height="60"

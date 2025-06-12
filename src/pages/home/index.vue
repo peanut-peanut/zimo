@@ -16,6 +16,17 @@
             </Suspense>
         </div>
 
+        <div class="fade-in-section" data-fade-section="popular-cities">
+            <Suspense>
+                <template #default>
+                    <PopularCities />
+                </template>
+                <template #fallback>
+                    <LoadingComponent height="300px" />
+                </template>
+            </Suspense>
+        </div>
+
         <div class="fade-in-section" data-fade-section="why-zimo">
             <Suspense>
                 <template #default>
@@ -60,6 +71,26 @@
             </Suspense>
         </div>
 
+        <div class="fade-in-section" data-fade-section="featured-in">
+            <Suspense>
+                <template #default>
+                    <FeaturedIn />
+                </template>
+                <template #fallback>
+                    <LoadingComponent height="300px" />
+                </template>
+            </Suspense>
+        </div>
+
+        <Suspense>
+            <template #default>
+                <SpecialContent />
+            </template>
+            <template #fallback>
+                <LoadingComponent height="300px" />
+            </template>
+        </Suspense>
+
         <Suspense>
             <template #default>
                 <AboutUs />
@@ -89,6 +120,9 @@ import Hero from "./components/Hero/index.vue";
 const WhyChooseChina = defineAsyncComponent(() =>
     import("./components/WhyChooseChina/index.vue")
 );
+const PopularCities = defineAsyncComponent(() =>
+    import("./components/PopularCities/index.vue")
+);
 const WhyChooseZimo = defineAsyncComponent(() =>
     import("./components/WhyChooseZimo/index.vue")
 );
@@ -100,6 +134,14 @@ const OutstandingPrograms = defineAsyncComponent(() =>
 );
 const ApplicationProcess = defineAsyncComponent(() =>
     import("./components/ApplicationProcess/index.vue")
+);
+
+const FeaturedIn = defineAsyncComponent(() =>
+    import("./components/FeaturedIn/index.vue")
+);
+
+const SpecialContent = defineAsyncComponent(() =>
+    import("./components/SpecialContent/index.vue")
 );
 const AboutUs = defineAsyncComponent(() =>
     import("./components/AboutUs/index.vue")
@@ -129,10 +171,13 @@ export default {
         Header,
         Hero,
         WhyChooseChina,
+        PopularCities,
         WhyChooseZimo,
         StarReviews,
         OutstandingPrograms,
         ApplicationProcess,
+        FeaturedIn,
+        SpecialContent,
         AboutUs,
         Footer,
         LoadingComponent,
@@ -204,7 +249,7 @@ export default {
 
         onMounted(() => {
             // 设置页面标题和meta信息
-            document.title = "ZIMO - 您的中国留学伙伴";
+            document.title = "ZIMO - study in china";
 
             const metaDescription = document.querySelector(
                 'meta[name="description"]'
@@ -212,13 +257,13 @@ export default {
             if (metaDescription) {
                 metaDescription.setAttribute(
                     "content",
-                    "ZIMO帮助国际学生找到完美的中国大学，并提供全方位的支持服务。"
+                    "ZIMO - study in china"
                 );
             } else {
                 const meta = document.createElement("meta");
                 meta.name = "description";
                 meta.content =
-                    "ZIMO帮助国际学生找到完美的中国大学，并提供全方位的支持服务。";
+                    "ZIMO - study in china";
                 document.head.appendChild(meta);
             }
 

@@ -3,7 +3,7 @@
  * 统一管理应用中所有路由路径
  */
 export const ROUTES = {
-  HOME: '/home',
+  HOME: '/',
   PROGRAM: {
     LIST: '/program',
     DETAIL: '/program/:id',
