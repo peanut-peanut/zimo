@@ -136,25 +136,26 @@ export default {
 
 <style lang="less" scoped>
 .admission-cases {
-  padding: 100px 260px 100px;
+  padding: 100px 260px 80px;
 }
 
 .case-lists {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(calc(50% - 10px), 1fr));
-  gap: 20px; 
-
-  @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-  }
+  gap: 20px;
 }
 
 .case-item {
   display: flex;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 20px;
   border-radius: 10px;
   background: #FFFCEB;
   box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),5px 5px 10px 0px rgba(190, 190, 190, 0.25);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
 }
 
 .case-item-img {
