@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'About'
+  name: 'ApplicationSeason'
 }
 </script>
 
@@ -55,19 +55,19 @@ export default {
 
 .title  {
   position: relative;
-  font-size: 42px;
+  font-size: 55px;
   font-weight: normal;
-  line-height: 50px;
+  line-height: 64px;
   text-align: center;
   letter-spacing: normal;
   color: #FFFFFF;
-  font-family: "AlibabaPuHuiTiBold";
+  font-family: "AlibabaPuHuiTiRegular";
   margin-bottom: 45px;
 
     &::before {
       content: "";
       position: absolute;
-      top: 25px;
+      top: 30px;
       left: -206px;
       width: 178px;
       height: 4px;
@@ -78,7 +78,7 @@ export default {
     &::after {
       content: "";
       position: absolute;
-      top: 25px;
+      top: 30px;
       right: -206px;
       width: 178px;
       height: 4px;
@@ -89,9 +89,9 @@ export default {
 }
 .subtitle {
   font-family: "AlibabaPuHuiTiBold";
-  font-size: 42px;
+  font-size: 55px;
   font-weight: bold;
-  line-height: 50px;
+  line-height: 64px;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: normal;
