@@ -249,7 +249,7 @@ export default {
 
         onMounted(() => {
             // 设置页面标题和meta信息
-            document.title = "ZIMO - 您的中国留学伙伴";
+            document.title = "ZIMO - study in china";
 
             const metaDescription = document.querySelector(
                 'meta[name="description"]'
@@ -257,13 +257,13 @@ export default {
             if (metaDescription) {
                 metaDescription.setAttribute(
                     "content",
-                    "ZIMO帮助国际学生找到完美的中国大学，并提供全方位的支持服务。"
+                    "ZIMO - study in china"
                 );
             } else {
                 const meta = document.createElement("meta");
                 meta.name = "description";
                 meta.content =
-                    "ZIMO帮助国际学生找到完美的中国大学，并提供全方位的支持服务。";
+                    "ZIMO - study in china";
                 document.head.appendChild(meta);
             }
 
