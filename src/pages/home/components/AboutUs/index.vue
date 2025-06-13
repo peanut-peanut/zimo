@@ -2,30 +2,30 @@
     <section id="about" ref="sectionRef" class="about-section">
         <div class="container">
             <!-- 标题部分 -->
-            <SectionTitle title="About Us" />
+            <!-- <SectionTitle title="About Us" /> -->
 
             <!-- Footer 部分 -->
             <div class="footer">
                 <div class="footer-columns">
                     <div class="footer-column">
-                        <h6 class="footer-title">About us</h6>
+                        <div class="footer-title">About us</div>
                         <a href="#" class="footer-link">our services</a>
                         <a href="#" class="footer-link">our stories</a>
                     </div>
 
                     <div class="footer-column">
-                        <h6 class="footer-title">For students</h6>
+                        <div class="footer-title">For students</div>
                         <a href="#" class="footer-link">Support</a>
                         <a href="#" class="footer-link">Admission</a>
                     </div>
 
                     <div class="footer-column">
-                        <h6 class="footer-title">For universities</h6>
+                        <div class="footer-title">For universities</div>
                         <a href="#" class="footer-link">Advertise with us</a>
                     </div>
 
                     <div class="footer-column">
-                        <h6 class="footer-title">Follow us</h6>
+                        <div class="footer-title">Follow us</div>
                         <div class="social-icons">
                             <!-- WhatsApp 图标 -->
                             <div
@@ -172,7 +172,7 @@
                                     src="/assets/image/Home/AboutUs/YoutubeIcon.png"
                                     alt="YouTube"
                                     width="24"
-                                    height="18"
+                                    height="24"
                                     :class="[
                                         'social-icon',
                                         'youtube-icon',
@@ -361,7 +361,7 @@ export default {
 .about-section {
     background-color: #f6f6f6;
     position: relative;
-    padding: 4rem 13.54vw;
+    padding: 75px 260px;
 }
 
 .container {
@@ -499,36 +499,42 @@ export default {
 
 /* Footer 部分 */
 .footer {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 45px;
+    // border-top: 1px solid #e5e7eb;
+    // padding-top: 45px;
+    width: 100%;
 }
 
 .footer-columns {
     display: flex;
-    gap: 120px;
+    gap: 160px;
 }
 
 .footer-column {
+    //  flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .footer-title {
-    font-size: 16.5px;
+    font-family: PingFang SC;
+    font-size: 22px;
     font-weight: 600;
+    line-height: normal;
+    letter-spacing: normal;
     color: #2e4057;
-    margin: 0 0 20px 0;
+    margin: 0 0 40px 0;
 }
 
 .footer-link {
-    font-size: 16.5px;
+    font-family: PingFang SC;
+    font-size: 22px;
     font-weight: 300;
     line-height: normal;
     letter-spacing: normal;
+    color: #3a3e48;
     margin-bottom: 10px;
     transition: color 0.3s ease;
     text-decoration: none;
-    color: #6b7280;
 
     &:hover {
         color: #ff6b35;
@@ -538,7 +544,7 @@ export default {
 .social-icons {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
+    //  flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
@@ -631,6 +637,9 @@ export default {
 }
 
 .wechat-qr-code {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 8px;
 }
 
@@ -700,37 +709,38 @@ export default {
 }
 
 .telegram-tooltip-content {
-    width: 180px;
-    height: 80px;
-    padding: 30px 15px;
+    width: 220px;
+    height: 100px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    font-size: 18px;
-    line-height: 28px;
+    font-size: 24px;
+    line-height: 36px;
 }
 
 .wechat-tooltip-content {
-    width: 260px;
-    height: 300px;
-    padding: 20px 30px;
+    width: 320px;
+    height: 400px;
+    padding: 20px;
 }
 
 .wechat-tooltip-content-title {
-    height: 50px;
+    height: 80px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 22px;
+    line-height: 32px;
     color: #2e4057;
+    margin-bottom: 10px;
 }
 
 .wechat-tooltip-content-image {
-    width: 200px;
-    height: 210px;
+    width: 280px;
+    height: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -744,20 +754,20 @@ export default {
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid white;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid white;
 
     &::before {
         content: "";
         position: absolute;
-        top: -9px;
-        left: -8px;
+        top: -12px;
+        left: -12px;
         width: 0;
         height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-top: 8px solid #fff;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 12px solid #fff;
     }
 }
 

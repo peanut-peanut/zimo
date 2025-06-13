@@ -138,28 +138,41 @@
                 <div class="text-container">
                     <div class="text-item">
                         <div class="bullet-point">•</div>
-                        <p class="text-content">
-                            Experience the world's fastest-growing economy,
-                            where innovation meets opportunity in a dynamic
-                            global hub.
-                        </p>
+                        <div class="text-section">
+                            <h3 class="text-title">Rapid Development</h3>
+                            <p class="text-content">
+                                Experience the world's fastest-growing economy,
+                                where innovation meets opportunity in a dynamic
+                                global hub.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="text-item">
                         <div class="bullet-point">•</div>
-                        <p class="text-content">
-                            Discover a civilization with 5000 years of culture,
-                            offering profound learning beyond the classroom.
-                        </p>
+                        <div class="text-section">
+                            <h3 class="text-title">Diverse Cultures</h3>
+                            <p class="text-content">
+                                Discover a civilization with 5000 years of
+                                culture, offering profound learning beyond the
+                                classroom.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="text-item">
                         <div class="bullet-point">•</div>
-                        <p class="text-content">
-                            Study at internationally ranked universities with
-                            generous scholarships and lower costs than Western
-                            institutions!
-                        </p>
+                        <div class="text-section">
+                            <h3 class="text-title">
+                                Excellent Academic Environment and Abundant
+                                Scholarships
+                            </h3>
+                            <p class="text-content">
+                                Study at internationally ranked universities
+                                with generous scholarships and lower costs than
+                                Western institutions!
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -461,7 +474,7 @@ export default {
 <style lang="less" scoped>
 .why-china-container {
     background-color: #ffffff;
-    padding: 4rem 13.54vw;
+    padding: 75px 260px;
 }
 .container {
     width: 100%;
@@ -471,30 +484,21 @@ export default {
 .content-grid {
     display: flex;
     // flex-direction: column;
-    gap: 2rem;
+    gap: 40px;
     align-items: center;
     justify-content: space-between;
-    @media (min-width: 768px) {
-        justify-content: space-between;
-        gap: 2rem;
-    }
 }
 
 // 视频容器
 .video-container {
     position: relative;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    margin: 0 auto;
-    width: max(300px, 33.33vw);
-    height: max(169px, 18.85vw);
-    max-width: 100%;
+    border-radius: 10px;
+
+    width: 640px;
+    height: 361.86px;
 }
 
 .video-wrapper {
-    aspect-ratio: 16 / 9;
     position: relative;
     cursor: pointer;
     width: 100%;
@@ -506,6 +510,7 @@ export default {
     height: 100%;
     object-fit: cover;
     transition: opacity 0.3s ease;
+    border-radius: 10px;
 }
 
 .opacity-0 {
@@ -526,6 +531,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 // 播放按钮覆盖层
@@ -540,8 +546,8 @@ export default {
 }
 
 .play-button {
-    width: 4rem;
-    height: 4rem;
+    width: 80px;
+    height: 80px;
     position: relative;
 }
 
@@ -558,18 +564,17 @@ export default {
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.6);
-    padding: 0.5rem;
-    padding-top: 10px;
+    padding: 10px;
     transition: opacity 0.3s ease;
     z-index: 20;
 }
 
 // 进度条
 .progress-bar {
-    height: 0.5rem;
+    height: 10px;
     background-color: #374151;
     border-radius: 9999px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
@@ -585,8 +590,8 @@ export default {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background-color: white;
     transition: transform 0.1s ease;
@@ -616,23 +621,23 @@ export default {
 }
 
 .control-icon {
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 30px;
+    width: 30px;
 }
 
 .time-display {
-    color: white;
-    font-size: 0.875rem;
+    color: #fff;
+    font-size: 16px;
 }
 
 // 右侧文案
 .text-container {
     flex: 1;
-    height: max(169px, 18.85vw);
+    height: 361.86px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    gap: 2rem;
+    justify-content: space-between;
+    gap: 30px;
 }
 
 .text-item {
@@ -641,9 +646,14 @@ export default {
 }
 
 .bullet-point {
-    margin-right: 1rem;
+    margin-right: 20px;
     color: #ff6b35;
-    font-size: 1.5rem;
+    font-size: 24px;
+    margin-top: 4px;
+    // width: 8px;
+    // height: 8px;
+    // border-radius: 50%;
+    // background-color: #ff6b35;
     font-weight: 700;
     height: 100%;
     display: flex;
@@ -651,30 +661,26 @@ export default {
     line-height: 100%;
 }
 
-.text-content {
-    font-family: "AlibabaPuHuiTiRegular";
-    color: #2e4057;
-    margin: 0;
-    line-height: 1.6;
+.text-section {
+    flex: 1;
 }
 
-// 响应式调整
-@media (max-width: 768px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
+.text-title {
+    font-family: "AlibabaPuHuiTiRegular";
+    font-size: 22px;
+    font-weight: 600;
+    color: #2e4057;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-bottom: 10px;
+}
 
-    .video-container {
-        width: 100%;
-        height: auto;
-        min-width: unset;
-        min-height: unset;
-    }
-
-    .text-container {
-        height: auto;
-        min-height: unset;
-    }
+.text-content {
+    font-family: "AlibabaPuHuiTiRegular";
+    font-size: 18px;
+    color: #2e4057;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #2e4057;
 }
 </style>

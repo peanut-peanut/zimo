@@ -116,39 +116,27 @@ export default {
 <style lang="less" scoped>
 .choose-zimo-container {
     background-color: #fff;
-    padding: clamp(2rem, 4vw, 4rem) 13.54vw;
+    padding: 75px 260px;
     max-width: 100%;
     margin: 0 auto;
 }
 
 .subtitle {
     text-align: center;
-    color: #666;
-    font-size: clamp(14px, 1.2vw, 16px);
-    line-height: 1.5;
-    margin: 0 auto clamp(2rem, 3vw, 2.5rem);
+    margin-bottom: 60px;
+    font-size: 22px;
+    line-height: normal;
+    text-align: center;
+    letter-spacing: normal;
+    color: #2e4057;
     font-family: "AlibabaPuHuiTiRegular";
-    max-width: 600px;
 }
 
 .features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(1rem, 2vw, 1.5rem);
-    max-width: 1400px;
+    display: flex;
+    gap: 20px;
+    width: 100%;
     margin: 0 auto;
-
-    /* 平板尺寸：2列布局 */
-    @media (min-width: 640px) {
-        grid-template-columns: repeat(2, 1fr);
-        gap: clamp(1.25rem, 2.5vw, 2rem);
-    }
-
-    /* 桌面尺寸：4列布局 */
-    @media (min-width: 1024px) {
-        grid-template-columns: repeat(4, 1fr);
-        gap: clamp(1rem, 1.5vw, 1.5rem);
-    }
 }
 
 .feature-card {
@@ -159,7 +147,8 @@ export default {
         0 2px 4px -1px rgba(0, 0, 0, 0.06);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: fit-content;
-    min-height: clamp(260px, 30vw, 320px);
+    width: 335px;
+    height: 460px;
     display: flex;
     flex-direction: column;
 
@@ -172,7 +161,7 @@ export default {
 
 .feature-image {
     width: 100%;
-    height: clamp(100px, 12vw, 140px);
+    height: 171px;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -189,17 +178,17 @@ export default {
 }
 
 .feature-content {
-    padding: clamp(0.75rem, 1.5vw, 1.05rem);
+    padding: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: clamp(0.5rem, 1vw, 0.75rem);
+    gap: 10px;
 }
 
 .feature-title {
     font-family: "AlibabaPuHuiTiMedium", sans-serif;
-    font-size: clamp(13px, 1vw, 15px);
-    line-height: 1.3;
+    font-size: 18px;
+    line-height: 24px;
     color: #2e4057;
     margin: 0;
     transition: color 0.3s ease;
@@ -210,23 +199,13 @@ export default {
         opacity: 1 !important;
         color: #ff6b35;
     }
-
-    // &.is-hovered {
-    //     color: #FF6B35;
-    // }
-
-    /* 移动端稍微增大字体 */
-    @media (max-width: 639px) {
-        font-size: clamp(15px, 4vw, 18px);
-        line-height: 1.25;
-    }
 }
 
 .feature-description {
     font-family: "AlibabaPuHuiTiRegular", sans-serif;
-    font-size: clamp(12px, 1vw, 14px);
-    line-height: 1.4;
-    color: #3a3e48;
+    font-size: 16px;
+    line-height: 24px;
+    color: #3A3E48;
     margin: 0;
     transition: color 0.3s ease;
     cursor: pointer;
@@ -238,57 +217,6 @@ export default {
     &:hover {
         opacity: 1 !important;
         color: #ff6b35;
-    }
-
-    /* 移动端调整 */
-    @media (max-width: 639px) {
-        font-size: clamp(13px, 3.5vw, 16px);
-        line-height: 1.5;
-    }
-}
-
-/* 超大屏幕优化 */
-@media (min-width: 1400px) {
-    .features-grid {
-        max-width: 1600px;
-    }
-
-    .feature-card {
-        min-height: 340px;
-    }
-
-    .feature-image {
-        height: 160px;
-    }
-
-    .feature-title {
-        font-size: 15px;
-        line-height: 1.25;
-    }
-
-    .feature-description {
-        font-size: 14px;
-        line-height: 1.5;
-    }
-}
-
-/* 小屏幕优化 */
-@media (max-width: 480px) {
-    .choose-zimo-container {
-        padding: 2rem 1rem;
-    }
-
-    .features-grid {
-        gap: 1.5rem;
-    }
-
-    .feature-card {
-        min-height: 280px;
-    }
-
-    .feature-content {
-        padding: 1rem;
-        gap: 0.75rem;
     }
 }
 </style>
