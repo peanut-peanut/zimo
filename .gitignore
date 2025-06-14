@@ -116,7 +116,7 @@ storybook-static/
 .local
 
 # OSS Configuration (contains sensitive keys)
-oss-config.js
+# oss-config.js
 
 # nyc test coverage
 .nyc_output
