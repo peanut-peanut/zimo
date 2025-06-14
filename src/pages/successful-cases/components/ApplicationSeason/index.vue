@@ -30,7 +30,7 @@ export default {
 
 .background-image {
   width: 100%;
-  aspect-ratio: 64/25;
+  aspect-ratio: 960/271;
 }
 
 .overlay {
@@ -55,7 +55,7 @@ export default {
 
 .title  {
   position: relative;
-  font-size: 55px;
+  font-size: 44px;
   font-weight: normal;
   line-height: 64px;
   text-align: center;
@@ -89,7 +89,7 @@ export default {
 }
 .subtitle {
   font-family: "AlibabaPuHuiTiBold";
-  font-size: 55px;
+  font-size: 44px;
   font-weight: bold;
   line-height: 64px;
   text-align: center;

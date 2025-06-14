@@ -474,7 +474,7 @@ export default {
 <style lang="less" scoped>
 .why-china-container {
     background-color: #ffffff;
-    padding: 75px 260px;
+    padding: 75px 200px;
 }
 .container {
     width: 100%;

@@ -1,14 +1,5 @@
 <template>
-    <section
-        id="reviews"
-        ref="sectionRef"
-        class="reviews-section"
-        :style="{
-            backgroundColor: '#fff',
-            padding: '75px 0',
-            position: 'relative',
-        }"
-    >
+    <section id="reviews" ref="sectionRef" class="reviews-section">
         <div class="w-full">
             <!-- 标题 -->
             <SectionTitle title="Over 1,000 5-Star Reviews" />
@@ -251,6 +242,9 @@ export default {
 <style lang="less" scoped>
 .reviews-section {
     width: 100%;
+    background-color: #fff;
+    padding: 75px 0;
+    position: relative;
 }
 
 .w-full {

@@ -4,17 +4,10 @@
             <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
         </div>
 
-        <div class="filter-container"></div>
-        <!-- Form Container -->
-        <!-- <img
-            src="/assets/image/ApplyNow/BackgroundImage.png"
-                alt="Students studying together"
-                class="background-image"
-        /> -->
         <img
-            src="/assets/image/ApplyNow/Doctor.png"
+            src="/assets/image/ApplyNow/ApplyNowBackground.png"
             alt="Students studying together"
-            class="doctor-image"
+            class="background-image"
         />
 
         <div class="form-wrapper">
@@ -51,9 +44,11 @@
                                     :class="{ error: errors.country }"
                                     @click="toggleCountryDropdown"
                                 >
-                                    <span class="select-text">{{
-                                        form.country || ""
-                                    }}</span>
+                                    <span
+                                        class="select-text"
+                                        data-placeholder="Please select your country"
+                                        >{{ form.country || "" }}</span
+                                    >
                                     <svg
                                         class="select-arrow"
                                         :class="{ rotate: countryDropdownOpen }"
@@ -69,15 +64,6 @@
                                     v-if="countryDropdownOpen"
                                     class="select-options country-select-options"
                                 >
-                                    <!-- <div class="country-search-container">
-                                        <input
-                                            v-model="countrySearchText"
-                                            type="text"
-                                            class="country-search-input"
-                                            placeholder="Search countries..."
-                                            @click.stop
-                                        />
-                                    </div> -->
                                     <div
                                         v-for="country in filteredCountries"
                                         :key="country.code"
@@ -119,8 +105,13 @@
                                 <select
                                     v-model="form.countryCode"
                                     class="country-code-select"
-                                    @change="validatePhone"
+                                    :class="{
+                                        'text-placeholder': !form.countryCode,
+                                    }"
                                 >
+                                    <option value="" disabled selected>
+                                        Select
+                                    </option>
                                     <option
                                         v-for="country in phoneCountries"
                                         :key="country.code"
@@ -180,9 +171,11 @@
                                     :class="{ error: errors.gpa }"
                                     @click="toggleGpaDropdown"
                                 >
-                                    <span class="select-text">{{
-                                        form.gpa || ""
-                                    }}</span>
+                                    <span
+                                        class="select-text"
+                                        data-placeholder="Please select your GPA"
+                                        >{{ form.gpa || "" }}</span
+                                    >
                                     <svg
                                         class="select-arrow"
                                         :class="{ rotate: gpaDropdownOpen }"
@@ -227,9 +220,11 @@
                                     :class="{ error: errors.targetDegree }"
                                     @click="toggleDegreeDropdown"
                                 >
-                                    <span class="select-text">{{
-                                        form.targetDegree || ""
-                                    }}</span>
+                                    <span
+                                        class="select-text"
+                                        data-placeholder="Please select your target degree"
+                                        >{{ form.targetDegree || "" }}</span
+                                    >
                                     <svg
                                         class="select-arrow"
                                         :class="{ rotate: degreeDropdownOpen }"
@@ -272,7 +267,7 @@
                                 type="text"
                                 class="form-input"
                                 :class="{ error: errors.targetMajor }"
-                                placeholder="Please enter your GPA"
+                                placeholder="Please enter your target major"
                                 @blur="validateTargetMajor"
                             />
                         </div>
@@ -292,6 +287,28 @@
                 </form>
             </div>
         </div>
+
+        <!-- 提交后的二维码弹窗 -->
+        <div v-if="showQrcodeModal" class="qrcode-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        Scan the QR code to get one-on-one application services
+                    </div>
+                </div>
+                <div class="close-button" @click="showQrcodeModal = false">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                            fill="currentColor"
+                        />
+                    </svg>
+                </div>
+                <div class="qrcode-content-container">
+                    <ScanQrcode />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -305,20 +322,25 @@ import {
     parsePhoneNumberFromString,
 } from "libphonenumber-js";
 import metadata from "libphonenumber-js/metadata.min.json";
+import ScanQrcode from "@/components/ScanQrcode/index.vue";
 
 export default {
     name: "ApplyNow",
+    components: {
+        ScanQrcode,
+    },
     setup() {
         // 获取所有支持的国家代码
         const allCountryCodes = getCountries(metadata);
+        const showQrcodeModal = ref(false);
 
         // Form data
         const form = reactive({
             name: "",
             phone: "",
-            countryCode: "+1",
+            countryCode: "",
             country: "",
-            countryCodeIso: "US", // ISO国家代码
+            countryCodeIso: "", // ISO国家代码
             age: "",
             gpa: "",
             targetDegree: "",
@@ -334,7 +356,7 @@ export default {
         const degreeDropdownOpen = ref(false);
         const isSubmitting = ref(false);
         const countrySearchText = ref("");
-        // console.log("countryData", countryData);
+        console.log("countryData", countryData);
         // 使用libphonenumber-js构建完整的国家列表
         const countries = computed(() => {
             return allCountryCodes
@@ -588,6 +610,8 @@ export default {
                     fullPhone: `${form.countryCode}${form.phone}`,
                 };
                 console.log("formData", formData);
+                // 显示二维码弹窗
+                showQrcodeModal.value = true;
             } catch (error) {
                 alert("Failed to submit application. Please try again.");
             } finally {
@@ -625,6 +649,7 @@ export default {
             filteredCountries,
             gpaOptions,
             degreeOptions,
+            showQrcodeModal,
             toggleCountryDropdown,
             toggleGpaDropdown,
             toggleDegreeDropdown,
@@ -681,32 +706,21 @@ export default {
     z-index: 100;
 }
 
-.filter-container {
+.background-image {
     position: absolute;
-    top: -600px;
-    left: 78px;
-    width: 2080px;
-    height: 1520.7px;
-    background: #ffebda;
-    filter: blur(327px);
-    z-index: 10;
-}
-.doctor-image {
-    position: absolute;
-    top: 206px;
-    right: 137px;
-    width: 453px;
-    height: 625px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
-    z-index: 20;
 }
 
 // Form styles
 .form-wrapper {
     position: absolute;
     left: 260px;
-    top: 260px;
+    top: 216px;
     width: 584px;
     height: 456px;
     display: flex;
@@ -730,7 +744,7 @@ export default {
 }
 
 .form-field {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -806,7 +820,12 @@ export default {
         border-color: #3b82f6;
     }
 }
-
+.text-placeholder {
+    padding: 0 10px;
+    color: #dbdfec !important;
+    font-size: 18px !important;
+    letter-spacing: normal;
+}
 .phone-input {
     flex: 1;
 }
@@ -848,12 +867,18 @@ export default {
     text-align: left;
     font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
         sans-serif;
+
+    // 添加placeholder样式
+    &:empty::before {
+        content: attr(data-placeholder);
+        color: #dbdfec;
+    }
 }
 
 .select-arrow {
-    width: 16px;
-    height: 16px;
-    color: #6b7280;
+    width: 24px;
+    height: 24px;
+    color: #2e4057;
     transition: transform 0.2s ease;
     flex-shrink: 0;
 
@@ -997,5 +1022,76 @@ export default {
     width: 426px;
     font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
         sans-serif;
+}
+
+/* 二维码弹窗样式 */
+.qrcode-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    width: 665px;
+    height: 366px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px 55px;
+    position: relative;
+    box-shadow: 0px 12px 48px 0px;
+    background: #ffffff;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.modal-title {
+    font-family: PingFang SC;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: normal;
+    color: #333333;
+}
+
+.close-button {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+
+    cursor: pointer;
+    color: #6b7280;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: #374151;
+    }
+}
+.qrcode-content-container {
+    padding: 0 18px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 </style>

@@ -32,6 +32,6 @@ export default {
 
 <style lang="less" scoped>
 .successful-cases-page {
-  padding-top: 82px;
+  padding-top: 80px;
 }
-</style> 
+</style>

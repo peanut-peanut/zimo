@@ -285,6 +285,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 全局字体设置
+:deep(*) {
+    //font-family: "ArialHB", sans-serif !important;
+}
+
 // 简洁的容器级淡入动画
 .fade-in-section {
     opacity: 0;
