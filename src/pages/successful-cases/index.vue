@@ -4,6 +4,8 @@
     <ApplicationSeason />
     <AdmissionCases />
     <AppicationDatabase />
+    <AboutUs />
+    <Footer />
   </main>
 </template>
 
@@ -12,6 +14,8 @@ import Header from "../home/components/Header/index.vue";
 import ApplicationSeason from './components/ApplicationSeason/index.vue';
 import AdmissionCases from './components/AdmissionCases/index.vue';
 import AppicationDatabase from './components/ApplicationDatabase/index.vue';
+import AboutUs from '../home/components/AboutUs/index.vue';
+import Footer from '../home/components/Footer/index.vue';
 
 export default {
   name: 'SuccessfulCases',
@@ -19,7 +23,9 @@ export default {
         Header,
         ApplicationSeason,
         AdmissionCases,
-        AppicationDatabase
+        AppicationDatabase,
+        AboutUs,
+        Footer
     },
 }
 </script>

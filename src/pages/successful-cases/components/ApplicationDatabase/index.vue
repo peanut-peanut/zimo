@@ -190,6 +190,11 @@ export default {
   flex-shrink: 0;
 }
 
+.table-card:nth-child(3) {
+  min-width: 325px; /* 第三列要稍微长一点  */
+  flex-shrink: 0;
+}
+
 .table-card:last-child {
   margin-right: 0;
 }

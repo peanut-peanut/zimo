@@ -2,7 +2,7 @@
   <section class="admission-cases">
     <div class="case-lists">
       <div v-for="item in lists" :key="item.caseId" class="case-item">
-        <!-- <img src="/assets/image/AdmissionCaseImage.png" alt="AdmissionCaseImage" class="case-item-img"> -->
+        <img src="/assets/image/SuccessfulCases/AdmissionCaseImage.png" alt="AdmissionCaseImage" class="case-item-img">
         <div class="case-item-card">
           <h2 class="card-title">{{ item.caseTitle }}</h2>
           <ul class="card-details">
@@ -180,6 +180,7 @@ export default {
   letter-spacing: normal;
   color: #2E4057;
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 
 .card-details {
@@ -219,10 +220,13 @@ export default {
   font-weight: 500;
   font-variation-settings: "opsz" auto;
   margin-right: 5px;
+  word-wrap: break-word;
+
 }
 
 .detail-value {
   font-weight: 300;
+  word-wrap: break-word;
 }
 
 

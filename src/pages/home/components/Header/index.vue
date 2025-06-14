@@ -7,7 +7,7 @@
         ]"
     >
         <div class="header-container">
-            <img src="/assets/image/Logo.png" alt="logo" class="logo"  />
+            <img src="/assets/image/Logo2.png" alt="logo" class="logo"  />
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
@@ -248,10 +248,10 @@ export default {
 
 .logo {
     position: absolute;
-    top: -30px;
+    // top: -30px;
     left: 160px;
     width: 216px;
-    height: 159px;
+    height: 59px;
     cursor: pointer;
     z-index: 100;
 }

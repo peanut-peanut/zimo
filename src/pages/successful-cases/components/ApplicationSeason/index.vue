@@ -1,7 +1,7 @@
 <template>
   <section class="application-season-section">
     <div class="application-season-container">
-      <!-- <img src="/assets/image/ApplicationSeasonBackground.png" alt="application-season" class="background-image"> -->
+      <img src="/assets/image/SuccessfulCases/ApplicationSeasonBackground.png" alt="application-season" class="background-image">
       <div class="overlay"></div>
       <div class="content">
         <h1 class="title">2025 Application Season</h1>
