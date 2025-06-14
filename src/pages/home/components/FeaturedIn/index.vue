@@ -61,7 +61,7 @@ export default {
 <style lang="less" scoped>
 .featured-in-container {
     background-color: #f6f6f6;
-    padding: clamp(3rem, 6vw, 5rem) 13.54vw;
+    padding: 75px 260px;
     max-width: 100%;
     margin: 0 auto;
 
@@ -84,10 +84,8 @@ export default {
 }
 
 .media-logos {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: clamp(1rem, 3vw, 2rem);
-    margin-top: clamp(2rem, 4vw, 3rem);
+    display: flex;
+    gap: 20px;
     align-items: center;
     justify-items: center;
 }
@@ -96,11 +94,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(0.8rem, 2vw, 1.5rem);
     background: #fff;
-    //border-radius: 8px;
-    width: 100%;
-    min-height: clamp(60px, 8vw, 100px);
+    width: 217px;
+    height: 111px;
     transition: all 0.3s ease;
     cursor: pointer;
     
@@ -127,11 +123,10 @@ export default {
 }
 
 .logo-image {
-    max-width: 100%;
-    max-height: clamp(40px, 5vw, 60px);
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: all 0.3s ease;
 }
 
@@ -139,40 +134,5 @@ export default {
     transform: scale(1.05);
 }
 
-// Responsive adjustments
-@media (max-width: 1200px) {
-    .media-logos {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: clamp(0.8rem, 2vw, 1.5rem);
-    }
-}
 
-@media (max-width: 768px) {
-    .featured-in-container {
-        padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem);
-    }
-
-    .media-logos {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-        gap: clamp(0.5rem, 2vw, 1rem);
-    }
-
-    .media-logo {
-        min-height: clamp(50px, 6vw, 70px);
-        padding: clamp(0.5rem, 1.5vw, 1rem);
-    }
-
-    .logo-image {
-        max-height: clamp(30px, 4vw, 45px);
-    }
-}
-
-@media (max-width: 480px) {
-    .media-logos {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(6, 1fr);
-    }
-}
 </style>

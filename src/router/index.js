@@ -5,6 +5,8 @@ import { ROUTES } from './routes'
 import Home from '../pages/home/index.vue'
 import About from '../pages/about/index.vue'
 import Program from '../pages/program/index.vue'
+import SuccessfulCases from '../pages/successful-cases/index.vue'
+import Guides from '../pages/guides/index.vue'
 
 /**
  * 路由配置
@@ -32,6 +34,18 @@ const routes = [
     name: 'Program',
     component: Program,
     meta: { title: '项目列表' }
+  },
+  {
+    path: ROUTES.SUCCESSFULCASES,
+    name: 'SuccessfulCases',
+    component: SuccessfulCases,
+    meta: { title: '成功案例' }
+  },
+  {
+    path: ROUTES.GUIDES,
+    name: 'Guides',
+    component: Guides,
+    meta: { title: '留学指引' }
   },
   {
     path: '/:pathMatch(.*)*',

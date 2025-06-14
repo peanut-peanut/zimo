@@ -9,6 +9,8 @@ export const ROUTES = {
     DETAIL: '/program/:id',
   },
   ABOUT: '/about',
+  SUCCESSFULCASES: '/successful-cases',
+  GUIDES: '/guides',
 }
 
 /**
@@ -29,6 +31,16 @@ export const mainRoutes = [
     path: ROUTES.PROGRAM.DETAIL,
     exact: true,
     title: '项目详情',
+  },
+  {
+    path: ROUTES.SUCCESSFULCASES,
+    exact: true,
+    title: '成功案例',
+  },
+  {
+    path: ROUTES.GUIDES,
+    exact: true,
+    title: '留学指引',
   },
   {
     path: ROUTES.ABOUT,

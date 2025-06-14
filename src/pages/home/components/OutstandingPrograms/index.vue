@@ -275,7 +275,8 @@ import SectionTitle from "../../../../components/SectionTitle.vue";
 
 // 常量配置
 const TOTAL_SLIDES = 5;
-const CARD_WIDTH = 200;
+const CARD_WIDTH = (264 / 1920) * window.innerWidth;
+const GAP_WIDTH = (20 / 1920) * window.innerWidth;
 const ANIMATION_DURATION = 600;
 
 // 程序数据
@@ -391,13 +392,7 @@ export default {
 
         const trackTransform = computed(() => {
             // 使用更精确的计算方式
-            const containerWidth = innerWidth.value;
-            const totalCardsWidth = 5 * CARD_WIDTH; // 5张卡片的总宽度
-            const totalGapWidth = containerWidth - totalCardsWidth; // 总间隙宽度
-            const singleGap = totalGapWidth / 6; // 4个间隙（卡片之间）
-
-            // 每次移动：一张卡片宽度 + 一个间隙
-            const moveDistance = CARD_WIDTH + singleGap;
+            const moveDistance = CARD_WIDTH + GAP_WIDTH;
 
             return `translateX(-${currentSlide.value * moveDistance}px)`;
         });
@@ -520,7 +515,7 @@ export default {
 .programs-container {
     position: relative;
     width: 100%;
-    padding: 60px 0;
+    padding: 75px 0;
     overflow: hidden;
 }
 
@@ -529,7 +524,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: 312px;
+    height: 415px;
     z-index: 1;
 }
 
@@ -558,16 +553,16 @@ export default {
 
 .carousel-container {
     position: relative;
-    width: calc(100% - 16vw);
-    margin: 0 8vw;
-    padding: 0 5.54vw;
+    width: calc(100% - 304px);
+    margin: 0 152px;
+    padding: 0 108px;
 }
 
 .carousel-inner {
     position: relative;
-    width: calc(100% + 10px);
-    margin: 20px -5px;
-    padding: 10px 5px;
+    width: calc(100% + 20px);
+    margin: 20px -10px;
+    padding: 10px 10px;
     overflow: hidden;
 }
 
@@ -576,12 +571,12 @@ export default {
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
     justify-content: space-between;
-    gap: calc((100% - 1000px) / 4);
+    gap: 20px;
 }
 
 .program-card {
-    width: 200px;
-    height: 390px;
+    width: 264px;
+    height: 519px;
     border-radius: 10px;
     box-shadow: -2px 0px 4px 0px rgba(190, 190, 190, 0.25),
         2px 2px 4px 0px rgba(190, 190, 190, 0.25);
@@ -603,7 +598,7 @@ export default {
 
 .card-image {
     width: 100%;
-    height: 236px;
+    height: 314px;
     position: relative;
     overflow: hidden;
 }
@@ -624,8 +619,8 @@ export default {
     bottom: 2px;
     left: 50%;
     transform: translateX(-50%);
-    width: 38px;
-    height: 38px;
+    width: 50px;
+    height: 50px;
     background-color: white;
     border-radius: 50%;
     display: flex;
@@ -650,10 +645,11 @@ export default {
 
 .program-title {
     font-weight: bold;
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 24px;
     color: #2e4057;
     transition: color 0.3s ease;
+    letter-spacing: normal;
     cursor: pointer;
     margin: 0;
 
@@ -663,10 +659,12 @@ export default {
 }
 
 .university-name {
-    font-size: 12px;
+    font-size: 14px;
     color: #3a3e48;
     margin: 0;
     transition: color 0.3s ease;
+    letter-spacing: normal;
+    line-height: 20px;
     cursor: pointer;
 
     &.is-hovered {
@@ -678,8 +676,8 @@ export default {
     position: absolute;
     top: 50%;
     //transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.9);
     display: flex;
@@ -690,7 +688,7 @@ export default {
     z-index: 10;
     transition: all 0.3s ease;
     color: #ff6b35;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     border: none;
     outline: none;
@@ -717,24 +715,24 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 24px;
-    height: 15px;
+    margin-top: 30px;
+    height: 20px;
 }
 
 .pagination-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background-color: #dbdfec;
-    margin: 0 5px;
+    margin: 0 10px;
     cursor: pointer;
     transition: all 0.4s ease;
 
     &.active {
         background-color: #ff6b35;
         border: 3px solid #dbdfec;
-        width: 14px;
-        height: 14px;
+        width: 18px;
+        height: 18px;
     }
 }
 

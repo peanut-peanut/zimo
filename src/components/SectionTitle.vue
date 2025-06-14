@@ -61,7 +61,7 @@ export default {
 
 /* Title Text */
 .title-text {
-  font-size: 27px;
+  font-size: 36px;
   font-weight: 700;
   color: #2E4057;
   text-align: center;
@@ -94,32 +94,32 @@ export default {
 
 /* Square Colors */
 .yellow {
-  width: 18px;
-  height: 18px;
+  width: 26px;
+  height: 26px;
   background-color: #FFD255;
   transform: rotate(-6.14deg);
   margin-top: 9px;
 }
 
 .red {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   background-color: #D10022;
   transform: rotate(-29.38deg);
   margin-top: -30px;
 }
 
 .orange {
-  width: 13.5px;
-  height: 13.5px;
+  width: 17.5px;
+  height: 17.5px;
   margin-top: -30px;
   background-color: #FF9757;
   transform: rotate(75.01deg);
 }
 
 .blue {
-  width: 10.5px;
-  height: 10.5px;
+  width: 13.3px;
+  height: 13.3px;
   margin-top: 7px;
   margin-left: 4px;
   background-color: #3BABBE;

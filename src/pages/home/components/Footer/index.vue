@@ -77,8 +77,6 @@
                     <img
                         src="/assets/image/Home/MailIcon.png"
                         alt="Email"
-                        width="16"
-                        height="16"
                         class="email-icon"
                     />
                     Get Customized Application Plan
@@ -121,7 +119,7 @@ export default {
 
 <style lang="less" scoped>
 .footer {
-    background: #3F5269;
+    background: #3f5269;
     position: relative;
     height: 80px;
 }
@@ -139,7 +137,7 @@ export default {
 .copyright {
     span {
         font-family: PingFang SC;
-        font-size: 16.5px;
+        font-size: 18px;
         font-weight: 500;
         line-height: normal;
         letter-spacing: normal;
@@ -159,7 +157,7 @@ export default {
 
 .help-text {
     font-family: PingFang SC;
-    font-size: 16.5px;
+    font-size: 18px;
     font-weight: 500;
     line-height: normal;
     letter-spacing: normal;
@@ -207,7 +205,7 @@ export default {
         content: "";
         position: absolute;
         top: 100%;
-        right: 110px;
+        right: 175px;
         width: 0;
         height: 0;
         border-left: 8px solid transparent;
@@ -224,7 +222,7 @@ export default {
         5px 5px 10px 0px rgba(190, 190, 190, 0.25);
     padding: 22px;
     display: flex;
-    width: 400px;
+    width: 520px;
 }
 
 .contact-details {
@@ -239,26 +237,26 @@ export default {
 }
 
 .popup-avatar {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     background-color: #3f5269;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 600;
     color: #ffffff;
 }
 
 .avatar-image {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 }
 
 .popup-name {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
     color: #2e3a52;
     line-height: normal;
@@ -279,20 +277,20 @@ export default {
         content: "•";
         color: #ff6b35;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 24px;
     }
 }
 
 .contact-label {
     margin: 0 6px;
-    font-size: 14px;
+    font-size: 18px;
     color: #3a3e48;
     line-height: normal;
     letter-spacing: normal;
 }
 
 .contact-value {
-    font-size: 14px;
+    font-size: 18px;
     color: #3a3e48;
     line-height: normal;
     letter-spacing: normal;
@@ -319,7 +317,7 @@ export default {
 }
 
 .qr-code-label {
-    font-size: 16.5px;
+    font-size: 22px;
     font-weight: 500;
     color: #3a3e48;
     text-align: center;
@@ -336,7 +334,7 @@ export default {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 16.5px;
+    font-size: 18px;
     font-weight: 500;
     color: #fff;
     cursor: pointer;
@@ -354,6 +352,8 @@ export default {
 }
 
 .email-icon {
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
     line-height: normal;
     letter-spacing: normal;
@@ -368,85 +368,6 @@ export default {
     to {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
-    }
-}
-
-/* 响应式设计 */
-@media (max-width: 1024px) {
-    .container {
-        flex-direction: column;
-        height: auto;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .copyright,
-    .contact-person,
-    .action-button {
-        flex: none;
-        justify-content: center;
-    }
-
-    .action-button {
-        width: 100%;
-    }
-
-    .plan-button {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .contact-popup {
-        position: fixed;
-        bottom: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        margin: 0;
-
-        &::after {
-            display: none;
-        }
-    }
-}
-
-@media (max-width: 768px) {
-    .footer {
-        height: auto;
-        padding: 16px 0;
-    }
-
-    .container {
-        padding: 16px;
-        gap: 16px;
-        height: auto;
-    }
-
-    .copyright span,
-    .help-text,
-    .person-name {
-        font-size: 14px;
-    }
-
-    .plan-button {
-        font-size: 13px;
-        padding: 10px 16px;
-    }
-
-    .avatar {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-    }
-
-    .popup-content {
-        flex-direction: column;
-        min-width: 400px;
-        padding: 16px;
-    }
-
-    .qr-code-section {
-        align-self: center;
     }
 }
 </style>
