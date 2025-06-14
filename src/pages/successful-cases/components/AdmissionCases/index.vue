@@ -136,7 +136,7 @@ export default {
 
 <style lang="less" scoped>
 .admission-cases {
-  padding: 100px 260px 80px;
+  padding: 100px 200px 80px;
 }
 
 .case-lists {

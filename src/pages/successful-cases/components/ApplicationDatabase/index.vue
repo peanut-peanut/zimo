@@ -174,24 +174,19 @@ export default {
   flex-wrap: nowrap; /* 防止换行 */
   justify-content: space-between;
   max-width: 100%;
-  padding: 0 260px;
+  padding: 0 200px;
   margin: 0 auto;
 }
 
 .table-card {
   flex: 0;
-  min-width: 313px; /* 设置最小宽度，防止表格过窄 */
+  min-width: 330px; /* 设置最小宽度，防止表格过窄 */
   background-color: #ffffff;
   border-radius: 18px 18px 0 0;
   overflow: hidden;
 }
 .table-card:first-child {
-  min-width: 400px; /* 第一列要更长  */
-  flex-shrink: 0;
-}
-
-.table-card:nth-child(3) {
-  min-width: 325px; /* 第三列要稍微长一点  */
+  min-width: 450px; /* 第一列要更长  */
   flex-shrink: 0;
 }
 
