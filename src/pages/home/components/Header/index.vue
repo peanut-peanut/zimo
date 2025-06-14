@@ -11,7 +11,7 @@
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
-                <a href="#" class="nav-link">Home</a>
+                <a href="/" class="nav-link">Home</a>
                 <a href="#programs" class="nav-link">Program</a>
                 <!-- <a href="#universities" class="nav-link">Universities</a> -->
                 <a href="/successful-cases" class="nav-link" target="_blank"
@@ -300,11 +300,11 @@ export default {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateX(-50%) translateY(20px);
     background: white;
     border-radius: 8px;
     //padding: 12px 0;
-    min-width: 160px;
+    min-width: 190px;
     z-index: 100;
 
     background: #ffffff;
@@ -331,10 +331,10 @@ export default {
 
 .dropdown-item {
     display: block;
-    padding: 10px 20px;
+    padding: 15px 20px;
     color: #2e4057;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 18px;
     transition: all 0.2s ease;
     border-bottom: 1px solid #d8d8d8;
     font-weight: normal;

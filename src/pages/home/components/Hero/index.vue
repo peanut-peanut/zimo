@@ -113,7 +113,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100vh;
-    min-height: 600px;
+    // height: 866px;
     overflow: hidden;
 }
 
