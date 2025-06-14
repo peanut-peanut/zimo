@@ -11,6 +11,7 @@ export const ROUTES = {
   ABOUT: '/about',
   SUCCESSFULCASES: '/successful-cases',
   GUIDES: '/guides',
+  APPLYNOW: '/apply-now',
 }
 
 /**
@@ -46,6 +47,11 @@ export const mainRoutes = [
     path: ROUTES.ABOUT,
     exact: true,
     title: '关于我们',
+  },
+  {
+    path: ROUTES.APPLYNOW,
+    exact: true,
+    title: '加入我们',
   },
 ]
 

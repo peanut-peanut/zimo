@@ -140,13 +140,8 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(0, 0, 0, 0.5) 50%,
-        rgba(0, 0, 0, 0.3) 100%
-    );
     z-index: 2;
+    background: linear-gradient(90deg, #3a3a3a 0%, rgba(14, 10, 11, 0) 95%);
 }
 
 /* Content Container */

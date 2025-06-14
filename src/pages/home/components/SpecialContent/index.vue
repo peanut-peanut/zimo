@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-content">
                     <div class="card-title">{{ content.title }}</div>
-                    <div class="card-Subheading">Subheading:</div>
+                    <!-- <div class="card-Subheading">Subheading:</div> -->
                     <div class="card-description">
                         {{ content.description }}
                     </div>
