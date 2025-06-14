@@ -120,16 +120,7 @@
                                             country.code === form.countryCode
                                         "
                                     >
-                                        <span
-                                            class="select-text"
-                                            data-placeholder="Please select"
-                                        >
-                                            {{
-                                                country.flag && country.code
-                                                    ? `${country.flag} ${country.code}`
-                                                    : ""
-                                            }}
-                                        </span>
+                                        {{ country.flag }} {{ country.code }}
                                     </option>
                                 </select>
                                 <input
