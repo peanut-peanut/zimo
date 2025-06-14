@@ -16,7 +16,9 @@
     "upload": "node deploy.js upload"
   },
   "dependencies": {
+    "country-flag-emoji-json": "^2.0.0",
     "less": "^4.2.0",
+    "libphonenumber-js": "^1.12.9",
     "vue": "^3.4.0",
     "vue-router": "^4.2.0"
   },

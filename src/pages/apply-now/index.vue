@@ -1,0 +1,1001 @@
+<template>
+    <div class="apply-now-container">
+        <div class="header-container">
+            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
+        </div>
+
+        <div class="filter-container"></div>
+        <!-- Form Container -->
+        <!-- <img
+            src="/assets/image/ApplyNow/BackgroundImage.png"
+                alt="Students studying together"
+                class="background-image"
+        /> -->
+        <img
+            src="/assets/image/ApplyNow/Doctor.png"
+            alt="Students studying together"
+            class="doctor-image"
+        />
+
+        <div class="form-wrapper">
+            <div class="form-container">
+                <form @submit.prevent="handleSubmit" class="application-form">
+                    <!-- Name Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input
+                                v-model="form.name"
+                                type="text"
+                                class="form-input"
+                                :class="{ error: errors.name }"
+                                placeholder="Please enter your name"
+                                @blur="validateName"
+                            />
+                        </div>
+                        <span v-if="errors.name" class="error-message">{{
+                            errors.name
+                        }}</span>
+                    </div>
+
+                    <!-- Country Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <div
+                                class="custom-select"
+                                :class="{ active: countryDropdownOpen }"
+                            >
+                                <div
+                                    class="select-trigger"
+                                    :class="{ error: errors.country }"
+                                    @click="toggleCountryDropdown"
+                                >
+                                    <span class="select-text">{{
+                                        form.country || ""
+                                    }}</span>
+                                    <svg
+                                        class="select-arrow"
+                                        :class="{ rotate: countryDropdownOpen }"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="M7 10l5 5 5-5z"
+                                            fill="currentColor"
+                                        />
+                                    </svg>
+                                </div>
+                                <div
+                                    v-if="countryDropdownOpen"
+                                    class="select-options country-select-options"
+                                >
+                                    <!-- <div class="country-search-container">
+                                        <input
+                                            v-model="countrySearchText"
+                                            type="text"
+                                            class="country-search-input"
+                                            placeholder="Search countries..."
+                                            @click.stop
+                                        />
+                                    </div> -->
+                                    <div
+                                        v-for="country in filteredCountries"
+                                        :key="country.code"
+                                        class="select-option country-select-option"
+                                        @click="
+                                            selectCountry(
+                                                country.name,
+                                                country.code
+                                            )
+                                        "
+                                    >
+                                        <img
+                                            class="country-select-option-image"
+                                            :src="country.image"
+                                        />
+                                        <div class="country-select-option-name">
+                                            {{ country.name }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        v-if="filteredCountries.length === 0"
+                                        class="no-results"
+                                    >
+                                        No countries found
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span v-if="errors.country" class="error-message">{{
+                            errors.country
+                        }}</span>
+                    </div>
+
+                    <!-- Phone Number Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">Phone number</label>
+                            <div class="phone-input-container">
+                                <select
+                                    v-model="form.countryCode"
+                                    class="country-code-select"
+                                    @change="validatePhone"
+                                >
+                                    <option
+                                        v-for="country in phoneCountries"
+                                        :key="country.code"
+                                        :value="country.code"
+                                        :selected="
+                                            country.code === form.countryCode
+                                        "
+                                    >
+                                        {{ country.flag }} {{ country.code }}
+                                    </option>
+                                </select>
+                                <input
+                                    v-model="form.phone"
+                                    type="tel"
+                                    class="form-input phone-input"
+                                    :class="{ error: errors.phone }"
+                                    placeholder="Please enter your phone number"
+                                    @blur="validatePhone"
+                                />
+                            </div>
+                        </div>
+                        <span v-if="errors.phone" class="error-message">{{
+                            errors.phone
+                        }}</span>
+                    </div>
+
+                    <!-- Age Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">Age</label>
+                            <input
+                                v-model="form.age"
+                                type="text"
+                                class="form-input"
+                                :class="{ error: errors.age }"
+                                placeholder="Please enter your age"
+                                @blur="validateAge"
+                            />
+                        </div>
+                        <span v-if="errors.age" class="error-message">{{
+                            errors.age
+                        }}</span>
+                    </div>
+
+                    <!-- GPA Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">GPA</label>
+                            <div
+                                class="custom-select"
+                                :class="{
+                                    active: gpaDropdownOpen,
+                                }"
+                            >
+                                <div
+                                    class="select-trigger"
+                                    :class="{ error: errors.gpa }"
+                                    @click="toggleGpaDropdown"
+                                >
+                                    <span class="select-text">{{
+                                        form.gpa || ""
+                                    }}</span>
+                                    <svg
+                                        class="select-arrow"
+                                        :class="{ rotate: gpaDropdownOpen }"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="M7 10l5 5 5-5z"
+                                            fill="currentColor"
+                                        />
+                                    </svg>
+                                </div>
+                                <div
+                                    v-if="gpaDropdownOpen"
+                                    class="select-options"
+                                >
+                                    <div
+                                        v-for="gpa in gpaOptions"
+                                        :key="gpa.value"
+                                        class="select-option"
+                                        @click="selectGpa(gpa.value)"
+                                    >
+                                        {{ gpa.value }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span v-if="errors.gpa" class="error-message">{{
+                            errors.gpa
+                        }}</span>
+                    </div>
+
+                    <!-- Target Degree Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">Target degree</label>
+                            <div
+                                class="custom-select"
+                                :class="{ active: degreeDropdownOpen }"
+                            >
+                                <div
+                                    class="select-trigger"
+                                    :class="{ error: errors.targetDegree }"
+                                    @click="toggleDegreeDropdown"
+                                >
+                                    <span class="select-text">{{
+                                        form.targetDegree || ""
+                                    }}</span>
+                                    <svg
+                                        class="select-arrow"
+                                        :class="{ rotate: degreeDropdownOpen }"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="M7 10l5 5 5-5z"
+                                            fill="currentColor"
+                                        />
+                                    </svg>
+                                </div>
+                                <div
+                                    v-if="degreeDropdownOpen"
+                                    class="select-options"
+                                >
+                                    <div
+                                        v-for="degree in degreeOptions"
+                                        :key="degree.value"
+                                        class="select-option"
+                                        @click="selectDegree(degree.value)"
+                                    >
+                                        {{ degree.label }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span
+                            v-if="errors.targetDegree"
+                            class="error-message"
+                            >{{ errors.targetDegree }}</span
+                        >
+                    </div>
+
+                    <!-- Target Major Field -->
+                    <div class="form-field">
+                        <div class="form-group">
+                            <label class="form-label">Target major</label>
+                            <input
+                                v-model="form.targetMajor"
+                                type="text"
+                                class="form-input"
+                                :class="{ error: errors.targetMajor }"
+                                placeholder="Please enter your GPA"
+                                @blur="validateTargetMajor"
+                            />
+                        </div>
+                        <span v-if="errors.targetMajor" class="error-message">{{
+                            errors.targetMajor
+                        }}</span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button
+                        type="submit"
+                        class="submit-button"
+                        :disabled="isSubmitting"
+                    >
+                        {{ isSubmitting ? "Submitting..." : "APPLY NOW" }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
+import countryData from "country-flag-emoji-json";
+import {
+    getCountries,
+    getCountryCallingCode,
+    getExampleNumber,
+    parsePhoneNumberFromString,
+} from "libphonenumber-js";
+import metadata from "libphonenumber-js/metadata.min.json";
+
+export default {
+    name: "ApplyNow",
+    setup() {
+        // 获取所有支持的国家代码
+        const allCountryCodes = getCountries(metadata);
+
+        // Form data
+        const form = reactive({
+            name: "",
+            phone: "",
+            countryCode: "+1",
+            country: "",
+            countryCodeIso: "US", // ISO国家代码
+            age: "",
+            gpa: "",
+            targetDegree: "",
+            targetMajor: "",
+        });
+
+        // Form validation errors
+        const errors = reactive({});
+
+        // Dropdown states
+        const countryDropdownOpen = ref(false);
+        const gpaDropdownOpen = ref(false);
+        const degreeDropdownOpen = ref(false);
+        const isSubmitting = ref(false);
+        const countrySearchText = ref("");
+        // console.log("countryData", countryData);
+        // 使用libphonenumber-js构建完整的国家列表
+        const countries = computed(() => {
+            return allCountryCodes
+                .map((countryCode) => {
+                    const countryInfo = countryData.find(
+                        (c) => c.code === countryCode
+                    );
+                    const callingCode = getCountryCallingCode(
+                        countryCode,
+                        metadata
+                    );
+                    const exampleNumber = getExampleNumber(
+                        countryCode,
+                        metadata
+                    );
+                    let digits = exampleNumber
+                        ? exampleNumber.nationalNumber.length
+                        : 10; // 默认10位
+
+                    // 处理无法从metadata中获取号码长度的情况
+                    const lengthByCountry = {
+                        CN: 11, // 中国手机号11位
+                        GB: 10, // 英国10位
+                        IN: 10, // 印度10位
+                        BR: 10, // 巴西10位
+                        RU: 10, // 俄罗斯10位
+                        JP: 10, // 日本10位
+                        KR: 10, // 韩国10位
+                        AU: 9, // 澳大利亚9位
+                    };
+
+                    digits = lengthByCountry[countryCode] || digits;
+
+                    return {
+                        code: countryCode,
+                        name: countryInfo ? countryInfo.name : countryCode,
+                        flag: countryInfo ? countryInfo.emoji : countryCode,
+                        phoneCode: `+${callingCode}`,
+                        digits: digits,
+                        image: countryInfo ? countryInfo.image : "",
+                    };
+                })
+                .sort((a, b) => a.name.localeCompare(b.name));
+        });
+        // console.log("countries", countries.value);
+
+        // 电话区号列表（计算属性）
+        const phoneCountries = computed(() => {
+            return countries.value.map((c) => ({
+                code: c.phoneCode,
+                flag: c.flag,
+                name: c.name,
+                digits: c.digits,
+            }));
+        });
+
+        // 过滤后的国家列表（支持搜索）
+        const filteredCountries = computed(() => {
+            if (!countrySearchText.value.trim()) {
+                return countries.value;
+            }
+            const searchTerm = countrySearchText.value.toLowerCase();
+            return countries.value.filter((country) =>
+                country.name.toLowerCase().includes(searchTerm)
+            );
+        });
+
+        // GPA options
+        const gpaOptions = [
+            { value: "Exceptional - (Grade A, 70%+, GPA 3+)" },
+            { value: "Above average - (Grade B-A, 60-70%, GPA 2.5-3)" },
+            { value: "Average level - (Grade C-B, 55% - 60%, GPA 2-2.5%)" },
+            {
+                value: "Below average - (Grade D Average, 45% - 55%, GPA 1.5-2)",
+            },
+            {
+                value: "Very Low (Grade E Average, 40% or less, GPA 1.5 or less)",
+            },
+        ];
+
+        // Degree options
+        const degreeOptions = [
+            { value: "bachelor", label: "Bachelor" },
+            { value: "master", label: "Master" },
+            { value: "doctoral", label: "Doctoral" },
+            { value: "none degree", label: "None Degree" },
+        ];
+
+        // Methods
+        const toggleCountryDropdown = () => {
+            countryDropdownOpen.value = !countryDropdownOpen.value;
+            gpaDropdownOpen.value = false;
+            degreeDropdownOpen.value = false;
+
+            // 如果关闭下拉菜单，清除搜索文本
+            if (!countryDropdownOpen.value) {
+                countrySearchText.value = "";
+            }
+        };
+
+        const toggleGpaDropdown = () => {
+            gpaDropdownOpen.value = !gpaDropdownOpen.value;
+            countryDropdownOpen.value = false;
+            degreeDropdownOpen.value = false;
+        };
+
+        const toggleDegreeDropdown = () => {
+            degreeDropdownOpen.value = !degreeDropdownOpen.value;
+            countryDropdownOpen.value = false;
+            gpaDropdownOpen.value = false;
+        };
+
+        const selectCountry = (countryName, countryCode) => {
+            form.country = countryName;
+            form.countryCodeIso = countryCode;
+
+            // 查找该国家的电话区号并设置
+            const selectedCountry = countries.value.find(
+                (c) => c.code === countryCode
+            );
+            if (selectedCountry) {
+                form.countryCode = selectedCountry.phoneCode;
+            }
+
+            if (form.phone) {
+                validatePhone(); // 重新验证电话号码
+            }
+
+            countryDropdownOpen.value = false;
+            countrySearchText.value = ""; // 清除搜索文本
+            validateCountry(); // 验证country选择
+        };
+
+        const selectGpa = (gpa) => {
+            form.gpa = gpa;
+            gpaDropdownOpen.value = false;
+            validateGpa(); // 验证GPA选择
+        };
+
+        const selectDegree = (degree) => {
+            form.targetDegree = degree;
+            degreeDropdownOpen.value = false;
+            validateTargetDegree(); // 验证target degree选择
+        };
+
+        const validatePhone = () => {
+            // 基本验证：号码是否为空
+            if (!form.phone.trim()) {
+                errors.phone = "Phone number is required";
+                return;
+            }
+
+            // 根据电话区号查找对应的国家进行校验
+            const selectedCountry = phoneCountries.value.find(
+                (c) => c.code === form.countryCode
+            );
+
+            if (selectedCountry) {
+                const phoneDigits = form.phone.replace(/\D/g, "").length;
+                if (phoneDigits !== selectedCountry.digits) {
+                    errors.phone = `Phone number should be ${selectedCountry.digits} digits for ${selectedCountry.name}`;
+                } else {
+                    delete errors.phone;
+                }
+            } else {
+                errors.phone = "Invalid country code selected";
+            }
+        };
+
+        const validateAge = () => {
+            if (!form.age.trim()) {
+                errors.age = "Age is required";
+            } else {
+                const ageNum = parseInt(form.age);
+                if (isNaN(ageNum) || ageNum < 1) {
+                    //age 填写不合法
+                    errors.age = "Age is not valid";
+                } else {
+                    delete errors.age;
+                }
+            }
+        };
+
+        const validateName = () => {
+            if (!form.name.trim()) {
+                errors.name = "Name is required";
+            } else {
+                delete errors.name;
+            }
+        };
+
+        const validateCountry = () => {
+            if (!form.country) {
+                errors.country = "Country is required";
+            } else {
+                delete errors.country;
+            }
+        };
+
+        const validateGpa = () => {
+            if (!form.gpa) {
+                errors.gpa = "GPA is required";
+            } else {
+                delete errors.gpa;
+            }
+        };
+
+        const validateTargetDegree = () => {
+            if (!form.targetDegree) {
+                errors.targetDegree = "Target degree is required";
+            } else {
+                delete errors.targetDegree;
+            }
+        };
+
+        const validateTargetMajor = () => {
+            if (!form.targetMajor.trim()) {
+                errors.targetMajor = "Target major is required";
+            } else {
+                delete errors.targetMajor;
+            }
+        };
+
+        const validateForm = () => {
+            // 验证所有字段
+            validateName();
+            validatePhone();
+            validateCountry();
+            validateAge();
+            validateGpa();
+            validateTargetDegree();
+            validateTargetMajor();
+
+            // 检查是否还有错误
+            return Object.keys(errors).length === 0;
+        };
+
+        const handleSubmit = async () => {
+            // 先验证电话号码
+            validatePhone();
+
+            // 再验证整个表单
+            if (!validateForm()) return;
+
+            isSubmitting.value = true;
+
+            try {
+                // 获取表单所有数据
+                const formData = {
+                    ...form,
+                    fullPhone: `${form.countryCode}${form.phone}`,
+                };
+                console.log("formData", formData);
+            } catch (error) {
+                alert("Failed to submit application. Please try again.");
+            } finally {
+                isSubmitting.value = false;
+            }
+        };
+
+        const handleClickOutside = (event) => {
+            if (!event.target.closest(".custom-select")) {
+                countryDropdownOpen.value = false;
+                gpaDropdownOpen.value = false;
+                degreeDropdownOpen.value = false;
+                countrySearchText.value = ""; // 清除搜索文本
+            }
+        };
+
+        onMounted(() => {
+            document.addEventListener("click", handleClickOutside);
+        });
+
+        onUnmounted(() => {
+            document.removeEventListener("click", handleClickOutside);
+        });
+
+        return {
+            form,
+            errors,
+            countryDropdownOpen,
+            gpaDropdownOpen,
+            degreeDropdownOpen,
+            isSubmitting,
+            countrySearchText,
+            phoneCountries,
+            countries,
+            filteredCountries,
+            gpaOptions,
+            degreeOptions,
+            toggleCountryDropdown,
+            toggleGpaDropdown,
+            toggleDegreeDropdown,
+            selectCountry,
+            selectGpa,
+            selectDegree,
+            validatePhone,
+            validateAge,
+            validateName,
+            validateCountry,
+            validateGpa,
+            validateTargetDegree,
+            validateTargetMajor,
+            handleSubmit,
+        };
+    },
+};
+</script>
+
+<style lang="less" scoped>
+/* 样式保持不变，同之前代码 */
+.apply-now-container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    z-index: 1;
+}
+.header-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    height: 80px;
+    background: #ff6b35;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    position: absolute;
+    left: 160px;
+    width: 216px;
+    height: 59px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.filter-container {
+    position: absolute;
+    top: -600px;
+    left: 78px;
+    width: 2080px;
+    height: 1520.7px;
+    background: #ffebda;
+    filter: blur(327px);
+    z-index: 10;
+}
+.doctor-image {
+    position: absolute;
+    top: 206px;
+    right: 137px;
+    width: 453px;
+    height: 625px;
+    object-fit: cover;
+    object-position: center;
+    z-index: 20;
+}
+
+// Form styles
+.form-wrapper {
+    position: absolute;
+    left: 260px;
+    top: 260px;
+    width: 584px;
+    height: 456px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 99;
+}
+
+.form-container {
+    //  background: #ffffff;
+    border-radius: 16px;
+    // padding: 40px 40px 40px 20px;
+    width: 100%;
+    //box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.application-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.form-label {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 28px;
+    text-align: right;
+    letter-spacing: normal;
+    color: #2e4057;
+    flex: 1;
+    font-family: "HarmonyOS Sans SC";
+}
+
+.form-input {
+    width: 426px;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 18px;
+    background: #ffffff;
+    color: #374151;
+    transition: border-color 0.2s ease;
+    outline: none;
+    font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
+        sans-serif;
+
+    &:focus {
+        border-color: #3b82f6;
+    }
+
+    &.error {
+        border-color: #ef4444;
+    }
+
+    &::placeholder {
+        color: #dbdfec;
+        font-size: 18px;
+        letter-spacing: normal;
+    }
+}
+
+// Phone input styles
+.phone-input-container {
+    width: 426px;
+    display: flex;
+    gap: 8px;
+}
+
+.country-code-select {
+    width: 110px;
+    //padding: 12px 8px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 22px;
+    background: #ffffff;
+    color: #2e4057;
+    cursor: pointer;
+    outline: none;
+    font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
+        sans-serif;
+
+    &:focus {
+        border-color: #3b82f6;
+    }
+}
+
+.phone-input {
+    flex: 1;
+}
+
+// Custom select styles
+.custom-select {
+    width: 426px;
+    position: relative;
+    cursor: pointer;
+}
+
+.select-trigger {
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s ease;
+    min-height: 48px;
+
+    &:hover {
+        border-color: #9ca3af;
+    }
+    &.error {
+        border-color: #ef4444;
+    }
+}
+
+.custom-select.active .select-trigger {
+    border-color: #3b82f6;
+}
+
+.select-text {
+    font-size: 18px;
+    color: #374151;
+    flex: 1;
+    text-align: left;
+    font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
+        sans-serif;
+}
+
+.select-arrow {
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+
+    &.rotate {
+        transform: rotate(180deg);
+    }
+}
+
+.select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.select-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 18px;
+    color: #374151;
+    font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
+        sans-serif;
+
+    &:hover {
+        background-color: #f9fafb;
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.country-select-options {
+    padding: 10px 0;
+    max-height: 500px;
+}
+
+.country-select-option {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 16px;
+    font-size: 18px;
+    color: #2e4057;
+    font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
+        sans-serif;
+}
+
+.country-select-option-image {
+    width: 40px;
+    height: 40px;
+    //border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.country-search-container {
+    padding: 8px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    background: #f9fafb;
+}
+
+.country-search-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 18px;
+    outline: none;
+    background: #ffffff;
+
+    &:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+
+    &::placeholder {
+        color: #dbdfec;
+        font-size: 18px;
+        letter-spacing: normal;
+    }
+}
+
+.no-results {
+    padding: 16px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 18px;
+    font-style: italic;
+}
+
+// Submit button
+.submit-button {
+    width: calc(100% - 20px);
+    margin-top: 20px;
+    height: 44px;
+    line-height: 44px;
+    margin-left: 20px;
+    background: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: normal;
+    color: #ffffff;
+
+    &:hover:not(:disabled) {
+        background: #ea580c;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Error message
+.error-message {
+    color: #ef4444;
+    font-size: 16px;
+    // margin-top: 4px;
+    margin-left: calc(100% - 426px);
+    width: 426px;
+    font-family: "AlibabaPuHuiTiRegular", -apple-system, BlinkMacSystemFont,
+        sans-serif;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
     <main class="min-h-screen">
         <!-- 首屏关键组件 -->
-        <Header :isFromHome="true" />
+        <Header :isFrom="Home" />
         <Hero />
 
         <!-- 懒加载的非首屏组件 - 从这里开始添加淡入效果 -->

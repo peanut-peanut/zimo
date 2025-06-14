@@ -6,6 +6,7 @@ import Home from '../pages/home/index.vue'
 import About from '../pages/about/index.vue'
 import Program from '../pages/program/index.vue'
 import SuccessfulCases from '../pages/successful-cases/index.vue'
+import ApplyNow from '../pages/apply-now/index.vue'
 import Guides from '../pages/guides/index.vue'
 
 /**
@@ -46,6 +47,12 @@ const routes = [
     name: 'Guides',
     component: Guides,
     meta: { title: '留学指引' }
+  },
+  {
+    path: ROUTES.APPLYNOW,
+    name: 'ApplyNow',
+    component: ApplyNow,
+    meta: { title: '加入我们' }
   },
   {
     path: '/:pathMatch(.*)*',

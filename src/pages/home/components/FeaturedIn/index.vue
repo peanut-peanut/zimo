@@ -94,7 +94,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    //background: #fff;
     width: 217px;
     height: 111px;
     transition: all 0.3s ease;
@@ -102,24 +102,24 @@ export default {
     
     // 使用CSS3的新特性来控制虚线样式
     border: 0;
-    background-image: 
-        linear-gradient(90deg, #DBDFEC 50%, transparent 50%),
-        linear-gradient(90deg, #DBDFEC 50%, transparent 50%),
-        linear-gradient(0deg, #DBDFEC 50%, transparent 50%),
-        linear-gradient(0deg, #DBDFEC 50%, transparent 50%);
-    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-    background-position: 0 0, 0 100%, 0 0, 100% 0;
-    background-size: 12px 1px, 12px 1px, 1px 12px, 1px 12px;
+    // background-image: 
+    //     linear-gradient(90deg, #DBDFEC 50%, transparent 50%),
+    //     linear-gradient(90deg, #DBDFEC 50%, transparent 50%),
+    //     linear-gradient(0deg, #DBDFEC 50%, transparent 50%),
+    //     linear-gradient(0deg, #DBDFEC 50%, transparent 50%);
+    // background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    // background-position: 0 0, 0 100%, 0 0, 100% 0;
+    // background-size: 12px 1px, 12px 1px, 1px 12px, 1px 12px;
 
-    &:hover {
-        background-image: 
-            linear-gradient(90deg, #ff6b35 50%, transparent 50%),
-            linear-gradient(90deg, #ff6b35 50%, transparent 50%),
-            linear-gradient(0deg, #ff6b35 50%, transparent 50%),
-            linear-gradient(0deg, #ff6b35 50%, transparent 50%);
-        box-shadow: 0 4px 16px rgba(255, 107, 53, 0.1);
-        transform: translateY(-2px);
-    }
+    // &:hover {
+    //     background-image: 
+    //         linear-gradient(90deg, #ff6b35 50%, transparent 50%),
+    //         linear-gradient(90deg, #ff6b35 50%, transparent 50%),
+    //         linear-gradient(0deg, #ff6b35 50%, transparent 50%),
+    //         linear-gradient(0deg, #ff6b35 50%, transparent 50%);
+    //     box-shadow: 0 4px 16px rgba(255, 107, 53, 0.1);
+    //     transform: translateY(-2px);
+    // }
 }
 
 .logo-image {
