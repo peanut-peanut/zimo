@@ -7,14 +7,28 @@
         ]"
     >
         <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo"  />
+            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
-                <a href="/" class="nav-link" :class="{ active: isFrom === 'Home' }">Home</a>
-                <a href="#programs" class="nav-link" :class="{ active: isFrom === 'Program' }">Program</a>
+                <a
+                    href="/"
+                    class="nav-link"
+                    :class="{ active: isFrom === 'Home' }"
+                    >Home</a
+                >
+                <a
+                    href="#programs"
+                    class="nav-link"
+                    :class="{ active: isFrom === 'Program' }"
+                    >Program</a
+                >
                 <!-- <a href="#universities" class="nav-link">Universities</a> -->
-                <a href="/successful-cases" class="nav-link" :class="{ active: isFrom === 'successful-cases' }" target="_blank"
+                <a
+                    href="/successful-cases"
+                    class="nav-link"
+                    :class="{ active: isFrom === 'successful-cases' }"
+                    target="_blank"
                     >Successful cases</a
                 >
                 <div class="nav-dropdown" ref="dropdownRef">
@@ -44,88 +58,20 @@
                         >
                     </div>
                 </div>
-                <a href="#about" class="nav-link" :class="{ active: isFrom === 'About Us' }">About Us</a>
-                <a href="/apply-now" class="nav-link" :class="{ active: isFrom === 'Apply Now' }" target="_blank">Apply Now</a>
-            </nav>
-
-            <!-- <div class="desktop-buttons">
-                <a href="/login" class="login-button">LOGIN</a>
-                <a href="/register" class="register-button">REGISTER</a>
-            </div> -->
-
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-button" @click="toggleMobileMenu">
-                <svg
-                    v-if="isMobileMenuOpen"
-                    class="menu-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
-                <svg
-                    v-else
-                    class="menu-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16"
-                    />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div v-if="isMobileMenuOpen" class="mobile-menu">
-            <div class="mobile-menu-content">
-                <a href="#" class="mobile-nav-link" @click="closeMobileMenu"
-                    >Home</a
-                >
-                <a
-                    href="#programs"
-                    class="mobile-nav-link"
-                    @click="closeMobileMenu"
-                    >Programs</a
-                >
-                <a
-                    href="#universities"
-                    class="mobile-nav-link"
-                    @click="closeMobileMenu"
-                    >Universities</a
-                >
                 <a
                     href="#about"
-                    class="mobile-nav-link"
-                    @click="closeMobileMenu"
+                    class="nav-link"
+                    :class="{ active: isFrom === 'About Us' }"
                     >About Us</a
                 >
                 <a
-                    href="#contact"
-                    class="mobile-nav-link"
-                    @click="closeMobileMenu"
-                    >Contact</a
+                    href="/apply-now"
+                    class="nav-link"
+                    :class="{ active: isFrom === 'Apply Now' }"
+                    target="_blank"
+                    >Apply Now</a
                 >
-
-                <div class="mobile-menu-buttons">
-                    <a href="/login" class="mobile-login-button">Log In</a>
-                    <a href="/register" class="mobile-register-button"
-                        >Register</a
-                    >
-                </div>
-            </div>
+            </nav>
         </div>
     </header>
 </template>
@@ -144,7 +90,7 @@ export default {
     setup(props) {
         console.log(props.isFrom);
         const isScrolled = ref(false);
-        const isMobileMenuOpen = ref(false);
+
         const showGuidesDropdown = ref(false);
         const dropdownRef = ref(null);
 
@@ -158,14 +104,6 @@ export default {
             } else {
                 isScrolled.value = false;
             }
-        };
-
-        const toggleMobileMenu = () => {
-            isMobileMenuOpen.value = !isMobileMenuOpen.value;
-        };
-
-        const closeMobileMenu = () => {
-            isMobileMenuOpen.value = false;
         };
 
         const toggleGuidesDropdown = () => {
@@ -200,10 +138,9 @@ export default {
 
         return {
             isScrolled,
-            isMobileMenuOpen,
+
             showGuidesDropdown,
-            toggleMobileMenu,
-            closeMobileMenu,
+
             toggleGuidesDropdown,
             headerStyle,
             dropdownRef,
@@ -238,12 +175,12 @@ export default {
     // 当整个header被hover时，显示激活菜单的下划线
     &:hover {
         .nav-link.active::after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: -14px;
             left: 50%;
             transform: translateX(-50%);
-            width: 38px;
+            width: 40px;
             height: 4px;
             background-color: #fff;
             border-radius: 1px;
@@ -275,13 +212,16 @@ export default {
 
 // 桌面端导航
 .desktop-nav {
-    // display: none;
     margin: 0 auto;
     padding-right: 60px;
     font-size: 22px;
+    display: flex;
+    gap: 85px;
 
-   display: flex;
-   gap: 85px;
+    // 当任何非active的nav-link被hover时，隐藏所有active的横线
+    &:hover .nav-link:not(:hover).active::after {
+        display: none;
+    }
 }
 
 .nav-link {
@@ -290,20 +230,46 @@ export default {
     text-decoration: none;
     position: relative;
     display: inline-block;
-    
-    // Hover 放大效果
-    &:hover {
+
+    // Hover 放大效果（不包括active的元素）
+    &:not(.active):hover {
         transform: scale(1.1);
-        // color: #ff6b35;
     }
-    
+
+    // 默认显示isFrom对应的横线
+    &.active::after {
+        content: "";
+        position: absolute;
+        bottom: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background-color: #fff;
+        border-radius: 1px;
+    }
+
+    // 当hover非active菜单时显示hover菜单的横线
+    &:not(.active):hover::after {
+        content: "";
+        position: absolute;
+        bottom: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background-color: #fff;
+        border-radius: 1px;
+        animation: slideIn 0.3s ease-out;
+    }
+
     // 下划线动画
     @keyframes slideIn {
         from {
             width: 0;
         }
         to {
-            width: 38px;
+            width: 40p x;
         }
     }
 }

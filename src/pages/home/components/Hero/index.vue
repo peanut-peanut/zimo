@@ -112,8 +112,7 @@ export default {
 .hero-section {
     position: relative;
     width: 100%;
-    height: 100vh;
-    // height: 866px;
+    height: 100vh; // 默认大屏幕高度
     overflow: hidden;
 }
 
@@ -338,5 +337,36 @@ export default {
 
 .popular-content {
     animation-delay: 0.6s;
+}
+
+// 响应式样式
+@media screen and (max-width: 479px) {
+    .hero-section {
+        height: 20vh;
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .hero-section {
+        height: 35vh;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .hero-section {
+        height: 40vh;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+    .hero-section {
+        height: 50vh;
+    }
+}
+
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+    .hero-section {
+        height: 70vh;
+    }
 }
 </style>

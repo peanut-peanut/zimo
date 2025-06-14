@@ -361,8 +361,8 @@ export default {
 .about-section {
     background-color: #f6f6f6;
     position: relative;
-    padding: 75px 260px;
-}
+    padding: 75px 200px;
+}   
 
 .container {
     width: 100%;

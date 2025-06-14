@@ -61,7 +61,7 @@ export default {
 <style lang="less" scoped>
 .featured-in-container {
     background-color: #f6f6f6;
-    padding: 75px 260px;
+    padding: 75px 200px;
     max-width: 100%;
     margin: 0 auto;
 
@@ -85,7 +85,7 @@ export default {
 
 .media-logos {
     display: flex;
-    gap: 20px;
+    gap: 44px;
     align-items: center;
     justify-items: center;
 }

@@ -80,7 +80,7 @@ export default {
 <style lang="less" scoped>
 .special-content-container {
     background-color: #fff;
-    padding: 75px 260px;
+    padding: 75px 200px;
     max-width: 100%;
     margin: 0 auto;
     overflow: hidden;
@@ -89,7 +89,7 @@ export default {
 
 .content-grid {
     display: flex;
-    gap: 20px;
+    gap: 60px;
 }
 
 .content-card {
@@ -148,24 +148,16 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-
+    font-family: "ArialHB";
     &:hover {
         color: #ff6b35;
     }
 }
 
-.card-Subheading {
-    font-family: PingFang SC;
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 20px;
-    letter-spacing: normal;
-    color: #3a3e48;
-}
 .card-description {
     flex: 1;
-    font-family: PingFang SC;
-    font-size: 15px;
+    font-family: "ArialHB";
+    font-size: 14px;
     font-weight: 300;
     line-height: 20px;
     letter-spacing: normal;
