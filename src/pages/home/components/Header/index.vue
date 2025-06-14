@@ -2,7 +2,7 @@
     <header
         :class="[
             'header',
-            { 'header-from-home': isFromHome },
+            { 'header-from-home': isFrom === 'Home' },
             { 'header-scrolled': isScrolled },
         ]"
     >
@@ -11,16 +11,17 @@
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
-                <a href="#" class="nav-link">Home</a>
-                <a href="#programs" class="nav-link">Program</a>
+                <a href="/" class="nav-link" :class="{ active: isFrom === 'Home' }">Home</a>
+                <a href="#programs" class="nav-link" :class="{ active: isFrom === 'Program' }">Program</a>
                 <!-- <a href="#universities" class="nav-link">Universities</a> -->
-                <a href="/successful-cases" class="nav-link" target="_blank"
+                <a href="/successful-cases" class="nav-link" :class="{ active: isFrom === 'successful-cases' }" target="_blank"
                     >Successful cases</a
                 >
                 <div class="nav-dropdown" ref="dropdownRef">
                     <a
                         href="#"
                         class="nav-link"
+                        :class="{ active: isFrom === 'Guides' }"
                         @click.prevent="toggleGuidesDropdown"
                         >Guides</a
                     >
@@ -43,8 +44,8 @@
                         >
                     </div>
                 </div>
-                <a href="#about" class="nav-link">About Us</a>
-                <a href="#contact" class="nav-link">Apply Now</a>
+                <a href="#about" class="nav-link" :class="{ active: isFrom === 'About Us' }">About Us</a>
+                <a href="/apply-now" class="nav-link" :class="{ active: isFrom === 'Apply Now' }" target="_blank">Apply Now</a>
             </nav>
 
             <!-- <div class="desktop-buttons">
@@ -135,12 +136,13 @@ import { ref, onMounted, onUnmounted } from "vue";
 export default {
     name: "Header",
     props: {
-        isFromHome: {
-            type: Boolean,
-            default: false,
+        isFrom: {
+            type: String,
+            default: "Home",
         },
     },
     setup(props) {
+        console.log(props.isFrom);
         const isScrolled = ref(false);
         const isMobileMenuOpen = ref(false);
         const showGuidesDropdown = ref(false);
@@ -217,7 +219,7 @@ export default {
     left: 0;
     width: 100%;
     z-index: 50;
-    height: 116px;
+    height: 80px;
     background: #ff6b35;
     transition: all 0.3s ease;
 
@@ -231,7 +233,22 @@ export default {
     // Add scrolled state styling
     &.header-scrolled {
         background: #ff6b35;
-       // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    // 当整个header被hover时，显示激活菜单的下划线
+    &:hover {
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 38px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 1px;
+            animation: slideIn 0.3s ease-out;
+        }
     }
 }
 
@@ -269,8 +286,26 @@ export default {
 
 .nav-link {
     color: white;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
+    position: relative;
+    display: inline-block;
+    
+    // Hover 放大效果
+    &:hover {
+        transform: scale(1.1);
+        // color: #ff6b35;
+    }
+    
+    // 下划线动画
+    @keyframes slideIn {
+        from {
+            width: 0;
+        }
+        to {
+            width: 38px;
+        }
+    }
 }
 
 // 下拉菜单容器
@@ -300,11 +335,11 @@ export default {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateX(-50%) translateY(20px);
     background: white;
     border-radius: 8px;
     //padding: 12px 0;
-    min-width: 160px;
+    min-width: 190px;
     z-index: 100;
 
     background: #ffffff;
@@ -331,10 +366,10 @@ export default {
 
 .dropdown-item {
     display: block;
-    padding: 10px 20px;
+    padding: 15px 20px;
     color: #2e4057;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 18px;
     transition: all 0.2s ease;
     border-bottom: 1px solid #d8d8d8;
     font-weight: normal;

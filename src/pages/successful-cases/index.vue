@@ -1,6 +1,6 @@
 <template>
   <main class="successful-cases-page">
-    <Header />
+    <Header isFrom="successful-cases" />
     <ApplicationSeason />
     <AdmissionCases />
     <AppicationDatabase />
