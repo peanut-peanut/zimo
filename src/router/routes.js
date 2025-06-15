@@ -18,33 +18,33 @@ export const mainRoutes = [
   {
     path: ROUTES.HOME,
     exact: true,
-    title: 'home',
+    title: 'Home',
   },
   {
     path: ROUTES.PROGRAM,
     exact: true,
-    title: 'program',
+    title: 'Program',
   },
  
   {
     path: ROUTES.SUCCESSFULCASES,
     exact: true,
-    title: 'successful-cases',
+    title: 'Successful Cases',
   },
   {
     path: ROUTES.GUIDES,
     exact: true,
-    title: 'guides',
+    title: 'Guides',
   },
   {
     path: ROUTES.ABOUT,
     exact: true,
-    title: 'about-us',
+    title: 'About Us',
   },
   {
     path: ROUTES.APPLYNOW,
     exact: true,
-    title: 'apply-now',
+    title: 'Apply Now',
   },
 ]
 

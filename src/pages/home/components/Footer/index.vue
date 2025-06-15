@@ -42,6 +42,7 @@
 <script>
 import { ref } from "vue";
 import ScanQrcode from "@/components/ScanQrcode/index.vue";
+import { ROUTES } from "../../../../router/routes";
 
 export default {
     name: "Footer",
@@ -62,6 +63,7 @@ export default {
         const handlePlanClick = () => {
             // 这里可以添加发送邮件或跳转到联系页面的逻辑
             // window.location.href = "mailto:mia@zimo.group";
+            window.open(ROUTES.APPLYNOW, '_blank');
         };
 
         return {
