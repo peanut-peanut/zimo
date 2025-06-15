@@ -80,19 +80,31 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { searchStore } from "../../../../store/searchStore";
+import { ROUTES } from "../../../../router/routes";
 
 export default {
     name: "Hero",
     setup() {
         const searchTerm = ref("");
+        const router = useRouter();
 
         const handleSearch = (e) => {
             e.preventDefault();
-            console.log("Searching for:", searchTerm.value);
+            if (searchTerm.value.trim()) {
+                // 保存搜索内容到store
+                searchStore.setSearchQuery(searchTerm.value);
+                //新开一个页面 跳转到Program页面
+                window.open(ROUTES.PROGRAM, '_blank');
+            }
         };
 
         const setSearchTerm = (tag) => {
             searchTerm.value = tag;
+            // 自动触发搜索
+            searchStore.setSearchQuery(tag);
+            window.open(ROUTES.PROGRAM, '_blank');
         };
 
         const popularTags = ["peking university"];
