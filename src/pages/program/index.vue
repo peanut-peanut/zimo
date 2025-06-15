@@ -357,6 +357,7 @@
 <script>
 import { ref, computed, watch, onMounted } from "vue";
 import { searchStore } from "../../store/searchStore";
+import { ROUTES } from "../../router/routes";
 
 export default {
     name: "Program",
@@ -694,8 +695,8 @@ export default {
 
         // 申请按钮点击
         const applyNow = (program) => {
-            console.log("Apply for:", program.title);
-            // 这里可以添加跳转到申请页面的逻辑
+           // 新开一个页面 跳转到申请页面
+           window.open(ROUTES.APPLYNOW, '_blank');
         };
 
         return {
