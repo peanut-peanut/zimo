@@ -18,12 +18,13 @@
                     >Home</a
                 >
                 <a
-                    href="#programs"
+                    href="/program"
                     class="nav-link"
+                    target="_blank"
                     :class="{ active: isFrom === 'Program' }"
                     >Program</a
                 >
-                <!-- <a href="#universities" class="nav-link">Universities</a> -->
+
                 <a
                     href="/successful-cases"
                     class="nav-link"

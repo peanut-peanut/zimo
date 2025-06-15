@@ -22,37 +22,37 @@ const routes = [
     path: ROUTES.HOME,
     name: 'Home',
     component: Home,
-    meta: { title: '首页' }
+    meta: { title: 'home' }
   },
   {
     path: ROUTES.ABOUT,
     name: 'About',
     component: About,
-    meta: { title: '关于我们' }
+    meta: { title: 'about-us' }
   },
   {
-    path: ROUTES.PROGRAM.LIST,
+    path: ROUTES.PROGRAM,
     name: 'Program',
     component: Program,
-    meta: { title: '项目列表' }
+    meta: { title: 'program' }
   },
   {
     path: ROUTES.SUCCESSFULCASES,
     name: 'SuccessfulCases',
     component: SuccessfulCases,
-    meta: { title: '成功案例' }
+    meta: { title: 'successful-cases' }
   },
   {
     path: ROUTES.GUIDES,
     name: 'Guides',
     component: Guides,
-    meta: { title: '留学指引' }
+    meta: { title: 'guides' }
   },
   {
     path: ROUTES.APPLYNOW,
     name: 'ApplyNow',
     component: ApplyNow,
-    meta: { title: '加入我们' }
+    meta: { title: 'apply-now' }
   },
   {
     path: '/:pathMatch(.*)*',
