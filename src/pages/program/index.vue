@@ -18,6 +18,12 @@
             </div>
         </div>
 
+        <div class="apply-now-container"
+        @click="applyNow"
+        >
+            <img src="/assets/image/Program/ApplyNowIcon.png" alt="apply-now" />
+        </div>
+
         <div class="content-container">
             <!-- 筛选区域 -->
             <div
@@ -113,6 +119,56 @@
                             />
                             <label :for="`duration-${duration}`">{{
                                 duration
+                            }}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 语言筛选 -->
+                <div class="filter-group">
+                    <div
+                        class="filter-header"
+                        @click="toggleFilter('languages')"
+                    >
+                        <div class="filter-title">
+                            <img
+                                src="/assets/image/Program/DateIcon.png"
+                                alt="Language"
+                                class="filter-icon"
+                            />
+                            Language
+                        </div>
+                        <div class="filter-arrow">
+                            <img
+                                :src="
+                                    expandedFilters.languages
+                                        ? '/assets/image/Program/ArrowDown.png'
+                                        : '/assets/image/Program/ArrowUp.png'
+                                "
+                                alt="Arrow"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="filter-options"
+                        :class="{
+                            'filter-options-expanded':
+                                expandedFilters.languages,
+                        }"
+                    >
+                        <div
+                            v-for="language in languages"
+                            :key="language"
+                            class="filter-option"
+                        >
+                            <input
+                                type="checkbox"
+                                :id="`language-${language}`"
+                                :value="language"
+                                v-model="selectedLanguages"
+                            />
+                            <label :for="`language-${language}`">{{
+                                language
                             }}</label>
                         </div>
                     </div>
@@ -428,6 +484,7 @@ export default {
             startDates: false,
             tuition: false,
             degrees: false,
+            languages: false,
         });
 
         // 是否有任何筛选项被展开
@@ -452,7 +509,7 @@ export default {
         const minFees = ref("");
         const maxFees = ref("");
         const currentPage = ref(1);
-        const itemsPerPage = 3;
+        const itemsPerPage = 10;
 
         // 模拟数据
         const programs = [
@@ -695,8 +752,8 @@ export default {
 
         // 申请按钮点击
         const applyNow = (program) => {
-           // 新开一个页面 跳转到申请页面
-           window.open(ROUTES.APPLYNOW, '_blank');
+            // 新开一个页面 跳转到申请页面
+            window.open(ROUTES.APPLYNOW, "_blank");
         };
 
         return {
@@ -813,9 +870,23 @@ export default {
     z-index: 100;
 }
 
+.apply-now-container {
+    position: fixed;
+    right: 60px;
+    bottom: 60px;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    z-index: 100;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .content-container {
     display: flex;
-    padding: 20px 260px 0px 260px;
+    padding: 80px 260px;
     // max-width: 1440px;
     margin: 0 auto;
     gap: 40px;
@@ -824,8 +895,8 @@ export default {
 /* 筛选侧边栏样式 */
 .filter-sidebar {
     width: 240px;
-    height: 300px;
-    min-height: 300px;
+    height: 360px;
+    min-height: 360px;
     max-height: calc(100vh - 120px);
     overflow-y: auto;
     flex-shrink: 0;
@@ -895,10 +966,11 @@ export default {
 }
 
 .filter-options-expanded {
-    max-height: 200px;
+    max-height: 400px;
+    // height: auto;
     opacity: 1;
     transform: translateY(0);
-    overflow-y: auto;
+    overflow-y: hidden;
     margin-top: 8px;
     margin-bottom: 8px;
     transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease,
@@ -988,13 +1060,12 @@ export default {
     width: 1120px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-
+    gap: 30px;
 }
 
 .program-card {
     border-radius: 10px;
-     min-height: 260px;
+    // min-height: 260px;
     background: #ffffff;
     box-sizing: border-box;
     /* grey 03 */
@@ -1005,16 +1076,16 @@ export default {
 
 .program-header {
     display: flex;
-    gap: 20px;
-    padding: 24px 30px 16px 30px;
+    gap: 30px;
+    padding: 30px;
     // height: 220px;
     border-radius: 9px 9px 0px 0px;
     background: #fffceb;
 }
 
 .program-logo {
-    width: 124px;
-    height: 124px;
+    width: 160px;
+    height: 160px;
     border: 1px solid #fe7246;
     border-radius: 50%;
     overflow: hidden;
@@ -1034,32 +1105,34 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 5px;
+    //gap: 10px;
 }
 
 .program-title {
-    font-size: 24px;
+    font-size: 26px;
+
+    max-height: 78px;
     font-weight: 600;
     line-height: normal;
     letter-spacing: normal;
     color: #2e4057;
-    // margin: 0 0 4px 0;
+    margin-bottom: 7px;
 }
 
 .university-name {
     font-size: 18px;
+    height: 32px;
     font-weight: 300;
     line-height: normal;
     letter-spacing: normal;
     color: #3a3e48;
-    // margin-bottom: 6px;
+     margin-bottom: 9px;
 }
 
 .scholarship-badge {
     width: 120px;
-    height: 30px;
-    margin-top: 5px;
+    height: 34px;
+   // margin-top: 5px;
     /* 自动布局 */
     display: flex;
     justify-content: center;
@@ -1113,7 +1186,7 @@ export default {
     display: flex;
     width: 100%;
     border-bottom: 1px solid #e5e7eb;
-    //  padding: 0 16px;
+    padding: 16px 0 8px 0;
 }
 
 .header-item {
@@ -1135,7 +1208,7 @@ export default {
 .detail-values {
     display: flex;
     width: 100%;
-    //  padding: 0 16px;
+    padding: 8px 0 16px 0;
 }
 
 .value-item {
@@ -1159,7 +1232,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    //margin-top: 10px;
+    margin-top: 30px;
     gap: 8px;
 }
 
@@ -1204,13 +1277,13 @@ export default {
     color: #777;
 }
 
-//媒体查询 大于1440px屏幕
-@media (min-width: 1441px) {
-    .program-header {
-        padding: 16px 30px 8px 30px;
-    }
-    .programs-list {
-       gap: 15px;
-    }
-}
+// //媒体查询 大于1440px屏幕
+// @media (min-width: 1441px) {
+//     .program-header {
+//         padding: 16px 30px 8px 30px;
+//     }
+//     .programs-list {
+//         gap: 15px;
+//     }
+// }
 </style>

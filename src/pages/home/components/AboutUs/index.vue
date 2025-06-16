@@ -696,6 +696,8 @@ export default {
     margin-bottom: 10px;
     z-index: 1000;
     opacity: 1;
+    //阴影
+
 }
 
 .tooltip-content {
@@ -706,6 +708,7 @@ export default {
     width: 150px;
     max-width: 320px;
     border: 1px solid #e5e7eb;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .telegram-tooltip-content {

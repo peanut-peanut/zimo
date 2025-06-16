@@ -376,7 +376,7 @@ export default {
     }
 }
 
-@media screen and (min-width: 1281px) and (max-width: 1440px) {
+@media screen and (min-width: 1281px) and (max-width: 1400px) {
     .hero-section {
         height: 70vh;
     }

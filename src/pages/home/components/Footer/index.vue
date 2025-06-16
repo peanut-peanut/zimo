@@ -159,6 +159,8 @@ export default {
     margin-bottom: 15px;
     z-index: 1000;
     animation: fadeInUp 0.3s ease;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
 
     &::after {
         content: "";

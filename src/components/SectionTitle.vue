@@ -99,8 +99,8 @@ export default {
     padding: 0 32px 0 40px;
 
     letter-spacing: normal;
-    font-family: "ArialHB";
-    font-weight: 900;
+    font-family: "AlibabaPuHuiTiBold";
+    // font-weight: 900;
     line-height: normal;
 }
 

@@ -203,7 +203,7 @@ export default {
 
 .feature-description {
     // font-family: "AlibabaPuHuiTiRegular", sans-serif;
-    font-family: "ArialHB", sans-serif;
+    font-family: "AlibabaPuHuiTiRegular", sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
