@@ -38,6 +38,14 @@ export default defineConfig({
     server: {
         port: 3000,
         open: true,
+        proxy: {
+            '/api': {
+                target: 'http://www.zimo.club',
+                changeOrigin: true,
+                secure: false,
+                // rewrite: (path) => path.replace(/^\/api/, '')
+            }
+        }
     },
     base: "/",
 });

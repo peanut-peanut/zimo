@@ -18,22 +18,13 @@
                             :class="[
                                 'video-element',
                                 {
-                                    'opacity-0': shouldShowCover,
                                     'opacity-100': !shouldShowCover,
                                 },
                             ]"
                             src="https://zimo.club/assets/video/zimo.mp4"
                             preload="metadata"
+                            poster=""
                         />
-
-                        <!-- 封面图 -->
-                        <div v-if="shouldShowCover" class="video-cover">
-                            <img
-                                src="/assets/image/Home/VideoThumb.jpg"
-                                alt="Video cover"
-                                class="cover-image"
-                            />
-                        </div>
 
                         <!-- 播放按钮覆盖层 -->
                         <div v-if="!isPlaying" class="play-overlay">
@@ -513,26 +504,11 @@ export default {
     border-radius: 10px;
 }
 
-.opacity-0 {
-    opacity: 0;
-}
-
 .opacity-100 {
     opacity: 1;
 }
 
-// 封面
-.video-cover {
-    position: absolute;
-    inset: 0;
-}
 
-.cover-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
 
 // 播放按钮覆盖层
 .play-overlay {
