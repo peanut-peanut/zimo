@@ -195,10 +195,10 @@ cp oss-config.example.js oss-config.js
 2. **编辑配置信息**
 ```javascript
 export default {
-  region: 'oss-cn-hongkong',
-  accessKeyId: 'YOUR_ACCESS_KEY_ID',
-  accessKeySecret: 'YOUR_ACCESS_KEY_SECRET',
-  bucket: 'your-bucket-name',
+  region: 'oss-ap-southeast-1',
+  accessKeyId: 'YOUR_ACCESS_KEY_ID', //联系开发者获取
+  accessKeySecret: 'YOUR_ACCESS_KEY_SECRET',//联系开发者获取
+   bucket: 'zimo-club',
 }
 ```
 
