@@ -16,9 +16,9 @@
                         :key="city.id"
                         :class="[
                             'map-marker',
+                            `marker-${city.id}`,
                             { active: hoveredCity === city.id },
                         ]"
-                        :style="city.position"
                         @mouseenter="handleMapMarkerHover(city.id)"
                         @mouseleave="handleMapMarkerLeave"
                     >
@@ -74,37 +74,31 @@ export default {
                 id: "beijing",
                 name: "Beijing",
                 image: "/assets/image/Home/PopularCities/Beijing.png",
-                position: { top: "18.5vw", left: "64%" },
             },
             {
                 id: "shanghai",
                 name: "Shanghai",
                 image: "/assets/image/Home/PopularCities/Shanghai.png",
-                position: { top: "26vw", left: "70%" },
             },
             {
                 id: "hangzhou",
                 name: "Hangzhou",
                 image: "/assets/image/Home/PopularCities/Hangzhou.png",
-                position: { top: "27vw", left: "68%" },
             },
             {
                 id: "hongkong",
                 name: "Hongkong",
                 image: "/assets/image/Home/PopularCities/HongKong.png",
-                position: { top: "31.5vw", left: "60%" },
             },
             {
                 id: "shenzhen",
                 name: "Shenzhen",
                 image: "/assets/image/Home/PopularCities/Shenzhen.png",
-                position: { top: "31vw", left: "59%" },
             },
             {
                 id: "wuhan",
                 name: "Wuhan",
                 image: "/assets/image/Home/PopularCities/Wuhan.png",
-                position: { top: "26vw", left: "55%" },
             },
         ]);
 
@@ -139,10 +133,9 @@ export default {
 <style lang="less" scoped>
 .popular-cities-container {
     background-color: #f6f6f6;
-    padding: 75px 260px;
+    padding: 75px 200px;
     max-width: 100%;
     margin: 0 auto;
-    min-height: clamp(500px, 41.67vw, 600px);
 
     // 淡入动画
     opacity: 0;
@@ -166,7 +159,7 @@ export default {
     display: flex;
     gap: 40px;
     margin-top: 30px;
-    margin-bottom: -8vw;
+    margin-bottom: -82px;
     min-height: 500px;
 }
 
@@ -180,10 +173,10 @@ export default {
 
     .map-container {
         position: relative;
-        width: calc(100% + 22.54vw);
-        margin-left: -18.54vw;
-        margin-right: -4vw;
-        // margin-top: -120px;
+
+        width: 1046px;
+        height: 783px;
+        margin-left: -286px;
         height: 100%;
 
         .china-map {
@@ -198,14 +191,15 @@ export default {
             transition: all 0.3s ease;
             transform: translate(-50%, -50%);
             z-index: 10;
-
+            width: 24px;
+            height: 24px;
             // 为标记点添加更晚的淡入
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.8s forwards;
 
             .marker-icon {
-                width: 1vw;
-                height: 1vw;
+                width: 100%;
+                height: 100%;
                 // width: clamp(16px, 1.8vw, 24px);
                 // height: clamp(16px, 1.8vw, 24px);
                 transition: all 0.3s ease;
@@ -220,13 +214,45 @@ export default {
                 }
             }
         }
+
+        // 各个城市标记点的位置
+        .marker-beijing {
+            top: 330px;
+            right: 360px;
+        }
+
+        .marker-shanghai {
+            top: 460px;
+            right: 300px;
+        }
+
+        .marker-hangzhou {
+            top: 500px;
+            right: 320px;
+      
+        }
+
+        .marker-hongkong {
+            top: 590px;
+            right: 385px;
+        }
+
+        .marker-shenzhen {
+            top: 580px;
+            right: 405px;
+        }
+
+        .marker-wuhan {
+            top: 480px;
+            right: 470px;
+        }
     }
 }
 
 .cities-section {
     flex: 1; // 右侧城市卡片区域
-    height: 17.5vw;
-    padding-top: calc(11.5vw - 120px);
+    height: 354px;
+    padding-top: 100px;
 
     // 为城市卡片区域添加延迟淡入
     opacity: 0;
@@ -236,7 +262,7 @@ export default {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        gap: 0.8vw;
+        gap: 18px;
         height: 100%;
         justify-items: center;
         align-items: center;
@@ -310,6 +336,33 @@ export default {
                 }
             }
         }
+    }
+}
+
+// 屏幕小于1024px
+@media (max-width: 1024px) {
+    .marker-beijing {
+        top: 230px !important;
+  
+    }
+    .marker-shanghai {
+        top: 350px !important;
+
+    }
+    .marker-hangzhou {
+        top: 380px !important;
+   
+    }
+    .marker-hongkong {
+        top: 450px !important;
+
+    }
+    .marker-shenzhen {
+        top: 440px !important;
+
+    }
+    .marker-wuhan {
+        top: 380px !important;
     }
 }
 </style>

@@ -36,8 +36,6 @@
                                 <img
                                     src="/assets/image/Home/AboutUs/PhoneIcon.png"
                                     alt="WhatsApp"
-                                    width="24"
-                                    height="24"
                                     class="social-icon whatsapp-icon"
                                 />
                                 <div
@@ -78,8 +76,6 @@
                                 <img
                                     src="/assets/image/Home/AboutUs/TelegramIcon.png"
                                     alt="Telegram"
-                                    width="24"
-                                    height="24"
                                     class="social-icon telegram-icon"
                                 />
                                 <div
@@ -105,8 +101,6 @@
                                 <img
                                     src="/assets/image/Home/AboutUs/WechatIcon.png"
                                     alt="WeChat"
-                                    width="24"
-                                    height="24"
                                     class="social-icon wechat-icon"
                                 />
                                 <div
@@ -148,8 +142,6 @@
                                 <img
                                     src="/assets/image/Home/AboutUs/TikTokIcon.png"
                                     alt="TikTok"
-                                    width="24"
-                                    height="24"
                                     :class="[
                                         'social-icon',
                                         'tiktok-icon',
@@ -171,8 +163,6 @@
                                 <img
                                     src="/assets/image/Home/AboutUs/YoutubeIcon.png"
                                     alt="YouTube"
-                                    width="24"
-                                    height="24"
                                     :class="[
                                         'social-icon',
                                         'youtube-icon',
@@ -362,7 +352,7 @@ export default {
     background-color: #f6f6f6;
     position: relative;
     padding: 75px 200px;
-}   
+}
 
 .container {
     width: 100%;
@@ -559,6 +549,8 @@ export default {
 .social-icon {
     transition: transform 0.3s ease;
     border-radius: 4px;
+    width: 24px;
+    height: 24px;
 
     &:hover {
         transform: scale(1.1);
@@ -697,7 +689,6 @@ export default {
     z-index: 1000;
     opacity: 1;
     //阴影
-
 }
 
 .tooltip-content {

@@ -6,7 +6,7 @@
                 <input
                     type="text"
                     class="search-input"
-                    placeholder="Please Enter Program or University"
+                    placeholder="ENTER THE NAME OF A UNIVERSITY OR A PROGRAM"
                     v-model="searchQuery"
                     @input="handleSearch"
                 />
@@ -18,9 +18,7 @@
             </div>
         </div>
 
-        <div class="apply-now-container"
-        @click="applyNow"
-        >
+        <div class="apply-now-container" @click="applyNow">
             <img src="/assets/image/Program/ApplyNowIcon.png" alt="apply-now" />
         </div>
 
@@ -212,10 +210,11 @@
                             class="filter-option"
                         >
                             <input
-                                type="checkbox"
+                                type="radio"
                                 :id="`date-${date}`"
                                 :value="date"
-                                v-model="selectedStartDates"
+                                v-model="selectedStartDate"
+                                name="startDate"
                             />
                             <label :for="`date-${date}`">{{ date }}</label>
                         </div>
@@ -320,7 +319,37 @@
 
             <!-- 项目列表区域 -->
             <div class="programs-list">
+                <!-- 加载状态 -->
+                <div v-if="isLoading" class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Loading programs...</p>
+                </div>
+
+                <!-- 无内容状态 -->
                 <div
+                    v-else-if="filteredPrograms.length === 0"
+                    class="no-content-container"
+                >
+                    <img
+                        src="/assets/image/Program/NoContentImage.png"
+                        alt="No results found"
+                        class="no-content-image"
+                    />
+                    <div class="no-content-text">
+                        <div>
+                            Oops! We couldn't find any results matching your
+                            search.
+                        </div>
+                        <div>
+                            Maybe refine your keywords, or explore other
+                            sections of our site.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 项目卡片列表 -->
+                <div
+                    v-else
                     v-for="program in filteredPrograms"
                     :key="program.id"
                     class="program-card"
@@ -376,8 +405,8 @@
                     </div>
                 </div>
 
-                <!-- 分页 -->
-                <div class="pagination">
+                <!-- 分页 - 只在有内容时显示 -->
+                <div class="pagination" v-if="filteredPrograms.length > 0">
                     <button
                         class="pagination-button prev"
                         :disabled="currentPage === 1"
@@ -385,18 +414,38 @@
                     >
                         &lt;
                     </button>
-                    <button
-                        v-for="page in totalPages"
-                        :key="page"
-                        class="pagination-button"
-                        :class="{ active: page === currentPage }"
-                        @click="currentPage = page"
+                    <!-- 智能分页显示 -->
+                    <template
+                        v-for="(pageNum, index) in displayedPageNumbers"
+                        :key="index"
                     >
-                        {{ page }}
-                    </button>
-                    <span class="pagination-ellipsis" v-if="totalPages > 5"
-                        >...</span
-                    >
+                        <!-- 显示页码按钮 -->
+                        <button
+                            v-if="pageNum !== '...'"
+                            class="pagination-button"
+                            :class="{ active: pageNum === currentPage }"
+                            @click="currentPage = pageNum"
+                        >
+                            {{ pageNum }}
+                        </button>
+
+                        <!-- 显示省略号 -->
+                        <span v-else class="pagination-ellipsis">...</span>
+                    </template>
+
+                    <!-- 跳转到指定页码 -->
+                    <!-- <div class="pagination-goto">
+                        <span class="goto-text">跳至</span>
+                        <input 
+                            type="number" 
+                            v-model.number="gotoPage" 
+                            min="1" 
+                            :max="totalPages"
+                            class="goto-input"
+                            @keyup.enter="handleGotoPage"
+                        />
+                        <button class="goto-button" @click="handleGotoPage">确定</button>
+                    </div> -->
                     <button
                         class="pagination-button next"
                         :disabled="currentPage === totalPages"
@@ -411,377 +460,12 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from "vue";
-import { searchStore } from "../../store/searchStore";
-import { ROUTES } from "../../router/routes";
+import { useProgram } from "./index.js";
 
 export default {
     name: "Program",
     setup() {
-        // 筛选选项数据
-        const degrees = ["Bachelor", "Master", "Doctoral"];
-        const languages = ["Chinese", "English", "Chinese & English"];
-        const cities = [
-            "Beijing",
-            "Shanghai",
-            "Guangzhou",
-            "Shenzhen",
-            "Hangzhou",
-            "Nanjing",
-            "Chengdu",
-            "Wuhan",
-            "Xiamen",
-        ];
-        const durations = [
-            "1 year",
-            "2 years",
-            "3 years",
-            "4 years",
-            "5 years",
-            "6 years",
-        ];
-        const startDates = [
-            "January 2026",
-            "February 2026",
-            "March 2026",
-            "September 2025",
-            "October 2025",
-            "November 2025",
-        ];
-
-        // 搜索功能
-        const searchQuery = ref("");
-        let searchTimeout = null;
-
-        // 在组件挂载时，从store获取搜索内容
-        onMounted(() => {
-            const query = searchStore.getSearchQuery();
-            if (query) {
-                searchQuery.value = query;
-                // 立即触发搜索
-                handleSearch();
-                // 清除store中的搜索内容，避免下次进入时仍然存在
-
-                searchStore.clearSearchQuery();
-            }
-        });
-
-        const handleSearch = () => {
-            // 防抖处理
-            if (searchTimeout) {
-                clearTimeout(searchTimeout);
-            }
-            searchTimeout = setTimeout(() => {
-                // 重置到第一页
-                currentPage.value = 1;
-            }, 300);
-        };
-
-        // 筛选器展开状态
-        const expandedFilters = ref({
-            cities: false,
-            durations: false,
-            startDates: false,
-            tuition: false,
-            degrees: false,
-            languages: false,
-        });
-
-        // 是否有任何筛选项被展开
-        const isAnyFilterExpanded = computed(() => {
-            return Object.values(expandedFilters.value).some(
-                (value) => value === true
-            );
-        });
-
-        // 切换筛选器展开状态
-        const toggleFilter = (filterName) => {
-            expandedFilters.value[filterName] =
-                !expandedFilters.value[filterName];
-        };
-
-        // 用户选择的筛选条件
-        const selectedDegrees = ref([]);
-        const selectedLanguages = ref([]);
-        const selectedCities = ref([]);
-        const selectedDurations = ref([]);
-        const selectedStartDates = ref([]);
-        const minFees = ref("");
-        const maxFees = ref("");
-        const currentPage = ref(1);
-        const itemsPerPage = 10;
-
-        // 模拟数据
-        const programs = [
-            {
-                id: 1,
-                title: "Dual Degree Bachelor's in InternationalEconomics &Trade (JMD)",
-                university: "Donghua University",
-                hasScholarship: true,
-                startDate: "Jan.16 2026",
-                duration: "6 years",
-                deadline: "Nov.30 2025",
-                language: "Chinese",
-                city: "Shanghai",
-                tuitionFee: 3100,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 2,
-                title: "Bachelor of Business Administration",
-                university: "Fudan University",
-                hasScholarship: true,
-                startDate: "Sep.1 2025",
-                duration: "4 years",
-                deadline: "May.30 2025",
-                language: "English",
-                city: "Shanghai",
-                tuitionFee: 4500,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 3,
-                title: "Master of Computer Science",
-                university: "Peking University",
-                hasScholarship: false,
-                startDate: "Sep.15 2025",
-                duration: "3 years",
-                deadline: "Apr.30 2025",
-                language: "Chinese & English",
-                city: "Beijing",
-                tuitionFee: 5200,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 4,
-                title: "Doctoral Program in Economics",
-                university: "Shanghai Jiao Tong University",
-                hasScholarship: true,
-                startDate: "Mar.1 2026",
-                duration: "4 years",
-                deadline: "Dec.15 2025",
-                language: "English",
-                city: "Shanghai",
-                tuitionFee: 6000,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 5,
-                title: "Bachelor of Medicine",
-                university: "Zhejiang University",
-                hasScholarship: false,
-                startDate: "Feb.20 2026",
-                duration: "5 years",
-                deadline: "Oct.30 2025",
-                language: "Chinese",
-                city: "Hangzhou",
-                tuitionFee: 4800,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 6,
-                title: "Master of International Relations",
-                university: "Nanjing University",
-                hasScholarship: true,
-                startDate: "Oct.10 2025",
-                duration: "2 years",
-                deadline: "Jun.30 2025",
-                language: "English",
-                city: "Nanjing",
-                tuitionFee: 3800,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 7,
-                title: "Bachelor of Civil Engineering",
-                university: "Tongji University",
-                hasScholarship: false,
-                startDate: "Sep.5 2025",
-                duration: "4 years",
-                deadline: "May.15 2025",
-                language: "Chinese",
-                city: "Shanghai",
-                tuitionFee: 3500,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 8,
-                title: "Doctoral Program in Artificial Intelligence",
-                university: "Tsinghua University",
-                hasScholarship: true,
-                startDate: "Mar.15 2026",
-                duration: "4 years",
-                deadline: "Nov.30 2025",
-                language: "English",
-                city: "Beijing",
-                tuitionFee: 7000,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-            {
-                id: 9,
-                title: "Master of Finance",
-                university: "Shanghai University of Finance and Economics",
-                hasScholarship: true,
-                startDate: "Sep.1 2025",
-                duration: "2 years",
-                deadline: "Apr.30 2025",
-                language: "Chinese & English",
-                city: "Shanghai",
-                tuitionFee: 4200,
-                logoUrl: "/assets/image/Program/UniversityIcon.png",
-            },
-        ];
-
-        // 按字母顺序排序城市
-        const sortedCities = computed(() => {
-            return [...cities].sort();
-        });
-
-        // 筛选程序
-        const filteredPrograms = computed(() => {
-            let result = [...programs];
-
-            // 搜索查询
-            if (searchQuery.value.trim()) {
-                const query = searchQuery.value.toLowerCase().trim();
-                result = result.filter(
-                    (program) =>
-                        program.title.toLowerCase().includes(query) ||
-                        program.university.toLowerCase().includes(query)
-                );
-            }
-
-            // 筛选学位
-            if (selectedDegrees.value.length > 0) {
-                result = result.filter((program) => {
-                    return selectedDegrees.value.some((degree) =>
-                        program.title
-                            .toLowerCase()
-                            .includes(degree.toLowerCase())
-                    );
-                });
-            }
-
-            // 筛选语言
-            if (selectedLanguages.value.length > 0) {
-                result = result.filter((program) =>
-                    selectedLanguages.value.includes(program.language)
-                );
-            }
-
-            // 筛选城市
-            if (selectedCities.value.length > 0) {
-                result = result.filter((program) =>
-                    selectedCities.value.includes(program.city)
-                );
-            }
-
-            // 筛选持续时间
-            if (selectedDurations.value.length > 0) {
-                result = result.filter((program) =>
-                    selectedDurations.value.includes(program.duration)
-                );
-            }
-
-            // 筛选开始日期
-            if (selectedStartDates.value.length > 0) {
-                result = result.filter((program) => {
-                    const programDateParts = program.startDate.split(" ");
-                    const programMonth = programDateParts[0].replace(".", "");
-                    const programYear = programDateParts[1];
-                    return selectedStartDates.value.some((date) => {
-                        return (
-                            date.includes(programYear) &&
-                            date
-                                .toLowerCase()
-                                .includes(programMonth.toLowerCase())
-                        );
-                    });
-                });
-            }
-
-            // 筛选学费
-            const min = minFees.value ? Number(minFees.value) : 0;
-            const max = maxFees.value ? Number(maxFees.value) : Infinity;
-            result = result.filter(
-                (program) =>
-                    program.tuitionFee >= min && program.tuitionFee <= max
-            );
-
-            return result;
-        });
-
-        // 分页后的程序
-        const paginatedPrograms = computed(() => {
-            const start = (currentPage.value - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            return filteredPrograms.value.slice(start, end);
-        });
-
-        // 总页数
-        const totalPages = computed(() => {
-            return Math.ceil(filteredPrograms.value.length / itemsPerPage);
-        });
-
-        // 清除筛选条件
-        const clearFilter = (filterType) => {
-            switch (filterType) {
-                case "degrees":
-                    selectedDegrees.value = [];
-                    break;
-                case "languages":
-                    selectedLanguages.value = [];
-                    break;
-                case "cities":
-                    selectedCities.value = [];
-                    break;
-                case "durations":
-                    selectedDurations.value = [];
-                    break;
-                case "startDates":
-                    selectedStartDates.value = [];
-                    break;
-                case "tuition":
-                    minFees.value = "";
-                    maxFees.value = "";
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        // 申请按钮点击
-        const applyNow = (program) => {
-            // 新开一个页面 跳转到申请页面
-            window.open(ROUTES.APPLYNOW, "_blank");
-        };
-
-        return {
-            degrees,
-            languages,
-            cities,
-            sortedCities,
-            durations,
-            startDates,
-            selectedDegrees,
-            selectedLanguages,
-            selectedCities,
-            selectedDurations,
-            selectedStartDates,
-            minFees,
-            maxFees,
-            currentPage,
-            programs,
-            filteredPrograms: paginatedPrograms,
-            totalPages,
-            clearFilter,
-            applyNow,
-            expandedFilters,
-            toggleFilter,
-            isAnyFilterExpanded,
-            searchQuery,
-            handleSearch,
-        };
+        return useProgram();
     },
 };
 </script>
@@ -826,7 +510,7 @@ export default {
 }
 
 .search-input {
-    width: 519px;
+    width: 559px;
     height: 42px;
     padding: 0 20px;
     border-radius: 20px;
@@ -843,7 +527,7 @@ export default {
 
     &::placeholder {
         font-family: PingFang SC;
-        font-size: 22px;
+        font-size: 20px;
         font-weight: normal;
         line-height: 22px;
         display: flex;
@@ -897,8 +581,8 @@ export default {
     width: 240px;
     height: 360px;
     min-height: 360px;
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
+    // max-height: calc(100vh - 120px);
+    overflow: hidden; /* 修改这里，防止收起时出现滚动条 */
     flex-shrink: 0;
     border-radius: 10px;
     background: #ffffff;
@@ -910,6 +594,7 @@ export default {
 
     &.expanded-sidebar {
         height: fit-content;
+        overflow-y: auto; /* 只在展开状态时允许滚动 */
     }
 }
 
@@ -962,7 +647,8 @@ export default {
     opacity: 0;
     transform: translateY(-10px);
     transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.2s ease, margin 0.2s ease;
+        transform 0.2s ease, margin 0.2s ease, opacity 0.2s ease;
+    will-change: max-height, transform, opacity; /* 优化动画性能 */
 }
 
 .filter-options-expanded {
@@ -1086,7 +772,7 @@ export default {
 .program-logo {
     width: 160px;
     height: 160px;
-    border: 1px solid #fe7246;
+    // border: 1px solid #fe7246;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
@@ -1098,7 +784,8 @@ export default {
 .program-logo img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
 }
 
 .program-info {
@@ -1126,13 +813,13 @@ export default {
     line-height: normal;
     letter-spacing: normal;
     color: #3a3e48;
-     margin-bottom: 9px;
+    margin-bottom: 9px;
 }
 
 .scholarship-badge {
     width: 120px;
     height: 34px;
-   // margin-top: 5px;
+    // margin-top: 5px;
     /* 自动布局 */
     display: flex;
     justify-content: center;
@@ -1237,15 +924,15 @@ export default {
 }
 
 .pagination-button {
-    width: 36px;
-    height: 36px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
@@ -1275,6 +962,115 @@ export default {
     height: 36px;
     font-size: 14px;
     color: #777;
+}
+
+/* 无内容状态 */
+.no-content-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px 0px rgba(190, 190, 190, 0.25);
+}
+
+.no-content-image {
+    width: 363px;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.no-content-text {
+    max-width: 1000px;
+
+    font-family: Arial Hebrew;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: normal;
+    color: #2e4057;
+}
+
+/* 加载状态 */
+.loading-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px 0px rgba(190, 190, 190, 0.25);
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 107, 53, 0.2);
+    border-top: 5px solid #ff6b35;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-container p {
+    font-family: "AlibabaPuHuiTiRegular";
+    font-size: 18px;
+    color: #2e4057;
+    font-weight: 500;
+}
+
+.pagination-goto {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.goto-text {
+    font-size: 14px;
+    color: #666;
+    margin-right: 5px;
+}
+
+.goto-input {
+    width: 50px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    margin-right: 5px;
+    font-size: 14px;
+    padding: 0 5px;
+}
+
+.goto-button {
+    height: 30px;
+    padding: 0 10px;
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    &:hover {
+        background-color: darken(#ff6b35, 5%);
+    }
 }
 
 // //媒体查询 大于1440px屏幕
