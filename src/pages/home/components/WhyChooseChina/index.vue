@@ -32,7 +32,6 @@
                                 <img
                                     src="/assets/image/Home/VideoPlayIcon.png"
                                     alt="Play"
-                                    class="play-icon"
                                 />
                             </div>
                         </div>
@@ -508,8 +507,6 @@ export default {
     opacity: 1;
 }
 
-
-
 // 播放按钮覆盖层
 .play-overlay {
     position: absolute;
@@ -524,13 +521,15 @@ export default {
 .play-button {
     width: 80px;
     height: 80px;
-    position: relative;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.play-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 }
 
 // 视频控制条
