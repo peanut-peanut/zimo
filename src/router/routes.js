@@ -4,10 +4,7 @@
  */
 export const ROUTES = {
   HOME: '/',
-  PROGRAM: {
-    LIST: '/program',
-    DETAIL: '/program/:id',
-  },
+  PROGRAM: '/program',
   ABOUT: '/about',
   SUCCESSFULCASES: '/successful-cases',
   GUIDES: '/guides',
@@ -21,37 +18,33 @@ export const mainRoutes = [
   {
     path: ROUTES.HOME,
     exact: true,
-    title: '首页',
+    title: 'Home',
   },
   {
-    path: ROUTES.PROGRAM.LIST,
+    path: ROUTES.PROGRAM,
     exact: true,
-    title: '项目列表',
+    title: 'Program',
   },
-  {
-    path: ROUTES.PROGRAM.DETAIL,
-    exact: true,
-    title: '项目详情',
-  },
+ 
   {
     path: ROUTES.SUCCESSFULCASES,
     exact: true,
-    title: '成功案例',
+    title: 'Successful Cases',
   },
   {
     path: ROUTES.GUIDES,
     exact: true,
-    title: '留学指引',
+    title: 'Guides',
   },
   {
     path: ROUTES.ABOUT,
     exact: true,
-    title: '关于我们',
+    title: 'About Us',
   },
   {
     path: ROUTES.APPLYNOW,
     exact: true,
-    title: '加入我们',
+    title: 'Apply Now',
   },
 ]
 

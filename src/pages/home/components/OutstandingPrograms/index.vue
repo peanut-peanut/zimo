@@ -276,7 +276,7 @@ import SectionTitle from "../../../../components/SectionTitle.vue";
 // 常量配置
 const TOTAL_SLIDES = 5;
 const CARD_WIDTH = (264 / 1920) * window.innerWidth;
-const GAP_WIDTH = (20 / 1920) * window.innerWidth;
+const GAP_WIDTH = (50 / 1920) * window.innerWidth;
 const ANIMATION_DURATION = 600;
 
 // 程序数据
@@ -553,9 +553,9 @@ export default {
 
 .carousel-container {
     position: relative;
-    width: calc(100% - 304px);
-    margin: 0 152px;
-    padding: 0 108px;
+    width: calc(100% - 234px);
+    margin: 0 117px;
+    padding: 0 83px;
 }
 
 .carousel-inner {
@@ -571,7 +571,7 @@ export default {
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
     justify-content: space-between;
-    gap: 20px;
+    gap: 50px;
 }
 
 .program-card {
@@ -780,7 +780,7 @@ export default {
 }
 
 .detail-page-image {
-    width: 240px;
+    width: 320px;
     height: 100%;
     position: relative;
     overflow: hidden;
@@ -793,7 +793,7 @@ export default {
 }
 
 .detail-page-info {
-    width: calc(100% - 240px);
+    width: calc(100% - 320px);
     padding: 22px;
     display: flex;
     flex-direction: column;
@@ -803,7 +803,7 @@ export default {
 }
 
 .detail-page-title {
-    font-size: 21px;
+    font-size: 28px;
     font-weight: 600;
     color: #2e4057;
     margin-bottom: 3.5px;
@@ -847,13 +847,13 @@ export default {
     display: flex;
     align-items: center;
     margin-right: 4px;
-    font-size: 16.5px;
+    font-size: 18px;
 
     &::before {
         content: "";
         display: inline-block;
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
         background-color: #ff6b35;
         border-radius: 50%;
         margin-right: 15px;
@@ -866,7 +866,7 @@ export default {
     letter-spacing: normal;
     color: #3a3e48;
     margin-left: 21px;
-    font-size: 16.5px;
+    font-size: 18px;
     font-family: PingFang SC;
 }
 
@@ -875,27 +875,27 @@ export default {
 }
 
 .detail-page-reasons-title {
-    font-size: 16.5px;
+    font-size: 18px;
     font-weight: 600;
     color: #2e4057;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
 }
 
 .detail-page-reasons-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
 }
 
 .detail-page-reason-item {
     display: flex;
     align-items: baseline;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .detail-page-reason-number {
-    width: 19.5px;
-    height: 19.5px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background-color: #ff6b35;
     color: #fff;
@@ -904,7 +904,7 @@ export default {
     justify-content: center;
     margin-right: 12px;
     flex-shrink: 0;
-    font-size: 13.5px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -913,24 +913,24 @@ export default {
     line-height: normal;
     letter-spacing: normal;
     color: #3a3e48;
-    font-size: 16.5px;
+    font-size: 18px;
 }
 
 .detail-page-button {
     position: absolute;
-    bottom: 22px;
-    right: 22px;
+    bottom: 24px;
+    right: 24px;
     width: 110px;
-    height: 33px;
+    height: 36px;
     background-color: #ff6b35;
     color: #fff;
-    padding: 7.5px 12px;
+    padding: 10px 16px;
     border-radius: 4px;
     font-weight: 500;
     text-align: center;
     transition: background-color 0.2s ease;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 18px;
+    line-height: normal;
     letter-spacing: normal;
     cursor: pointer;
     display: flex;

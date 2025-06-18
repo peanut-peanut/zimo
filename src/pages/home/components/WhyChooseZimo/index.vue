@@ -116,7 +116,7 @@ export default {
 <style lang="less" scoped>
 .choose-zimo-container {
     background-color: #fff;
-    padding: 75px 260px;
+    padding: 75px 200px;
     max-width: 100%;
     margin: 0 auto;
 }
@@ -134,7 +134,7 @@ export default {
 
 .features-grid {
     display: flex;
-    gap: 20px;
+    gap: 60px;
     width: 100%;
     margin: 0 auto;
 }
@@ -202,7 +202,9 @@ export default {
 }
 
 .feature-description {
+    // font-family: "AlibabaPuHuiTiRegular", sans-serif;
     font-family: "AlibabaPuHuiTiRegular", sans-serif;
+    font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     color: #3A3E48;

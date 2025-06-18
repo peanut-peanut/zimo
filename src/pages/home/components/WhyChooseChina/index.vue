@@ -18,22 +18,13 @@
                             :class="[
                                 'video-element',
                                 {
-                                    'opacity-0': shouldShowCover,
                                     'opacity-100': !shouldShowCover,
                                 },
                             ]"
                             src="https://zimo.club/assets/video/zimo.mp4"
                             preload="metadata"
+                            poster=""
                         />
-
-                        <!-- 封面图 -->
-                        <div v-if="shouldShowCover" class="video-cover">
-                            <img
-                                src="/assets/image/Home/VideoThumb.jpg"
-                                alt="Video cover"
-                                class="cover-image"
-                            />
-                        </div>
 
                         <!-- 播放按钮覆盖层 -->
                         <div v-if="!isPlaying" class="play-overlay">
@@ -41,7 +32,6 @@
                                 <img
                                     src="/assets/image/Home/VideoPlayIcon.png"
                                     alt="Play"
-                                    class="play-icon"
                                 />
                             </div>
                         </div>
@@ -474,7 +464,7 @@ export default {
 <style lang="less" scoped>
 .why-china-container {
     background-color: #ffffff;
-    padding: 75px 260px;
+    padding: 75px 200px;
 }
 .container {
     width: 100%;
@@ -513,25 +503,8 @@ export default {
     border-radius: 10px;
 }
 
-.opacity-0 {
-    opacity: 0;
-}
-
 .opacity-100 {
     opacity: 1;
-}
-
-// 封面
-.video-cover {
-    position: absolute;
-    inset: 0;
-}
-
-.cover-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
 }
 
 // 播放按钮覆盖层
@@ -548,13 +521,15 @@ export default {
 .play-button {
     width: 80px;
     height: 80px;
-    position: relative;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.play-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 }
 
 // 视频控制条

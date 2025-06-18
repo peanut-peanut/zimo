@@ -80,19 +80,31 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { searchStore } from "../../../../store/searchStore";
+import { ROUTES } from "../../../../router/routes";
 
 export default {
     name: "Hero",
     setup() {
         const searchTerm = ref("");
+        const router = useRouter();
 
         const handleSearch = (e) => {
             e.preventDefault();
-            console.log("Searching for:", searchTerm.value);
+            if (searchTerm.value.trim()) {
+                // 保存搜索内容到store
+                searchStore.setSearchQuery(searchTerm.value);
+                //新开一个页面 跳转到Program页面
+                window.open(ROUTES.PROGRAM, '_blank');
+            }
         };
 
         const setSearchTerm = (tag) => {
             searchTerm.value = tag;
+            // 自动触发搜索
+            searchStore.setSearchQuery(tag);
+            window.open(ROUTES.PROGRAM, '_blank');
         };
 
         const popularTags = ["peking university"];
@@ -112,8 +124,7 @@ export default {
 .hero-section {
     position: relative;
     width: 100%;
-    height: 100vh;
-    // height: 866px;
+    height: 100vh; // 默认大屏幕高度
     overflow: hidden;
 }
 
@@ -338,5 +349,36 @@ export default {
 
 .popular-content {
     animation-delay: 0.6s;
+}
+
+// 响应式样式
+@media screen and (max-width: 479px) {
+    .hero-section {
+        height: 20vh;
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .hero-section {
+        height: 35vh;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .hero-section {
+        height: 40vh;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+    .hero-section {
+        height: 50vh;
+    }
+}
+
+@media screen and (min-width: 1281px) and (max-width: 1400px) {
+    .hero-section {
+        height: 70vh;
+    }
 }
 </style>

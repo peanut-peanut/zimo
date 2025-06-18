@@ -1,0 +1,37 @@
+/* 字体文件优化加载 */
+@font-face {
+  font-family: 'AlibabaPuHuiTi-Regular';
+  src: url('/assets/font/AlibabaPuHuiTi-2-55-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* 改善字体加载性能 */
+}
+
+@font-face {
+  font-family: 'AlibabaPuHuiTi-Medium';
+  src: url('/assets/font/AlibabaPuHuiTi-2-65-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AlibabaPuHuiTi-Bold';
+  src: url('/assets/font/AlibabaPuHuiTi-2-85-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 字体回退方案 */
+.font-alibaba-regular {
+  font-family: 'AlibabaPuHuiTi-Regular', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', sans-serif;
+}
+
+.font-alibaba-medium {
+  font-family: 'AlibabaPuHuiTi-Medium', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', sans-serif;
+}
+
+.font-alibaba-bold {
+  font-family: 'AlibabaPuHuiTi-Bold', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', sans-serif;
+} 

@@ -35,7 +35,7 @@ const CONTENTS_DATA = [
         title: "Can You Study in China in English in 2025?",
         description:
             "2025 China Education Revolution: Discover 150+ Top Global Universities Offering English-Taught Programs — From AI Research Hubs to Belt and Road Innovation Zones, Your Future Starts Here.",
-        date: "May 2025",
+        date: "June 2025",
         image: "/assets/image/Home/SpecialContent/SpecialContent1.png",
     },
     {
@@ -51,7 +51,7 @@ const CONTENTS_DATA = [
         title: "Read more details about how studying abroad in China can change your life!",
         description:
             "Beyond Degrees: The Real Story of How China 留学 (Study in China) Transformed Professionals — Gain Access to Billion-Dollar Tech Networks, Cross-Cultural Leadership, and a Front-Row Seat to the Next Global Economic Shift.",
-        date: "May 2025",
+        date: "July 2024",
         image: "/assets/image/Home/SpecialContent/SpecialContent3.png",
     },
     {
@@ -59,7 +59,7 @@ const CONTENTS_DATA = [
         title: "8 Reasons to Study in China",
         description:
             "8 Unmissable Advantages Only China Offers — From Co-Authoring Chang'e Lunar Missions to Scaling Cross-Border E-Commerce Empires, Redefine Your Career Trajectory in the World’s Largest Innovation Lab.",
-        date: "May 2025",
+        date: "February 2023",
         image: "/assets/image/Home/SpecialContent/SpecialContent4.png",
     },
 ];
@@ -80,7 +80,7 @@ export default {
 <style lang="less" scoped>
 .special-content-container {
     background-color: #fff;
-    padding: 75px 260px;
+    padding: 75px 200px;
     max-width: 100%;
     margin: 0 auto;
     overflow: hidden;
@@ -89,7 +89,7 @@ export default {
 
 .content-grid {
     display: flex;
-    gap: 20px;
+    gap: 60px;
 }
 
 .content-card {
@@ -148,29 +148,21 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-
+    font-family: "AlibabaPuHuiTiMedium";
     &:hover {
         color: #ff6b35;
     }
 }
 
-.card-Subheading {
-    font-family: PingFang SC;
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 20px;
-    letter-spacing: normal;
-    color: #3a3e48;
-}
 .card-description {
     flex: 1;
-    font-family: PingFang SC;
-    font-size: 15px;
+    font-family: "AlibabaPuHuiTiRegular";
+    font-size: 16px;
     font-weight: 300;
     line-height: 20px;
     letter-spacing: normal;
     /* blue */
-    color: #3a3e48;
+    color: #686b72;
     &:hover {
         color: #ff6b35;
     }
