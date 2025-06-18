@@ -65,7 +65,11 @@ function getMimeType(filePath) {
     '.woff': 'font/woff',
     '.woff2': 'font/woff2',
     '.ttf': 'font/ttf',
-    '.eot': 'application/vnd.ms-fontobject'
+    '.otf': 'font/otf',
+    '.eot': 'application/vnd.ms-fontobject',
+    '.gz': 'application/gzip',
+    '.br': 'application/x-brotli',
+    '.webp': 'image/webp'
   };
   return mimeTypes[ext] || 'application/octet-stream';
 }
@@ -92,13 +96,26 @@ function getCacheControl(filePath) {
 // 上传单个文件
 async function uploadFile(localPath, remotePath) {
   try {
-    const options = {
-      headers: {
-        'Content-Type': getMimeType(localPath),
-        'Cache-Control': getCacheControl(localPath)
-      }
+    const ext = path.extname(localPath).toLowerCase();
+    const headers = {
+      'Content-Type': getMimeType(localPath),
+      'Cache-Control': getCacheControl(localPath)
     };
 
+    // 设置压缩文件的编码
+    if (ext === '.gz') {
+      headers['Content-Encoding'] = 'gzip';
+      // 去掉.gz后缀，设置原文件的Content-Type
+      const originalPath = localPath.replace(/\.gz$/, '');
+      headers['Content-Type'] = getMimeType(originalPath);
+    } else if (ext === '.br') {
+      headers['Content-Encoding'] = 'br';
+      // 去掉.br后缀，设置原文件的Content-Type
+      const originalPath = localPath.replace(/\.br$/, '');
+      headers['Content-Type'] = getMimeType(originalPath);
+    }
+
+    const options = { headers };
     await client.put(remotePath, localPath, options);
     console.log(`✅ 上传成功: ${remotePath}`);
   } catch (error) {
