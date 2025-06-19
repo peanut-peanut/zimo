@@ -10,7 +10,7 @@ const isProduction = import.meta.env.PROD;
 // API基础URL配置
 export const API_BASE_URL = isDevelopment 
   ? '' // 开发环境使用代理，不需要基础URL
-  : 'https://www.zimo.club'; // 生产环境直接指向目标域名
+  : 'https://api.zimo.club'; // 生产环境直接指向目标域名
 
 /**
  * 构建完整的API URL
