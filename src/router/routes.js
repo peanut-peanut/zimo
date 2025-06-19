@@ -8,6 +8,10 @@ export const ROUTES = {
   ABOUT: '/about',
   SUCCESSFULCASES: '/successful-cases',
   GUIDES: '/guides',
+  GUIDES_STUDY_IN_CHINA: '/guides/study-in-china',
+  GUIDES_CITIES: '/guides/cities',
+  GUIDES_UNIVERSITIES: '/guides/universities',
+  GUIDES_SCHOLARSHIPS: '/guides/scholarships',
   APPLYNOW: '/apply-now',
 }
 

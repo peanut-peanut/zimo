@@ -8,6 +8,10 @@ import Program from '../pages/program/index.vue'
 import SuccessfulCases from '../pages/successful-cases/index.vue'
 import ApplyNow from '../pages/apply-now/index.vue'
 import Guides from '../pages/guides/index.vue'
+import StudyInChina from '../pages/guides/studyInChina.vue'
+import Cities from '../pages/guides/cities.vue'
+import Universities from '../pages/guides/Universities.vue'
+import Scholarships from '../pages/guides/Scholarships.vue'
 
 /**
  * 路由配置
@@ -47,6 +51,30 @@ const routes = [
     name: 'Guides',
     component: Guides,
     meta: { title: 'guides' }
+  },
+  {
+    path: ROUTES.GUIDES_STUDY_IN_CHINA,
+    name: 'StudyInChina',
+    component: StudyInChina,
+    meta: { title: 'study-in-china' }
+  },
+  {
+    path: ROUTES.GUIDES_CITIES,
+    name: 'GuidesCities',
+    component: Cities,
+    meta: { title: 'cities' }
+  },
+  {
+    path: ROUTES.GUIDES_UNIVERSITIES,
+    name: 'GuidesUniversities',
+    component: Universities,
+    meta: { title: 'universities' }
+  },
+  {
+    path: ROUTES.GUIDES_SCHOLARSHIPS,
+    name: 'GuidesScholarships',
+    component: Scholarships,
+    meta: { title: 'scholarships' }
   },
   {
     path: ROUTES.APPLYNOW,
