@@ -1,10 +1,11 @@
 <template>
     <div class="study-in-china-container">
         <Header isFrom="Study in China" />
-        
+
         <div class="content-container">
+         
             <div class="iframe-wrapper">
-                <iframe 
+                <iframe
                     src="https://r1smdjomca8.feishu.cn/docx/TuGPd7GU1oCE2Ixx2PPcglQRn1g"
                     class="feishu-iframe"
                     frameborder="0"
@@ -38,13 +39,11 @@ export default {
     background: #f8f9fa;
 }
 
-
-
-
 .content-container {
-    margin-top: 80px; // 为固定头部留出空间
+    margin-top: -30px; // 遮挡顶部导航栏
     padding: 20px;
-    height: calc(100vh - 80px); // 减去头部高度
+    height: calc(100vh + 30px); // 加上遮挡顶部导航栏的高度
+    position: relative;
 }
 
 .iframe-wrapper {
@@ -70,7 +69,7 @@ export default {
         width: 150px;
         height: 41px;
     }
-    
+
     .content-container {
         padding: 10px;
     }

@@ -42,9 +42,9 @@ export default {
 
 
 .content-container {
-    margin-top: 80px; // 为固定头部留出空间
+    margin-top: -30px; // 遮挡顶部导航栏
     padding: 20px;
-    height: calc(100vh - 80px); // 减去头部高度
+    height: calc(100vh + 30px); // 加上遮挡顶部导航栏的高度
 }
 
 .iframe-wrapper {
