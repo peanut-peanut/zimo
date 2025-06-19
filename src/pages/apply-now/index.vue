@@ -604,16 +604,43 @@ export default {
             isSubmitting.value = true;
 
             try {
-                // 获取表单所有数据
-                const formData = {
-                    ...form,
-                    fullPhone: `${form.countryCode}${form.phone}`,
+                // 构建API请求数据
+                const apiData = {
+                    name: form.name,
+                    phone_number_district: form.countryCode,
+                    phone_number: form.phone,
+                    country: form.country,
+                    age: parseInt(form.age),
+                    gpa_level: form.gpa,
+                    target_degree: form.targetDegree.toLowerCase(),
+                    target_major: form.targetMajor
                 };
-                console.log("formData", formData);
-                // 显示二维码弹窗
-                showQrcodeModal.value = true;
+
+                console.log("提交数据:", apiData);
+
+                // 发送API请求
+                const response = await fetch('/api/course/apply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(apiData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log("提交成功:", result);
+                    
+                    // 显示二维码弹窗
+                    showQrcodeModal.value = true;
+                } else {
+                    const errorData = await response.json();
+                    console.error("提交失败:", errorData);
+                    alert("申请提交失败，请稍后重试。");
+                }
             } catch (error) {
-                alert("Failed to submit application. Please try again.");
+                console.error("提交申请时发生错误:", error);
+                alert("申请提交失败，请检查网络连接后重试。");
             } finally {
                 isSubmitting.value = false;
             }
