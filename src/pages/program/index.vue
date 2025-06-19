@@ -18,8 +18,8 @@
             </div>
         </div>
 
-        <div class="apply-now-container" @click="applyNow">
-            <img src="/assets/image/Program/CommentIcon.png" alt="apply-now" />
+        <div class="apply-now-container" @click="goToGuides">
+            <img src="/assets/image/Program/CommentIcon.png" alt="go-guides" />
         </div>
 
         <div class="content-container">

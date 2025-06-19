@@ -1,13 +1,11 @@
 <template>
-    <div class="study-in-china-container">
-        <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
-        </div>
+    <div class="cities-container">
+        <Header isFrom="Cities" />
         
         <div class="content-container">
             <div class="iframe-wrapper">
                 <iframe 
-                    src="https://r1smdjomca8.feishu.cn/docx/TuGPd7GU1oCE2Ixx2PPcglQRn1g"
+                    src="https://r1smdjomca8.feishu.cn/docx/PCDQdHOXHooUkdxdTy8cNUodngQ"
                     class="feishu-iframe"
                     frameborder="0"
                     allowfullscreen
@@ -20,8 +18,12 @@
 </template>
 
 <script>
+import Header from "../home/components/Header/index.vue";
 export default {
-    name: "StudyInChina",
+    name: "Cities",
+    components: {
+        Header,
+    },
     setup() {
         return {};
     },
@@ -29,35 +31,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.study-in-china-container {
+.cities-container {
     width: 100%;
-    min-height: 100vh;
+    //min-height: 100vh;
+    overflow: hidden;
     background: #f8f9fa;
 }
 
-.header-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 50;
-    height: 80px;
-    background: #ff6b35;
-    display: flex;
-    align-items: center;
-}
 
-.logo {
-    position: absolute;
-    left: 160px;
-    width: 216px;
-    height: 59px;
-    cursor: pointer;
-}
+
 
 .content-container {
     margin-top: 80px; // 为固定头部留出空间
-   // padding: 20px;
+    padding: 20px;
     height: calc(100vh - 80px); // 减去头部高度
 }
 

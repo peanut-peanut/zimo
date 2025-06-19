@@ -21,45 +21,38 @@ export const startDates = [
     "September 2026",
 ];
 
+// 导入API工具函数
+import { apiGet, apiPost } from '@/utils/api.js';
+
 // 获取城市数据的函数
 export const fetchCities = async () => {
     try {
-        const response = await fetch("/api/citys", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const data = await apiGet("/api/citys");
 
-        if (response.ok) {
-            const data = await response.json();
-            // 假设API返回的数据格式为 { success: true, data: [...] }
-            if (data.success && Array.isArray(data.data)) {
-                // 去重并过滤空的并按字母排序
-                cities.value = [...new Set(data.data)]
-                    .filter((city) => city !== "")
-                    .sort();
+        // 假设API返回的数据格式为 { success: true, data: [...] }
+        if (data.success && Array.isArray(data.data)) {
+            // 去重并过滤空的并按字母排序
+            cities.value = [...new Set(data.data)]
+                .filter((city) => city !== "")
+                .sort();
 
-                console.log("cities", cities.value);
-            } else if (Array.isArray(data)) {
-                // 如果直接返回数组
-                cities.value = data;
-            } else {
-                console.warn("城市API返回格式不正确，使用默认数据");
-                cities.value = [
-                    "Beijing",
-                    "Shanghai",
-                    "Guangzhou",
-                    "Shenzhen",
-                    "Hangzhou",
-                    "Nanjing",
-                    "Chengdu",
-                    "Wuhan",
-                    "Xiamen",
-                ];
-            }
+            console.log("cities", cities.value);
+        } else if (Array.isArray(data)) {
+            // 如果直接返回数组
+            cities.value = data;
         } else {
-            throw new Error(`获取城市数据失败: ${response.status}`);
+            console.warn("城市API返回格式不正确，使用默认数据");
+            cities.value = [
+                "Beijing",
+                "Shanghai",
+                "Guangzhou",
+                "Shenzhen",
+                "Hangzhou",
+                "Nanjing",
+                "Chengdu",
+                "Wuhan",
+                "Xiamen",
+            ];
         }
     } catch (error) {
         console.error("获取城市数据错误:", error);
@@ -203,30 +196,8 @@ export const useProgram = () => {
             }
 
             // 发起POST请求
-            const response = await fetch("/api/courses/search", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestBody),
-            });
-
-            // 尝试解析API响应
-            let data;
-            try {
-                data = await response.json();
-                console.log("data", data);
-            } catch (error) {
-                console.warn("API响应解析失败，使用模拟数据", error);
-                data = {
-                    pagination: {
-                        current_page: page,
-                        total_pages: 1,
-                        total: 0,
-                    },
-                    data: [],
-                };
-            }
+            const data = await apiPost("/api/courses/search", requestBody);
+            console.log("data", data);
 
             // 更新分页信息
             pagination.value = {
@@ -446,6 +417,10 @@ export const useProgram = () => {
         }
     };
 
+    const goToGuides = () => {
+        window.open(ROUTES.GUIDES_STUDY_IN_CHINA, "_blank");
+    };
+
     // 在组件挂载时，从store获取搜索内容
     onMounted(async () => {
         // 先获取城市数据
@@ -505,6 +480,7 @@ export const useProgram = () => {
         // 方法
         clearFilter,
         applyNow,
+        goToGuides,
         toggleFilter,
         handleSearch,
         fetchDataFromApi,
