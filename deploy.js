@@ -216,7 +216,7 @@ async function deploy() {
       const siteUrl = ossConfig.prefix ? `${baseUrl}/${ossConfig.prefix}` : baseUrl;
       
       console.log(`🌐 阿里云OSS地址: ${siteUrl}`);
-      console.log(`🌐 网站地址: https://www.zimo.club`);
+      console.log(`🌐 网站地址: https://zimo.club`);
     } else {
       console.log('\n⚠️  部署完成，但有部分文件上传失败');
       process.exit(1);
