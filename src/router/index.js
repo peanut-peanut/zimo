@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// 如果OSS静态网站配置无法正常工作，可以改用Hash路由模式
+// import { createRouter, createWebHashHistory } from 'vue-router'
 import { ROUTES } from './routes'
 
 // 页面组件导入
@@ -90,6 +92,8 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  // 如果OSS部署有问题，可以切换到Hash模式：
+  // history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
     // 页面切换时滚动到顶部
