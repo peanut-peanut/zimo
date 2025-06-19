@@ -100,7 +100,7 @@ export default defineConfig({
         open: true,
         proxy: {
             '/api': {
-                target: 'https://api.zimo.club',
+                target: 'https://www.zimo.club',
                 changeOrigin: true,
                 secure: false,
                 // rewrite: (path) => path.replace(/^\/api/, '')
