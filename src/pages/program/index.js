@@ -4,18 +4,9 @@ import { ROUTES } from "../../router/routes";
 
 // 筛选选项数据
 export const degrees = ["Bachelor", "Master", "Doctoral"];
-export const languages = ["Chinese", "English", "Chinese & English"];
-export const cities = [
-    "Beijing",
-    "Shanghai",
-    "Guangzhou",
-    "Shenzhen",
-    "Hangzhou",
-    "Nanjing",
-    "Chengdu",
-    "Wuhan",
-    "Xiamen",
-];
+export const languages = ["Chinese", "English"];
+// 将cities改为响应式数据，从API获取
+export const cities = ref([]);
 export const durations = [
     "1 year",
     "2 years",
@@ -25,13 +16,60 @@ export const durations = [
     "6 years",
 ];
 export const startDates = [
-    "January 2026",
-    "February 2026",
-    "March 2026",
+    "September 2024",
     "September 2025",
-    "October 2025",
-    "November 2025",
+    "September 2026",
 ];
+
+// 导入API工具函数
+import { apiGet, apiPost } from '@/utils/api.js';
+
+// 获取城市数据的函数
+export const fetchCities = async () => {
+    try {
+        const data = await apiGet("/api/citys");
+
+        // 假设API返回的数据格式为 { success: true, data: [...] }
+        if (data.success && Array.isArray(data.data)) {
+            // 去重并过滤空的并按字母排序
+            cities.value = [...new Set(data.data)]
+                .filter((city) => city !== "")
+                .sort();
+
+            console.log("cities", cities.value);
+        } else if (Array.isArray(data)) {
+            // 如果直接返回数组
+            cities.value = data;
+        } else {
+            console.warn("城市API返回格式不正确，使用默认数据");
+            cities.value = [
+                "Beijing",
+                "Shanghai",
+                "Guangzhou",
+                "Shenzhen",
+                "Hangzhou",
+                "Nanjing",
+                "Chengdu",
+                "Wuhan",
+                "Xiamen",
+            ];
+        }
+    } catch (error) {
+        console.error("获取城市数据错误:", error);
+        // 使用默认城市数据作为备用
+        cities.value = [
+            "Beijing",
+            "Shanghai",
+            "Guangzhou",
+            "Shenzhen",
+            "Hangzhou",
+            "Nanjing",
+            "Chengdu",
+            "Wuhan",
+            "Xiamen",
+        ];
+    }
+};
 
 // 格式化学位显示
 export const formatDegree = (degree) => {
@@ -97,7 +135,7 @@ export const useProgram = () => {
 
     // API数据和加载状态
     const apiData = ref([]);
-    const isLoading = ref(false);
+    const isLoading = ref(true); // 初始状态设为true，避免显示"没有数据"
     const pagination = ref({
         current_page: 1,
         total_pages: 1,
@@ -112,74 +150,54 @@ export const useProgram = () => {
             const requestBody = {
                 // 添加页码参数
                 page: page,
-                per_page: 10
+                per_page: 10,
             };
-            
+
             // 添加搜索关键词
             if (searchQuery.value.trim()) {
                 requestBody.keyword = searchQuery.value.trim();
             }
-            
+
             // 添加持续时间筛选（作为数组）
             if (selectedDurations.value.length > 0) {
                 requestBody.duration = [...selectedDurations.value];
             }
-            
+
             // 添加学位筛选（数组）
             if (selectedDegrees.value.length > 0) {
                 // 将选中的学位转换为小写
-                requestBody.degrees = selectedDegrees.value.map(degree => degree.toLowerCase());
+                requestBody.degrees = selectedDegrees.value.map((degree) =>
+                    degree.toLowerCase()
+                );
             }
-            
+
             // 添加语言筛选（数组）
             if (selectedLanguages.value.length > 0) {
                 requestBody.languages = [...selectedLanguages.value];
             }
-            
+
             // 添加城市筛选（数组）
             if (selectedCities.value.length > 0) {
                 requestBody.city = [...selectedCities.value];
             }
-            
+
             // 添加开始日期筛选（字符串）
             if (selectedStartDate.value) {
                 requestBody.start_date = selectedStartDate.value;
             }
-            
+
             // 添加学费范围筛选
             if (minFees.value) {
                 requestBody.min_tuition = Number(minFees.value);
             }
-            
+
             if (maxFees.value) {
                 requestBody.max_tuition = Number(maxFees.value);
             }
-            
-            // 发起POST请求
-            const response = await fetch('/api/courses/search', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestBody)
-            });
 
-            // 尝试解析API响应
-            let data;
-            try {
-                data = await response.json();
-                console.log("data", data);
-            } catch (error) {
-                console.warn("API响应解析失败，使用模拟数据", error);
-                data = {
-                    pagination: {
-                        current_page: page,
-                        total_pages: 1,
-                        total: 0,
-                    },
-                    data: [],
-                };
-            }
+            // 发起POST请求
+            const data = await apiPost("/api/courses/search", requestBody);
+            console.log("data", data);
 
             // 更新分页信息
             pagination.value = {
@@ -232,66 +250,13 @@ export const useProgram = () => {
 
     // 按字母顺序排序城市
     const sortedCities = computed(() => {
-        return [...cities].sort();
+        return [...cities.value].sort();
     });
 
-    // 筛选程序
+    // 由于筛选现在通过API完成，这里只保留搜索功能（如果需要的话）
     const filteredPrograms = computed(() => {
-        let result = [...apiData.value];
-
-        // 搜索查询
-        if (searchQuery.value.trim()) {
-            const query = searchQuery.value.toLowerCase().trim();
-            result = result.filter(
-                (program) =>
-                    program.title.toLowerCase().includes(query) ||
-                    program.university.toLowerCase().includes(query)
-            );
-        }
-
-        // 筛选学位
-        if (selectedDegrees.value.length > 0) {
-            result = result.filter((program) =>
-                selectedDegrees.value.includes(program.degree)
-            );
-        }
-
-        // 筛选语言
-        if (selectedLanguages.value.length > 0) {
-            result = result.filter((program) =>
-                selectedLanguages.value.includes(program.language)
-            );
-        }
-
-        // 筛选城市
-        if (selectedCities.value.length > 0) {
-            result = result.filter((program) =>
-                selectedCities.value.includes(program.city)
-            );
-        }
-
-        // 筛选持续时间
-        if (selectedDurations.value.length > 0) {
-            result = result.filter((program) =>
-                selectedDurations.value.includes(program.duration)
-            );
-        }
-
-        // 筛选开始日期（单选）
-        if (selectedStartDate.value) {
-            result = result.filter((program) => 
-                program.startDate.includes(selectedStartDate.value)
-            );
-        }
-
-        // 筛选学费
-        const min = minFees.value ? Number(minFees.value) : 0;
-        const max = maxFees.value ? Number(maxFees.value) : Infinity;
-        result = result.filter(
-            (program) => program.tuitionFee >= min && program.tuitionFee <= max
-        );
-
-        return result;
+        // 直接返回API数据，因为筛选已在后端完成
+        return [...apiData.value];
     });
 
     // 使用API分页而不是前端分页
@@ -303,10 +268,10 @@ export const useProgram = () => {
     const totalPages = computed(() => {
         return pagination.value.total_pages || 1;
     });
-    
+
     // 用于跳转到指定页码的变量
     const gotoPage = ref(1);
-    
+
     // 处理跳转到指定页码
     const handleGotoPage = () => {
         // 确保页码在有效范围内
@@ -315,41 +280,41 @@ export const useProgram = () => {
         } else if (gotoPage.value > totalPages.value) {
             gotoPage.value = totalPages.value;
         }
-        
+
         // 设置当前页并跳转
         currentPage.value = gotoPage.value;
     };
-    
+
     // 计算要显示哪些页码按钮
     const displayedPageNumbers = computed(() => {
         const total = totalPages.value;
         const current = currentPage.value;
-        
+
         // 如果总页数较少，直接显示所有页码
         if (total <= 7) {
             return Array.from({ length: total }, (_, i) => i + 1);
         }
-        
+
         // 否则显示智能分页
         let pages = [];
-        
+
         // 总是显示第一页
         pages.push(1);
-        
+
         // 当前页靠前时 (1-3)
         if (current <= 3) {
             pages.push(2, 3);
             // 如果当前页不是3，添加4
             if (current < 3) pages.push(4);
             // 添加前半部分省略号
-            pages.push('...');
+            pages.push("...");
             // 添加最后一页
             pages.push(total);
         }
         // 当前页靠近末尾时 (total-2 ~ total)
         else if (current >= total - 2) {
             // 添加前半部分省略号
-            pages.push('...');
+            pages.push("...");
             // 添加倒数几页
             pages.push(total - 2, total - 1, total);
         }
@@ -357,46 +322,45 @@ export const useProgram = () => {
         else {
             // 添加第一个省略号 (如果当前页不是4)
             if (current > 4) {
-                pages.push('...');
+                pages.push("...");
             } else {
                 pages.push(2, 3);
             }
-            
+
             // 添加当前页及其前后页
             pages.push(current - 1, current, current + 1);
-            
+
             // 添加第二个省略号 (如果当前页距离末尾较远)
             if (current < total - 4) {
-                pages.push('...');
+                pages.push("...");
             } else {
                 pages.push(total - 2, total - 1);
             }
-            
+
             // 添加最后一页 (如果上面没有已经添加)
             if (current < total - 2) {
                 pages.push(total);
             }
         }
-        
+
         // 过滤重复的页码并排序
-        return Array.from(new Set(pages))
-            .sort((a, b) => {
-                // 让省略号保持原位置
-                if (a === '...') {
-                    return pages.indexOf(a);
-                }
-                if (b === '...') {
-                    return pages.indexOf(b);
-                }
-                return a - b;
-            });
+        return Array.from(new Set(pages)).sort((a, b) => {
+            // 让省略号保持原位置
+            if (a === "...") {
+                return pages.indexOf(a);
+            }
+            if (b === "...") {
+                return pages.indexOf(b);
+            }
+            return a - b;
+        });
     });
-    
+
     // 监听页码变化，重新获取数据
     watch(currentPage, (newPage) => {
         fetchDataFromApi(newPage);
     });
-    
+
     // 监听筛选条件变化，重置到第一页并重新获取数据
     watch(
         [
@@ -407,7 +371,7 @@ export const useProgram = () => {
             selectedDurations,
             selectedStartDate,
             minFees,
-            maxFees
+            maxFees,
         ],
         () => {
             currentPage.value = 1; // 重置到第一页
@@ -431,9 +395,9 @@ export const useProgram = () => {
             case "durations":
                 selectedDurations.value = [];
                 break;
-                            case "startDate":
-                    selectedStartDate.value = "";
-                    break;
+            case "startDate":
+                selectedStartDate.value = "";
+                break;
             case "tuition":
                 minFees.value = "";
                 maxFees.value = "";
@@ -446,15 +410,18 @@ export const useProgram = () => {
     // 申请按钮点击
     const applyNow = (program) => {
         // 如果有programUrl，则打开该链接，否则跳转到申请页面
-        if (program && program.programUrl) {
-            window.open(program.programUrl, "_blank");
-        } else {
-            window.open(ROUTES.APPLYNOW, "_blank");
-        }
+        window.open(ROUTES.APPLYNOW, "_blank");
+    };
+
+    const goToGuides = () => {
+        window.open(ROUTES.GUIDES_STUDY_IN_CHINA, "_blank");
     };
 
     // 在组件挂载时，从store获取搜索内容
-    onMounted(() => {
+    onMounted(async () => {
+        // 先获取城市数据
+        await fetchCities();
+
         const query = searchStore.getSearchQuery();
         if (query) {
             searchQuery.value = query;
@@ -480,11 +447,11 @@ export const useProgram = () => {
         }, 300);
     };
 
-        return {
+    return {
         // 数据
         degrees,
         languages,
-        cities,
+        cities: cities.value,
         sortedCities,
         durations,
         startDates,
@@ -505,13 +472,15 @@ export const useProgram = () => {
         isAnyFilterExpanded,
         displayedPageNumbers,
         gotoPage,
-        
+
         // 方法
         clearFilter,
         applyNow,
+        goToGuides,
         toggleFilter,
         handleSearch,
         fetchDataFromApi,
         handleGotoPage,
+        fetchCities,
     };
 };

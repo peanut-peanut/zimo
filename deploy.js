@@ -174,6 +174,24 @@ async function buildProject() {
   }
 }
 
+// 配置OSS静态网站托管
+async function configureBucketWebsite() {
+  try {
+    console.log('⚙️  配置OSS静态网站托管...');
+    
+    // 设置静态网站配置
+    await client.putBucketWebsite(ossConfig.bucket, {
+      index: 'index.html',
+      error: 'index.html' // 关键：将404错误页面设置为index.html
+    });
+    
+    console.log('✅ OSS静态网站配置完成');
+  } catch (error) {
+    console.error('❌ OSS静态网站配置失败:', error.message);
+    // 不抛出错误，因为这不是致命错误
+  }
+}
+
 // 主函数
 async function deploy() {
   try {
@@ -182,7 +200,10 @@ async function deploy() {
     // 第一步：构建项目
     await buildProject();
     
-    // 第二步：上传到OSS
+    // 第二步：配置OSS静态网站托管
+    await configureBucketWebsite();
+    
+    // 第三步：上传到OSS
     const distPath = path.join(__dirname, 'dist');
     const result = await uploadDirectory(distPath, ossConfig.prefix);
     
@@ -195,7 +216,7 @@ async function deploy() {
       const siteUrl = ossConfig.prefix ? `${baseUrl}/${ossConfig.prefix}` : baseUrl;
       
       console.log(`🌐 阿里云OSS地址: ${siteUrl}`);
-      console.log(`🌐 网站地址: https://www.zimo.club`);
+      console.log(`🌐 网站地址: https://zimo.club`);
     } else {
       console.log('\n⚠️  部署完成，但有部分文件上传失败');
       process.exit(1);
@@ -211,6 +232,9 @@ async function deploy() {
 async function uploadOnly() {
   try {
     console.log('📤 开始上传到OSS...\n');
+    
+    // 配置OSS静态网站托管
+    await configureBucketWebsite();
     
     const distPath = path.join(__dirname, 'dist');
     const result = await uploadDirectory(distPath, ossConfig.prefix);

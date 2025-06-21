@@ -5,9 +5,13 @@
 export const ROUTES = {
   HOME: '/',
   PROGRAM: '/program',
-  ABOUT: '/about',
+  ABOUT_US: '/about-us',
   SUCCESSFULCASES: '/successful-cases',
   GUIDES: '/guides',
+  GUIDES_STUDY_IN_CHINA: '/guides/study-in-china',
+  GUIDES_CITIES: '/guides/cities',
+  GUIDES_UNIVERSITIES: '/guides/universities',
+  GUIDES_SCHOLARSHIPS: '/guides/scholarships',
   APPLYNOW: '/apply-now',
 }
 
@@ -37,7 +41,7 @@ export const mainRoutes = [
     title: 'Guides',
   },
   {
-    path: ROUTES.ABOUT,
+    path: ROUTES.ABOUT_US,
     exact: true,
     title: 'About Us',
   },

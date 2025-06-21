@@ -5,6 +5,8 @@
             { 'header-from-home': isFrom === 'Home' },
             { 'header-scrolled': isScrolled },
         ]"
+        @mouseleave="handleMouseLeave"
+        @mouseenter="handleMouseEnter"
     >
         <div class="header-container">
             <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
@@ -36,7 +38,14 @@
                     <a
                         href="#"
                         class="nav-link"
-                        :class="{ active: isFrom === 'Guides' }"
+                        :class="{
+                            active: [
+                                'Study in China',
+                                'Cities',
+                                'Universities',
+                                'Scholarships',
+                            ].includes(isFrom),
+                        }"
                         @click.prevent="toggleGuidesDropdown"
                         >Guides</a
                     >
@@ -45,30 +54,47 @@
                         class="dropdown-menu"
                         @click.stop
                     >
-                        <a href="/guides/study-in-china" class="dropdown-item"
+                        <a
+                            href="/guides/study-in-china"
+                            class="dropdown-item"
+                            target="_blank"
+                            :class="{ active: isFrom === 'Study in China' }"
                             >Study in China</a
                         >
-                        <a href="/guides/cities" class="dropdown-item"
+                        <a
+                            href="/guides/cities"
+                            class="dropdown-item"
+                            target="_blank"
+                            :class="{ active: isFrom === 'Cities' }"
                             >Cities</a
                         >
-                        <a href="/guides/universities" class="dropdown-item"
+                        <a
+                            href="/guides/universities"
+                            class="dropdown-item"
+                            target="_blank"
+                            :class="{ active: isFrom === 'Universities' }"
                             >Universities</a
                         >
-                        <a href="/guides/scholarships" class="dropdown-item"
+                        <a
+                            href="/guides/scholarships"
+                            class="dropdown-item"
+                            target="_blank"
+                            :class="{ active: isFrom === 'Scholarships' }"
                             >Scholarships</a
                         >
                     </div>
                 </div>
                 <a
-                    href="#about"
+                    href="/about-us"
+                    target="_blank"
                     class="nav-link"
-                    :class="{ active: isFrom === 'About Us' }"
+                    :class="{ active: isFrom === 'AboutUs' }"
                     >About Us</a
                 >
                 <a
                     href="/apply-now"
                     class="nav-link"
-                    :class="{ active: isFrom === 'Apply Now' }"
+                    :class="{ active: isFrom === 'ApplyNow' }"
                     target="_blank"
                     >Apply Now</a
                 >
@@ -121,6 +147,26 @@ export default {
             }
         };
 
+        // 处理窗口失去焦点时关闭下拉菜单（解决iframe点击问题）
+        const handleWindowBlur = () => {
+            showGuidesDropdown.value = false;
+        };
+
+        // 处理鼠标离开header区域
+        const handleMouseLeave = () => {
+            // 使用短暂延迟，避免鼠标快速移动时意外关闭
+            setTimeout(() => {
+                if (showGuidesDropdown.value) {
+                    showGuidesDropdown.value = false;
+                }
+            }, 200);
+        };
+
+        // 鼠标进入header时取消关闭
+        const handleMouseEnter = () => {
+            // 这里可以用来取消延迟关闭，但由于我们使用setTimeout，这里主要是占位
+        };
+
         const headerStyle = {
             height: "90px",
             background:
@@ -130,21 +176,54 @@ export default {
         onMounted(() => {
             window.addEventListener("scroll", handleScroll);
             document.addEventListener("click", handleClickOutside);
+            window.addEventListener("blur", handleWindowBlur);
+
+            // 定期检查iframe是否被激活
+            const checkIframeInteraction = () => {
+                const iframes = document.querySelectorAll("iframe");
+                iframes.forEach((iframe) => {
+                    // 检查iframe是否获得焦点
+                    if (document.activeElement === iframe) {
+                        showGuidesDropdown.value = false;
+                    }
+
+                    // 监听iframe的鼠标进入事件
+                    iframe.addEventListener("mouseenter", () => {
+                        showGuidesDropdown.value = false;
+                    });
+                });
+            };
+
+            // 立即检查一次
+            checkIframeInteraction();
+
+            // 定期检查（每500ms）
+            const intervalId = setInterval(checkIframeInteraction, 500);
+
+            // 存储intervalId以便在组件卸载时清理
+            window.headerIntervalId = intervalId;
         });
 
         onUnmounted(() => {
             window.removeEventListener("scroll", handleScroll);
             document.removeEventListener("click", handleClickOutside);
+            window.removeEventListener("blur", handleWindowBlur);
+
+            // 清理定时器
+            if (window.headerIntervalId) {
+                clearInterval(window.headerIntervalId);
+                delete window.headerIntervalId;
+            }
         });
 
         return {
             isScrolled,
-
             showGuidesDropdown,
-
             toggleGuidesDropdown,
             headerStyle,
             dropdownRef,
+            handleMouseLeave,
+            handleMouseEnter,
         };
     },
 };
@@ -342,8 +421,14 @@ export default {
     font-weight: normal;
     margin: 0 10px;
     text-align: center;
+    cursor: pointer;
 
     &:hover {
+        background-color: #fffade;
+        font-weight: 500;
+        
+    }
+    &.active {
         background-color: #fffade;
         font-weight: 500;
     }
