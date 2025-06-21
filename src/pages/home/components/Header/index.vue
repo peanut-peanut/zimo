@@ -57,39 +57,44 @@
                         <a
                             href="/guides/study-in-china"
                             class="dropdown-item"
+                            target="_blank"
                             :class="{ active: isFrom === 'Study in China' }"
                             >Study in China</a
                         >
                         <a
                             href="/guides/cities"
                             class="dropdown-item"
+                            target="_blank"
                             :class="{ active: isFrom === 'Cities' }"
                             >Cities</a
                         >
                         <a
                             href="/guides/universities"
                             class="dropdown-item"
+                            target="_blank"
                             :class="{ active: isFrom === 'Universities' }"
                             >Universities</a
                         >
                         <a
                             href="/guides/scholarships"
                             class="dropdown-item"
+                            target="_blank"
                             :class="{ active: isFrom === 'Scholarships' }"
                             >Scholarships</a
                         >
                     </div>
                 </div>
                 <a
-                    href="#about"
+                    href="/about-us"
+                    target="_blank"
                     class="nav-link"
-                    :class="{ active: isFrom === 'About Us' }"
+                    :class="{ active: isFrom === 'AboutUs' }"
                     >About Us</a
                 >
                 <a
                     href="/apply-now"
                     class="nav-link"
-                    :class="{ active: isFrom === 'Apply Now' }"
+                    :class="{ active: isFrom === 'ApplyNow' }"
                     target="_blank"
                     >Apply Now</a
                 >

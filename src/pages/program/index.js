@@ -410,11 +410,7 @@ export const useProgram = () => {
     // 申请按钮点击
     const applyNow = (program) => {
         // 如果有programUrl，则打开该链接，否则跳转到申请页面
-        if (program && program.programUrl) {
-            window.open(program.programUrl, "_blank");
-        } else {
-            window.open(ROUTES.APPLYNOW, "_blank");
-        }
+        window.open(ROUTES.APPLYNOW, "_blank");
     };
 
     const goToGuides = () => {

@@ -5,7 +5,7 @@ import { ROUTES } from './routes'
 
 // 页面组件导入
 import Home from '../pages/home/index.vue'
-import About from '../pages/about/index.vue'
+import AboutUs from '../pages/about-us/index.vue'
 import Program from '../pages/program/index.vue'
 import SuccessfulCases from '../pages/successful-cases/index.vue'
 import ApplyNow from '../pages/apply-now/index.vue'
@@ -31,9 +31,9 @@ const routes = [
     meta: { title: 'home' }
   },
   {
-    path: ROUTES.ABOUT,
-    name: 'About',
-    component: About,
+    path: ROUTES.ABOUT_US,
+    name: 'AboutUs',
+    component: AboutUs,
     meta: { title: 'about-us' }
   },
   {

@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="apply-now-container" @click="goToGuides">
+        <div class="apply-now-container" @click="applyNow">
             <img src="/assets/image/Program/CommentIcon.png" alt="go-guides" />
         </div>
 
