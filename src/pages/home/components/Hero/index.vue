@@ -56,7 +56,7 @@
 
                 <!-- Popular Content -->
                 <div class="popular-content">
-                    <span class="popular-label">POPULAR CONTENT:</span>
+                    <div class="popular-label">POPULAR CONTENT:</div>
                     <div class="popular-tags">
                         <button
                             v-for="(tag, index) in popularTags"
@@ -96,7 +96,7 @@ export default {
                 // 保存搜索内容到store
                 searchStore.setSearchQuery(searchTerm.value);
                 //新开一个页面 跳转到Program页面
-                window.open(ROUTES.PROGRAM, '_blank');
+                window.open(ROUTES.PROGRAM, "_blank");
             }
         };
 
@@ -104,10 +104,10 @@ export default {
             searchTerm.value = tag;
             // 自动触发搜索
             searchStore.setSearchQuery(tag);
-            window.open(ROUTES.PROGRAM, '_blank');
+            window.open(ROUTES.PROGRAM, "_blank");
         };
 
-        const popularTags = ["peking university"];
+        const popularTags = ["MBBS", "Chinese language", "English"];
 
         return {
             searchTerm,
@@ -284,14 +284,17 @@ export default {
 }
 
 .popular-label {
+    width: 190px;
+    height: 25px;
     font-size: 18px;
     line-height: 22px;
     font-weight: 600;
-
     line-height: normal;
     text-transform: uppercase;
     letter-spacing: normal;
     color: #ffffff;
+    // 不换行
+    white-space: nowrap;
 }
 
 .popular-tags {
@@ -301,7 +304,8 @@ export default {
 }
 
 .popular-tag {
-    width: 175px;
+    width: fit-content;
+    padding: 8px 16px;
     height: 37px;
     border-radius: 209px;
     box-sizing: border-box;
@@ -313,10 +317,12 @@ export default {
     line-height: 18px;
     letter-spacing: normal;
     color: #ffffff;
+    cursor: pointer;
     &:hover {
         background: rgba(255, 255, 255, 0.3);
         border-color: rgba(255, 255, 255, 0.5);
         transform: translateY(-1px);
+        cursor: pointer;
     }
 }
 

@@ -34,7 +34,7 @@
                     target="_blank"
                     >Successful cases</a
                 >
-                <div class="nav-dropdown" ref="dropdownRef">
+                <div class="nav-dropdown" ref="dropdownRef" @mouseleave="showGuidesDropdown = false">
                     <a
                         href="#"
                         class="nav-link"
@@ -46,7 +46,7 @@
                                 'Scholarships',
                             ].includes(isFrom),
                         }"
-                        @click.prevent="toggleGuidesDropdown"
+                        @mouseenter="showGuidesDropdown = true"
                         >Guides</a
                     >
                     <div
@@ -381,7 +381,7 @@ export default {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(20px);
+    transform: translateX(-50%) translateY(5px);
     background: white;
     border-radius: 8px;
     //padding: 12px 0;

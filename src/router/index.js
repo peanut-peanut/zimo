@@ -82,7 +82,7 @@ const routes = [
     path: ROUTES.APPLYNOW,
     name: 'ApplyNow',
     component: ApplyNow,
-    meta: { title: 'apply-now' }
+    meta: { title: 'Start Your Application' }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -108,7 +108,7 @@ const router = createRouter({
 // 路由守卫 - 设置页面标题
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = `${to.meta.title} - ZIMO`
+    document.title = `ZIMO - ${to.meta.title}`
   }
   next()
 })

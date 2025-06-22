@@ -48,7 +48,7 @@ export const mainRoutes = [
   {
     path: ROUTES.APPLYNOW,
     exact: true,
-    title: 'Apply Now',
+    title: 'Start Your Application',
   },
 ]
 

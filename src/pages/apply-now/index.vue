@@ -1,8 +1,6 @@
 <template>
     <div class="apply-now-container">
-        <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
-        </div>
+        <Header isFrom="ApplyNow" />
 
         <img
             src="/assets/image/ApplyNow/ApplyNowBackground.png"
@@ -323,12 +321,14 @@ import {
 } from "libphonenumber-js";
 import metadata from "libphonenumber-js/metadata.min.json";
 import ScanQrcode from "@/components/ScanQrcode/index.vue";
-import { apiPost } from '@/utils/api.js';
+import { apiPost } from "@/utils/api.js";
+import Header from "@/pages/home/components/Header/index.vue";
 
 export default {
     name: "ApplyNow",
     components: {
         ScanQrcode,
+        Header,
     },
     setup() {
         // 获取所有支持的国家代码
@@ -442,7 +442,7 @@ export default {
         const degreeOptions = [
             { value: "bachelor", label: "Bachelor" },
             { value: "master", label: "Master" },
-            { value: "doctoral", label: "Doctoral" },
+            { value: "PHD", label: "PHD" },
             { value: "none degree", label: "None Degree" },
         ];
 
@@ -614,15 +614,15 @@ export default {
                     age: parseInt(form.age),
                     gpa_level: form.gpa,
                     target_degree: form.targetDegree.toLowerCase(),
-                    target_major: form.targetMajor
+                    target_major: form.targetMajor,
                 };
 
                 console.log("提交数据:", apiData);
 
                 // 发送API请求
-                const result = await apiPost('/api/course/apply', apiData);
+                const result = await apiPost("/api/course/apply", apiData);
                 console.log("提交成功:", result);
-                
+
                 // 显示二维码弹窗
                 showQrcodeModal.value = true;
             } catch (error) {

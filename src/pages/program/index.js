@@ -3,7 +3,7 @@ import { searchStore } from "../../store/searchStore";
 import { ROUTES } from "../../router/routes";
 
 // 筛选选项数据
-export const degrees = ["Bachelor", "Master", "Doctoral"];
+export const degrees = ["Bachelor", "Master", "PHD"];
 export const languages = ["Chinese", "English"];
 // 将cities改为响应式数据，从API获取
 export const cities = ref([]);
