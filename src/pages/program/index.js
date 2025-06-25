@@ -22,7 +22,7 @@ export const startDates = [
 ];
 
 // 导入API工具函数
-import { apiGet, apiPost } from '@/utils/api.js';
+import { apiGet, apiPost } from "@/utils/api.js";
 
 // 获取城市数据的函数
 export const fetchCities = async () => {
@@ -99,29 +99,26 @@ export const processApiResponse = (response) => {
         return [];
     }
 
-    // 处理大学数据
+    // 处理课程数据
     const processedData = [];
 
-    response.data.forEach((university) => {
-        // 对每个大学的课程进行处理
-        university.courses.forEach((course) => {
-            processedData.push({
-                id: course.course_id,
-                title: course.course_name,
-                university: university.university_name,
-                hasScholarship: false, // API中没有奖学金信息，默认为false
-                startDate: course.starting_date || "N/A",
-                duration: course.duration || "N/A",
-                deadline: formatDate(course.application_deadline) || "N/A",
-                language: course.language || "N/A",
-                city: university.city || "N/A",
-                tuitionFee: course.yearly_tuition || 0,
-                logoUrl:
-                    university.logo_url ||
-                    "/assets/image/Program/UniversityIcon.png",
-                degree: formatDegree(course.degree),
-                programUrl: course.program_url,
-            });
+    // 新的API结构直接返回课程列表，不再按大学嵌套
+    response.data.forEach((course) => {
+        processedData.push({
+            id: course.course_id,
+            title: course.course_name,
+            university: course.university_name,
+            hasScholarship: false, // API中没有奖学金信息，默认为false
+            startDate: course.starting_date || "N/A",
+            duration: course.duration || "N/A",
+            deadline: formatDate(course.application_deadline) || "N/A",
+            language: course.language || "N/A",
+            city: course.city || "N/A",
+            tuitionFee: course.yearly_tuition || 0,
+            logoUrl:
+                course.logo_url || "/assets/image/Program/UniversityIcon.png",
+            degree: formatDegree(course.degree),
+            programUrl: course.program_url,
         });
     });
 
@@ -409,7 +406,6 @@ export const useProgram = () => {
 
     // 申请按钮点击
     const applyNow = (program) => {
-        // 如果有programUrl，则打开该链接，否则跳转到申请页面
         window.open(ROUTES.APPLYNOW, "_blank");
     };
 

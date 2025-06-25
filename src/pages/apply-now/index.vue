@@ -192,7 +192,7 @@
                                     <div
                                         v-for="gpa in gpaOptions"
                                         :key="gpa.value"
-                                        class="select-option"
+                                        class="select-option gpa-select-option"
                                         @click="selectGpa(gpa.value)"
                                     >
                                         {{ gpa.value }}
@@ -290,7 +290,14 @@
         <div v-if="showQrcodeModal" class="qrcode-modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title">
+                    <div class="modal-icon">
+                        <img
+                            src="/assets/image/ApplyNow/SuccessIcon.png"
+                            alt="Students studying together"
+                        />
+                    </div>
+                    <div class="modal-title">Submission successful</div>
+                    <div class="modal-description">
                         Scan the QR code to get one-on-one application services
                     </div>
                 </div>
@@ -934,6 +941,9 @@ export default {
         border-bottom: none;
     }
 }
+.gpa-select-option {
+    font-size: 14px;
+}
 
 .country-select-options {
     padding: 10px 0;
@@ -1055,7 +1065,7 @@ export default {
 
 .modal-content {
     width: 665px;
-    height: 366px;
+    height: 500px;
     background: #ffffff;
     border-radius: 12px;
     padding: 40px 55px;
@@ -1066,21 +1076,42 @@ export default {
 
 .modal-header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-bottom: 30px;
+}
+.modal-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+.modal-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .modal-title {
     font-family: PingFang SC;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 500;
     line-height: 24px;
     text-align: center;
     letter-spacing: normal;
-    color: #333333;
+    color: #2e4057;
+    margin-bottom: 10px;
 }
-
+.modal-description {
+    font-family: PingFang SC;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: normal;
+    color: #2e4057;
+}
 .close-button {
     position: absolute;
     right: 15px;

@@ -354,7 +354,70 @@
                     :key="program.id"
                     class="program-card"
                 >
-                    <div class="program-header">
+                    <div class="program-card-left">
+                        <img :src="program.logoUrl" :alt="program.university" />
+                    </div>
+
+                    <div class="program-card-right">
+                        <div class="program-header">
+                            <div class="program-title">{{ program.title }}</div>
+                            <div class="apply-button">
+                                <button @click="applyNow(program)">
+                                    APPLY NOW
+                                </button>
+                            </div>
+                        </div>
+                        <div class="university-name">
+                            {{ program.university }}
+                        </div>
+
+                        <div class="program-item-container">
+                            <div class="program-item starting-date">
+                                <div class="program-item-label text-left">
+                                    Starting Date
+                                </div>
+                                <div class="program-item-value text-left">
+                                    {{ program.startDate }}
+                                </div>
+                            </div>
+                            <div class="program-item">
+                                <div class="program-item-label">Duration</div>
+                                <div class="program-item-value">
+                                    {{ program.duration }}
+                                </div>
+                            </div>
+                            <div class="program-item application-deadline">
+                                <div class="program-item-label">
+                                    Application Deadline
+                                </div>
+                                <div class="program-item-value">
+                                    {{ program.deadline }}
+                                </div>
+                            </div>
+                            <div class="program-item">
+                                <div class="program-item-label">Language</div>
+                                <div class="program-item-value">
+                                    {{ program.language }}
+                                </div>
+                            </div>
+                            <div class="program-item">
+                                <div class="program-item-label">City</div>
+                                <div class="program-item-value">
+                                    {{ program.city }}
+                                </div>
+                            </div>
+                            <div class="program-item fee">
+                                <div class="program-item-label">
+                                    Tuition Fee (USD)
+                                </div>
+                                <div class="program-item-value">
+                                    {{ program.tuitionFee }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="program-header">
                         <div class="program-logo">
                             <img
                                 :src="program.logoUrl"
@@ -402,7 +465,7 @@
                                 {{ program.tuitionFee.toLocaleString() }}
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- 分页 - 只在有内容时显示 -->
