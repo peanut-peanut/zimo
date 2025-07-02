@@ -30,14 +30,6 @@
                 <p class="small-text">或者您可以尝试退出无痕模式后再访问此页面</p>
                 <button @click="isIncognito = false" class="retry-button">尝试加载文档</button>
             </div>
-
-            <!-- 开发测试用按钮 -->
-            <button 
-                class="toggle-incognito-button" 
-                @click="isIncognito = !isIncognito"
-            >
-                {{ isIncognito ? '切换到普通模式' : '切换到无痕模式' }}
-            </button>
         </div>
     </div>
 </template>
@@ -250,24 +242,6 @@ export default {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-}
-
-.toggle-incognito-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px;
-    background: #333;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    z-index: 100;
-    opacity: 0.7;
-}
-
-.toggle-incognito-button:hover {
-    opacity: 1;
 }
 
 // 响应式设计
