@@ -3,32 +3,22 @@
         <Header isFrom="Scholarships" />
         
         <div class="content-container">
-            <div v-if="!isIncognito" class="iframe-wrapper">
+            <div class="iframe-wrapper">
+                <div v-if="!iframeLoaded" class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>
                 <iframe 
                     src="https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf"
                     class="feishu-iframe"
                     frameborder="0"
                     allowfullscreen
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                    loading="lazy"
-                    @load="checkIframeLoaded"
-                    @error="handleIframeError"
-                    ref="iframe"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads"
+                    importance="high"
+                    loading="eager"
+                    ref="docIframe"
+                    @load="onIframeLoad"
                 />
-            </div>
-            <div v-else class="incognito-warning">
-                <div class="warning-icon">!</div>
-                <h2>您正在使用无痕浏览模式</h2>
-                <p>在无痕浏览模式下，Lark文档可能无法正常加载</p>
-                <a 
-                    href="https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf" 
-                    target="_blank" 
-                    class="open-new-window"
-                >
-                    点击此处在新窗口中查看文档
-                </a>
-                <p class="small-text">或者您可以尝试退出无痕模式后再访问此页面</p>
-                <button @click="isIncognito = false" class="retry-button">尝试加载文档</button>
             </div>
         </div>
     </div>
@@ -36,6 +26,9 @@
 
 <script>
 import Header from "../home/components/Header/index.vue";
+
+const DOC_URL = "https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf";
+
 export default {
     name: "Scholarships",
     components: {
@@ -43,111 +36,40 @@ export default {
     },
     data() {
         return {
-            isIncognito: false,
-            loadingTimeout: null,
-            redirectCount: 0,
-            maxRedirects: 5
+            iframeLoaded: false,
+            timeoutId: null
         };
     },
     mounted() {
-        this.detectIncognito();
-        this.setupRedirectMonitor();
-    },
-    beforeUnmount() {
-        if (this.loadingTimeout) {
-            clearTimeout(this.loadingTimeout);
-        }
+        // 预加载文档
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = DOC_URL;
+        link.as = 'document';
+        document.head.appendChild(link);
+        
+        // 设置超时检测 iframe 是否成功加载
+        this.timeoutId = setTimeout(() => {
+            if (!this.iframeLoaded) {
+                console.log("iframe加载超时，直接跳转");
+                window.location.href = DOC_URL;
+            }
+        }, 6000);
     },
     methods: {
-        detectIncognito() {
-            // 更可靠的无痕模式检测方法
-            const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
-            
-            // 检测方法1：文件系统API
-            if (fs) {
-                fs(window.TEMPORARY, 100, 
-                    () => {
-                        // 能够成功创建临时文件系统，可能不是无痕模式
-                        console.log('文件系统可用，不是无痕模式');
-                    }, 
-                    () => {
-                        // 无法创建文件系统，可能是无痕模式
-                        console.log('文件系统不可用，可能是无痕模式');
-                        this.isIncognito = true;
-                    }
-                );
-            }
-            
-            // 检测方法2：使用localStorage并检查异常类型
-            try {
-                localStorage.setItem('test', 'test');
-                // 在Chrome无痕模式下，可以写入但不会保存
-                const testValue = localStorage.getItem('test');
-                if (!testValue) {
-                    this.isIncognito = true;
-                }
-                localStorage.removeItem('test');
-            } catch (e) {
-                // 某些错误类型表明是无痕模式
-                if (e.name === 'QuotaExceededError' || 
-                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || 
-                    e.message.includes('exceeded')) {
-                    this.isIncognito = true;
-                }
-            }
-            
-            // 检测方法3：Cookie可用性测试
-            const cookieEnabled = navigator.cookieEnabled;
-            if (!cookieEnabled) {
-                this.isIncognito = true;
+        onIframeLoad() {
+            console.log("iframe加载成功");
+            this.iframeLoaded = true;
+            // 清除超时计时器
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId);
             }
         },
-        
-        setupRedirectMonitor() {
-            // 设置超时检查，如果iframe加载时间过长，可能是遇到了重定向问题
-            this.loadingTimeout = setTimeout(() => {
-                if (this.$refs.iframe && !this.isIncognito) {
-                    try {
-                        // 尝试访问iframe内容，如果出错说明可能受到跨域限制或重定向问题
-                        const iframeDoc = this.$refs.iframe.contentWindow.document;
-                        console.log('Iframe loaded successfully');
-                    } catch (e) {
-                        console.log('Iframe access error, possible redirect or CORS issue', e);
-                        this.isIncognito = true;
-                    }
-                }
-            }, 5000);
-        },
-        
-        checkIframeLoaded() {
-            if (this.loadingTimeout) {
-                clearTimeout(this.loadingTimeout);
-            }
-            
-            // 检查iframe是否加载到正确内容
-            try {
-                const iframeWindow = this.$refs.iframe.contentWindow;
-                const iframeLocation = iframeWindow.location.href;
-                
-                // 如果重定向到了其他页面（比如登录页或首页），则判定为无痕模式问题
-                if (!iframeLocation.includes('BTcQdwY4foASJqx9vV2lWLrjglf')) {
-                    console.log('Iframe redirected to another page', iframeLocation);
-                    this.isIncognito = true;
-                }
-            } catch (e) {
-                // 如果出现跨域错误，很可能是重定向导致的
-                console.log('Cross-origin error, possible redirect issue', e);
-                this.redirectCount++;
-                
-                if (this.redirectCount > this.maxRedirects) {
-                    this.isIncognito = true;
-                }
-            }
-        },
-        
-        handleIframeError() {
-            console.log('Iframe loading error');
-            this.isIncognito = true;
+    },
+    beforeUnmount() {
+        // 组件销毁前清除计时器
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
         }
     }
 };
@@ -156,7 +78,6 @@ export default {
 <style lang="less" scoped>
 .scholarships-container {
     width: 100%;
-    //min-height: 100vh;
     overflow: hidden;
     background: #f8f9fa;
 }
@@ -175,6 +96,7 @@ export default {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background: white;
+    position: relative;
 }
 
 .feishu-iframe {
@@ -184,64 +106,38 @@ export default {
     border-radius: 8px;
 }
 
-.incognito-warning {
+.loading-container {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 40px 20px;
-    text-align: center;
+    align-items: center;
+    background-color: white;
+    z-index: 10;
 }
 
-.warning-icon {
-    width: 60px;
-    height: 60px;
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #ff6b35;
     border-radius: 50%;
-    background-color: #FF6B35;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-weight: bold;
+    animation: spin 1s linear infinite;
     margin-bottom: 20px;
 }
 
-.open-new-window {
-    display: inline-block;
-    margin: 20px 0 10px;
-    padding: 12px 24px;
-    background-color: #FF6B35;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
+.loading-text {
+    font-size: 18px;
+    color: #333;
 }
 
-.open-new-window:hover {
-    background-color: #e85a24;
-}
-
-.small-text {
-    font-size: 14px;
-    color: #666;
-    margin: 10px 0;
-}
-
-.retry-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 // 响应式设计
@@ -251,9 +147,19 @@ export default {
         width: 150px;
         height: 41px;
     }
-    
+
     .content-container {
         padding: 10px;
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 4px;
+    }
+    
+    .loading-text {
+        font-size: 16px;
     }
 }
 </style>
