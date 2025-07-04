@@ -4,17 +4,12 @@
         
         <div class="content-container">
             <div class="iframe-wrapper">
-                <div v-if="!iframeLoaded" class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p class="loading-text">Loading...</p>
-                </div>
                 <iframe 
                     src="https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf"
                     class="feishu-iframe"
                     frameborder="0"
                     allowfullscreen
                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads"
-                    importance="high"
                     loading="eager"
                     ref="docIframe"
                     @load="onIframeLoad"
@@ -37,7 +32,9 @@ export default {
     data() {
         return {
             iframeLoaded: false,
-            timeoutId: null
+            timeoutId: null,
+            loadTriggered: false,
+            checkIntervalId: null,
         };
     },
     mounted() {
@@ -48,28 +45,122 @@ export default {
         link.as = 'document';
         document.head.appendChild(link);
         
-        // 设置超时检测 iframe 是否成功加载
-        this.timeoutId = setTimeout(() => {
-            if (!this.iframeLoaded) {
-                console.log("iframe加载超时，直接跳转");
-                window.location.href = DOC_URL;
-            }
-        }, 6000);
+        // 开始倒计时
+        this.startCountdown();
+        
+        // 开始定时检查iframe内容
+        this.startContentCheck();
     },
     methods: {
-        onIframeLoad() {
-            console.log("iframe加载成功");
-            this.iframeLoaded = true;
-            // 清除超时计时器
-            if (this.timeoutId) {
-                clearTimeout(this.timeoutId);
+        startCountdown() {
+            this.timeoutId = setTimeout(() => {
+                if (!this.loadTriggered) {
+                    console.log("3秒内未触发load事件，执行跳转");
+                    window.location.href = DOC_URL;
+                }
+            }, 3000);
+        },
+        
+        startContentCheck() {
+            // 每100毫秒检查一次iframe内容
+            this.checkIntervalId = setInterval(() => {
+                if (!this.loadTriggered) {
+                    this.checkIframeContent();
+                }
+            }, 100);
+        },
+        
+        checkIframeContent() {
+            try {
+                const iframe = this.$refs.docIframe;
+                if (iframe && iframe.contentDocument) {
+                    const doc = iframe.contentDocument;
+                    
+                    // 检查多个可能的元素来判断页面是否加载完成
+                    const indicators = [
+                        '.editor-container',
+                        '.navigation-bar-wrapper', 
+                        '.doc-content',
+                        '.feishu-doc',
+                        '[data-testid="doc-content"]',
+                        'body > div:not([style*="display: none"])'
+                    ];
+                    
+                    for (const selector of indicators) {
+                        const element = doc.querySelector(selector);
+                        if (element) {
+                            console.log(`检测到页面元素: ${selector}，页面加载完成`);
+                            this.markAsLoaded();
+                            return;
+                        }
+                    }
+                    
+                    // 检查body内容是否有实际内容
+                    const body = doc.body;
+                    if (body && body.children.length > 0) {
+                        // 检查是否有可见的内容
+                        const hasVisibleContent = Array.from(body.children).some(child => {
+                            const style = window.getComputedStyle(child);
+                            return style.display !== 'none' && style.visibility !== 'hidden';
+                        });
+                        
+                        if (hasVisibleContent) {
+                            console.log("检测到页面有可见内容，页面加载完成");
+                            this.markAsLoaded();
+                            return;
+                        }
+                    }
+                } else {
+                    // 如果无法访问iframe内容，检查iframe本身的状态
+                    const iframe = this.$refs.docIframe;
+                    if (iframe && iframe.contentWindow) {
+                        console.log("iframe内容无法访问但iframe存在，可能是跨域限制");
+                        // 延迟一点再标记为加载完成，给iframe更多时间
+                        setTimeout(() => {
+                            if (!this.loadTriggered) {
+                                console.log("iframe存在但内容无法访问，标记为加载完成");
+                                this.markAsLoaded();
+                            }
+                        }, 2000);
+                    }
+                }
+            } catch (e) {
+                console.log("检查iframe内容出错:", e);
             }
+        },
+        
+        markAsLoaded() {
+            if (!this.loadTriggered) {
+                console.log("页面加载完成，取消倒计时");
+                this.loadTriggered = true;
+                this.iframeLoaded = true;
+                
+                // 清除倒计时
+                if (this.timeoutId) {
+                    clearTimeout(this.timeoutId);
+                    this.timeoutId = null;
+                }
+                
+                // 清除定时检查
+                if (this.checkIntervalId) {
+                    clearInterval(this.checkIntervalId);
+                    this.checkIntervalId = null;
+                }
+            }
+        },
+        
+        onIframeLoad() {
+            console.log("iframe load事件触发");
+            this.markAsLoaded();
         },
     },
     beforeUnmount() {
         // 组件销毁前清除计时器
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
+        }
+        if (this.checkIntervalId) {
+            clearInterval(this.checkIntervalId);
         }
     }
 };
@@ -83,9 +174,9 @@ export default {
 }
 
 .content-container {
-    margin-top: -30px; // 遮挡顶部导航栏
+    margin-top: -30px; /* 遮挡顶部导航栏 */
     padding: 20px;
-    height: calc(100vh + 30px); // 加上遮挡顶部导航栏的高度
+    height: calc(100vh + 30px); /* 加上遮挡顶部导航栏的高度 */
     position: relative;
 }
 
@@ -106,41 +197,7 @@ export default {
     border-radius: 8px;
 }
 
-.loading-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    z-index: 10;
-}
-
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #ff6b35;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 20px;
-}
-
-.loading-text {
-    font-size: 18px;
-    color: #333;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-// 响应式设计
+/* 响应式设计 */
 @media (max-width: 768px) {
     .logo {
         left: 20px;
@@ -150,16 +207,6 @@ export default {
 
     .content-container {
         padding: 10px;
-    }
-    
-    .loading-spinner {
-        width: 40px;
-        height: 40px;
-        border-width: 4px;
-    }
-    
-    .loading-text {
-        font-size: 16px;
     }
 }
 </style>
