@@ -59,7 +59,7 @@ export default {
                     console.log("6.5秒内未触发load事件，执行跳转");
                     window.location.href = DOC_URL;
                 }
-            }, 5500);
+            }, 10000);
         },
         
         startContentCheck() {
