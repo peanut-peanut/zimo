@@ -34,7 +34,7 @@
                     target="_blank"
                     >Successful cases</a
                 >
-                <div class="nav-dropdown" ref="dropdownRef" @mouseleave="showGuidesDropdown = false">
+                <div class="nav-dropdown" ref="dropdownRef">
                     <a
                         href="#"
                         class="nav-link"
@@ -46,12 +46,15 @@
                                 'Scholarships',
                             ].includes(isFrom),
                         }"
-                        @mouseenter="showGuidesDropdown = true"
+                        @mouseenter="handleDropdownEnter"
+                        @mouseleave="handleDropdownLeave"
                         >Guides</a
                     >
                     <div
                         v-if="showGuidesDropdown"
                         class="dropdown-menu"
+                        @mouseenter="handleDropdownEnter"
+                        @mouseleave="handleDropdownLeave"
                         @click.stop
                     >
                         <a
@@ -147,24 +150,23 @@ export default {
             }
         };
 
-        // 处理窗口失去焦点时关闭下拉菜单（解决iframe点击问题）
-        const handleWindowBlur = () => {
+        const handleDropdownEnter = () => {
+            showGuidesDropdown.value = true;
+        };
+
+        const handleDropdownLeave = () => {
             showGuidesDropdown.value = false;
         };
 
         // 处理鼠标离开header区域
         const handleMouseLeave = () => {
-            // 使用短暂延迟，避免鼠标快速移动时意外关闭
-            setTimeout(() => {
-                if (showGuidesDropdown.value) {
-                    showGuidesDropdown.value = false;
-                }
-            }, 200);
+            // 简化逻辑，直接关闭下拉框
+            showGuidesDropdown.value = false;
         };
 
-        // 鼠标进入header时取消关闭
+        // 鼠标进入header时的处理
         const handleMouseEnter = () => {
-            // 这里可以用来取消延迟关闭，但由于我们使用setTimeout，这里主要是占位
+            // 保持当前状态，不做额外操作
         };
 
         const headerStyle = {
@@ -176,44 +178,11 @@ export default {
         onMounted(() => {
             window.addEventListener("scroll", handleScroll);
             document.addEventListener("click", handleClickOutside);
-            window.addEventListener("blur", handleWindowBlur);
-
-            // 定期检查iframe是否被激活
-            const checkIframeInteraction = () => {
-                const iframes = document.querySelectorAll("iframe");
-                iframes.forEach((iframe) => {
-                    // 检查iframe是否获得焦点
-                    if (document.activeElement === iframe) {
-                        showGuidesDropdown.value = false;
-                    }
-
-                    // 监听iframe的鼠标进入事件
-                    iframe.addEventListener("mouseenter", () => {
-                        showGuidesDropdown.value = false;
-                    });
-                });
-            };
-
-            // 立即检查一次
-            checkIframeInteraction();
-
-            // 定期检查（每500ms）
-            const intervalId = setInterval(checkIframeInteraction, 500);
-
-            // 存储intervalId以便在组件卸载时清理
-            window.headerIntervalId = intervalId;
         });
 
         onUnmounted(() => {
             window.removeEventListener("scroll", handleScroll);
             document.removeEventListener("click", handleClickOutside);
-            window.removeEventListener("blur", handleWindowBlur);
-
-            // 清理定时器
-            if (window.headerIntervalId) {
-                clearInterval(window.headerIntervalId);
-                delete window.headerIntervalId;
-            }
         });
 
         return {
@@ -224,6 +193,8 @@ export default {
             dropdownRef,
             handleMouseLeave,
             handleMouseEnter,
+            handleDropdownEnter,
+            handleDropdownLeave,
         };
     },
 };
@@ -358,6 +329,18 @@ export default {
 .nav-dropdown {
     position: relative;
     display: inline-block;
+    
+    // 扩大hover区域，减少意外关闭
+    &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: -20px;
+        right: -20px;
+        height: 10px;
+        background: transparent;
+        z-index: 99;
+    }
 }
 
 .dropdown-trigger {
@@ -381,16 +364,17 @@ export default {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(5px);
+    transform: translateX(-50%) translateY(4px);
     background: white;
     border-radius: 8px;
-    //padding: 12px 0;
     min-width: 190px;
     z-index: 100;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.2s ease;
 
     background: #ffffff;
     box-sizing: border-box;
-    /* grey 03 */
     border: 1px solid #dbdfec;
     box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
         5px 5px 10px 0px rgba(190, 190, 190, 0.25);

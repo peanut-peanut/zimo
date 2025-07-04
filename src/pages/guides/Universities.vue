@@ -56,10 +56,10 @@ export default {
         startCountdown() {
             this.timeoutId = setTimeout(() => {
                 if (!this.loadTriggered) {
-                    console.log("3秒内未触发load事件，执行跳转");
+                    console.log("4.5秒内未触发load事件，执行跳转");
                     window.location.href = DOC_URL;
                 }
-            }, 3000);
+            }, 4500);
         },
         
         startContentCheck() {
