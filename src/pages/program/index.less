@@ -335,6 +335,12 @@
     letter-spacing: normal;
     color: #2e4057;
     margin-bottom: 7px;
+    // 最多两行，超过省略号
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .apply-button {

@@ -60,6 +60,7 @@
                 </template>
             </Suspense>
         </div>
+        <Footer />
     </div>
 </template>
 
@@ -84,6 +85,9 @@ const Partners = defineAsyncComponent(() =>
 );
 const JoinUs = defineAsyncComponent(() =>
     import("./components/JoinUs/index.vue")
+);
+const Footer = defineAsyncComponent(() =>
+    import("./components/Footer/index.vue")
 );
 
 // 加载占位组件
@@ -112,6 +116,7 @@ export default {
         LocationContact,
         Partners,
         JoinUs,
+        Footer,
         LoadingComponent,
     },
     setup() {
