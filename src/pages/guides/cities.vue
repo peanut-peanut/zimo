@@ -21,6 +21,7 @@
 
 <script>
 import Header from "../home/components/Header/index.vue";
+import { isMobileDevice } from "../../utils/common.js";
 
 const DOC_URL =
     "https://kfk0ae7phot.sg.larksuite.com/docx/W2SWd1mlgotFZvxEQFSloiY7gFb";
@@ -39,6 +40,13 @@ export default {
         };
     },
     mounted() {
+        // 移动端检测：如果是移动端，直接跳转到文档
+        if (isMobileDevice()) {
+            console.log("检测到移动端设备，直接跳转到文档");
+            window.location.href = DOC_URL;
+            return;
+        }
+
         // 预加载文档
         const link = document.createElement("link");
         link.rel = "preload";
@@ -59,7 +67,7 @@ export default {
                     console.log("6.5秒内未触发load事件，执行跳转");
                     window.location.href = DOC_URL;
                 }
-            }, 5500);
+            }, 10000);
         },
         
         startContentCheck() {
