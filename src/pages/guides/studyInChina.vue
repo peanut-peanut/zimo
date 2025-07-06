@@ -21,7 +21,7 @@
 
 <script>
 import Header from "../home/components/Header/index.vue";
-import { isMobileDevice } from "../../utils/common.js";
+import { isMobileDevice } from "@/utils/common.js";;
 
 const DOC_URL =
     "https://kfk0ae7phot.sg.larksuite.com/docx/G3vDdQIAhoIIyjxCW6ilQMqagAg";

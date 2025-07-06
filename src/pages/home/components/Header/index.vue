@@ -58,30 +58,26 @@
                         @click.stop
                     >
                         <a
-                            href="/guides/study-in-china"
+                            @click="handleGuideClick('study-in-china')"
                             class="dropdown-item"
-                            target="_blank"
                             :class="{ active: isFrom === 'Study in China' }"
                             >Study in China</a
                         >
                         <a
-                            href="/guides/cities"
+                            @click="handleGuideClick('cities')"
                             class="dropdown-item"
-                            target="_blank"
                             :class="{ active: isFrom === 'Cities' }"
                             >Cities</a
                         >
                         <a
-                            href="/guides/universities"
+                            @click="handleGuideClick('universities')"
                             class="dropdown-item"
-                            target="_blank"
                             :class="{ active: isFrom === 'Universities' }"
                             >Universities</a
                         >
                         <a
-                            href="/guides/scholarships"
+                            @click="handleGuideClick('scholarships')"
                             class="dropdown-item"
-                            target="_blank"
                             :class="{ active: isFrom === 'Scholarships' }"
                             >Scholarships</a
                         >
@@ -108,6 +104,7 @@
 
 <script>
 import { ref, onMounted, onUnmounted } from "vue";
+import { isMobileDevice } from "@/utils/common.js";
 
 export default {
     name: "Header",
@@ -123,6 +120,14 @@ export default {
 
         const showGuidesDropdown = ref(false);
         const dropdownRef = ref(null);
+
+        // 文档URL映射
+        const docUrls = {
+            'study-in-china': 'https://kfk0ae7phot.sg.larksuite.com/docx/G3vDdQIAhoIIyjxCW6ilQMqagAg',
+            'cities': 'https://kfk0ae7phot.sg.larksuite.com/docx/W2SWd1mlgotFZvxEQFSloiY7gFb',
+            'universities': 'https://kfk0ae7phot.sg.larksuite.com/docx/BRT4dRFenoXmKzxfrsklAY9XgAd',
+            'scholarships': 'https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf'
+        };
 
         const handleScroll = () => {
             // 获取Hero组件的高度 (100vh)
@@ -169,6 +174,27 @@ export default {
             // 保持当前状态，不做额外操作
         };
 
+        const handleGuideClick = (guide) => {
+            // 关闭下拉菜单
+            showGuidesDropdown.value = false;
+            
+            if (isMobileDevice()) {
+                // 移动端：直接跳转到文档地址
+                const docUrl = docUrls[guide];
+                if (docUrl) {
+                    console.log(`移动端检测到，直接跳转到文档: ${docUrl}`);
+                    window.open(docUrl, '_blank');
+                } else {
+                    console.error(`未找到对应的文档URL: ${guide}`);
+                }
+            } else {
+                // 桌面端：跳转到guides页面
+                const guideUrl = `/guides/${guide}`;
+                console.log(`桌面端检测到，跳转到guides页面: ${guideUrl}`);
+                window.open(guideUrl, '_blank');
+            }
+        };
+
         const headerStyle = {
             height: "90px",
             background:
@@ -195,6 +221,7 @@ export default {
             handleMouseEnter,
             handleDropdownEnter,
             handleDropdownLeave,
+            handleGuideClick,
         };
     },
 };
