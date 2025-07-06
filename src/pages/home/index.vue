@@ -184,6 +184,11 @@ export default {
     },
     setup() {
         let observer = null;
+        
+        // 立即回到顶部，在组件初始化时就执行
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
 
         // 简化的淡入动画 - 容器和内部文字都有效果
         const initFadeInAnimations = () => {
@@ -248,6 +253,18 @@ export default {
         };
 
         onMounted(() => {
+            // 刷新页面时回到最顶部 - 使用多种方式确保到达顶部
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            
+            // 延迟再次确保回到顶部，防止其他组件影响
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            }, 100);
+            
             // 设置页面标题和meta信息
             document.title = "ZIMO - study in china";
 
