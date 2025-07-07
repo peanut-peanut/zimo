@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // 如果OSS静态网站配置无法正常工作，可以改用Hash路由模式
 // import { createRouter, createWebHashHistory } from 'vue-router'
 import { ROUTES } from './routes'
+import baiduAnalytics from '../utils/baidu-analytics'
 
 // 页面组件导入
 import Home from '../pages/home/index.vue'
@@ -105,12 +106,33 @@ const router = createRouter({
   }
 })
 
-// 路由守卫 - 设置页面标题
+// 路由守卫 - 设置页面标题和百度统计上报
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = `ZIMO - ${to.meta.title}`
   }
   next()
+})
+
+// 路由后置守卫 - 百度统计PV上报
+router.afterEach((to, from) => {
+  // 使用百度统计工具类进行上报
+  baiduAnalytics.trackPageView(to.fullPath)
+  
+  // 上报路由切换事件
+  baiduAnalytics.trackEvent('navigation', 'route_change', to.name || to.path, 1)
+  
+  // 上报页面信息
+  if (to.meta.title) {
+    baiduAnalytics.trackEvent('page_info', 'page_title', to.meta.title, 1)
+  }
+  
+  console.log('页面访问上报:', {
+    path: to.fullPath,
+    name: to.name,
+    title: to.meta.title,
+    from: from.fullPath
+  })
 })
 
 export default router 

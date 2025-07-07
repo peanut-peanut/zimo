@@ -17,6 +17,7 @@
                     href="/"
                     class="nav-link"
                     :class="{ active: isFrom === 'Home' }"
+                    @click="handleNavClick('Home', '/')"
                     >Home</a
                 >
                 <a
@@ -24,6 +25,7 @@
                     class="nav-link"
                     target="_blank"
                     :class="{ active: isFrom === 'Program' }"
+                    @click="handleNavClick('Program', '/program')"
                     >Program</a
                 >
 
@@ -32,6 +34,7 @@
                     class="nav-link"
                     :class="{ active: isFrom === 'successful-cases' }"
                     target="_blank"
+                    @click="handleNavClick('Successful Cases', '/successful-cases')"
                     >Successful cases</a
                 >
                 <div class="nav-dropdown" ref="dropdownRef">
@@ -48,6 +51,7 @@
                         }"
                         @mouseenter="handleDropdownEnter"
                         @mouseleave="handleDropdownLeave"
+                        @click="handleNavClick('Guides', '#')"
                         >Guides</a
                     >
                     <div
@@ -88,6 +92,7 @@
                     target="_blank"
                     class="nav-link"
                     :class="{ active: isFrom === 'AboutUs' }"
+                    @click="handleNavClick('About Us', '/about-us')"
                     >About Us</a
                 >
                 <a
@@ -95,6 +100,7 @@
                     class="nav-link"
                     :class="{ active: isFrom === 'ApplyNow' }"
                     target="_blank"
+                    @click="handleNavClick('Apply Now', '/apply-now')"
                     >Apply Now</a
                 >
             </nav>
@@ -105,6 +111,7 @@
 <script>
 import { ref, onMounted, onUnmounted } from "vue";
 import { isMobileDevice } from "@/utils/common.js";
+import baiduAnalytics from "@/utils/baidu-analytics";
 
 export default {
     name: "Header",
@@ -174,15 +181,25 @@ export default {
             // 保持当前状态，不做额外操作
         };
 
+        const handleNavClick = (navName, navUrl) => {
+            // 上报导航点击事件
+            baiduAnalytics.trackLinkClick('navigation', navUrl, navName);
+            baiduAnalytics.trackEvent('navigation', 'nav_click', navName, 1);
+        };
+
         const handleGuideClick = (guide) => {
             // 关闭下拉菜单
             showGuidesDropdown.value = false;
+            
+            // 上报Guides子菜单点击事件
+            baiduAnalytics.trackEvent('navigation', 'guides_submenu_click', guide, 1);
             
             if (isMobileDevice()) {
                 // 移动端：直接跳转到文档地址
                 const docUrl = docUrls[guide];
                 if (docUrl) {
                     console.log(`移动端检测到，直接跳转到文档: ${docUrl}`);
+                    baiduAnalytics.trackLinkClick('external_doc', docUrl, guide);
                     window.open(docUrl, '_blank');
                 } else {
                     console.error(`未找到对应的文档URL: ${guide}`);
@@ -191,6 +208,7 @@ export default {
                 // 桌面端：跳转到guides页面
                 const guideUrl = `/guides/${guide}`;
                 console.log(`桌面端检测到，跳转到guides页面: ${guideUrl}`);
+                baiduAnalytics.trackLinkClick('internal_page', guideUrl, guide);
                 window.open(guideUrl, '_blank');
             }
         };
@@ -222,6 +240,7 @@ export default {
             handleDropdownEnter,
             handleDropdownLeave,
             handleGuideClick,
+            handleNavClick,
         };
     },
 };

@@ -330,6 +330,7 @@ import metadata from "libphonenumber-js/metadata.min.json";
 import ScanQrcode from "@/components/ScanQrcode/index.vue";
 import { apiPost } from "@/utils/api.js";
 import Header from "@/pages/home/components/Header/index.vue";
+import baiduAnalytics from "@/utils/baidu-analytics";
 
 export default {
     name: "ApplyNow",
@@ -603,11 +604,18 @@ export default {
         };
 
         const handleSubmit = async () => {
+            // 上报表单提交开始事件
+            baiduAnalytics.trackEvent('form_interaction', 'submit_attempt', 'application_form', 1);
+
             // 先验证电话号码
             validatePhone();
 
             // 再验证整个表单
-            if (!validateForm()) return;
+            if (!validateForm()) {
+                // 上报表单验证失败事件
+                baiduAnalytics.trackFormSubmit('application_form', 'validation_failed');
+                return;
+            }
 
             isSubmitting.value = true;
 
@@ -630,10 +638,23 @@ export default {
                 const result = await apiPost("/api/course/apply", apiData);
                 console.log("提交成功:", result);
 
+                // 上报表单提交成功事件
+                baiduAnalytics.trackFormSubmit('application_form', 'success');
+                
+                // 上报用户信息（不包含敏感数据）
+                baiduAnalytics.trackEvent('user_profile', 'application_submit', form.country, 1);
+                baiduAnalytics.trackEvent('user_profile', 'degree_interest', form.targetDegree, 1);
+                baiduAnalytics.trackEvent('user_profile', 'major_interest', form.targetMajor, 1);
+
                 // 显示二维码弹窗
                 showQrcodeModal.value = true;
             } catch (error) {
                 console.error("提交申请时发生错误:", error);
+                
+                // 上报表单提交失败事件
+                baiduAnalytics.trackFormSubmit('application_form', 'api_failed');
+                baiduAnalytics.trackError('api_error', error.message || 'Application submission failed');
+                
                 alert("申请提交失败，请检查网络连接后重试。");
             } finally {
                 isSubmitting.value = false;
