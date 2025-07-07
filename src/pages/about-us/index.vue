@@ -61,14 +61,31 @@
             </Suspense>
         </div>
         <Footer />
+        
+        <!-- 置顶按钮 -->
+        <button
+            v-if="showScrollToTop"
+            class="scroll-to-top-button"
+            @click="scrollToTop"
+            aria-label="Scroll to top"
+        >
+            <img
+                src="/assets/image/Home/ScrollToTop.png"
+                alt="Scroll to top"
+                width="60"
+                height="60"
+                class="scroll-to-top-icon"
+            />
+        </button>
     </div>
 </template>
 
 <script>
-import { defineAsyncComponent, onMounted, onUnmounted } from "vue";
+import { defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
 import Header from "../home/components/Header/index.vue";
 import Top from "./components/Top/index.vue";
 import CompanyIntroduction from "./components/CompanyIntroduction/index.vue";
+import baiduAnalytics from "@/utils/baidu-analytics";
 
 // 懒加载非首屏组件
 const ProductsServices = defineAsyncComponent(() =>
@@ -121,6 +138,7 @@ export default {
     },
     setup() {
         let observer = null;
+        const showScrollToTop = ref(false);
         
         // 立即回到顶部，在组件初始化时就执行
         window.scrollTo(0, 0);
@@ -183,6 +201,24 @@ export default {
             });
         };
 
+        // 监听滚动事件，决定是否显示置顶按钮
+        const handleScroll = () => {
+            const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+            showScrollToTop.value = scrollTop > 300; // 滚动超过300px时显示按钮
+        };
+
+        // 平滑滚动到顶部
+        const scrollToTop = () => {
+            // 上报回到顶部按钮点击事件
+            baiduAnalytics.trackEvent('navigation', 'back_to_top_click', 'about_us_page', 1);
+            
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        };
+
         onMounted(() => {
             // 刷新页面时回到最顶部 - 使用多种方式确保到达顶部
             window.scrollTo(0, 0);
@@ -218,15 +254,23 @@ export default {
             setTimeout(() => {
                 initFadeInAnimations();
             }, 300);
+            
+            // 添加滚动事件监听
+            window.addEventListener("scroll", handleScroll);
         });
 
         onUnmounted(() => {
             if (observer) {
                 observer.disconnect();
             }
+            // 移除滚动事件监听
+            window.removeEventListener("scroll", handleScroll);
         });
 
-        return {};
+        return {
+            showScrollToTop,
+            scrollToTop,
+        };
     },
 };
 </script>
@@ -391,6 +435,47 @@ export default {
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+/* 置顶按钮样式 */
+.scroll-to-top-button {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    animation: fadeInUp 0.3s ease-out forwards;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-2px) scale(0.9);
+        opacity: 1;
+    }
+}
+
+.scroll-to-top-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.scroll-to-top-button:hover .scroll-to-top-icon {
+    transform: scale(1.1);
+}
+
+/* 淡入动画 */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 </style>
