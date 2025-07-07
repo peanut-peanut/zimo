@@ -85,7 +85,7 @@ export default {
         // 使用 Intersection Observer 检测组件是否进入视口
         this.observer = new IntersectionObserver(
             (entries) => {
-                entries.forEach(entry => {
+                entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         // 延迟一点时间触发淡入效果
                         setTimeout(() => {
@@ -98,7 +98,7 @@ export default {
             },
             {
                 threshold: 0.2,
-                rootMargin: '50px 0px'
+                rootMargin: "50px 0px",
             }
         );
 
@@ -112,7 +112,7 @@ export default {
         if (this.observer) {
             this.observer.disconnect();
         }
-    }
+    },
 };
 </script>
 
@@ -150,17 +150,17 @@ export default {
     border: 1px solid #dbdfec;
     box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
         5px 5px 10px 0px rgba(190, 190, 190, 0.25);
-    
+
     /* 添加过渡效果 */
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.6s ease-out;
-    
+
     &.fade-in {
         opacity: 1;
         transform: translateY(0);
     }
-    
+
     /* 悬停效果 */
     &:hover {
         transform: translateY(-5px);
@@ -176,14 +176,14 @@ export default {
     box-sizing: border-box;
     border-radius: 50%;
     transition: transform 0.3s ease;
-    
+
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 50%;
     }
-    
+
     .team-member-card:hover & {
         transform: scale(1.05);
     }
@@ -206,7 +206,7 @@ export default {
     letter-spacing: normal;
     color: #2e4057;
     transition: color 0.3s ease;
-    
+
     .team-member-card:hover & {
         color: #ff6b35;
     }
@@ -223,9 +223,31 @@ export default {
     /* blue */
     color: #3a3e48;
     transition: color 0.3s ease;
-    
+
     .team-member-card:hover & {
         color: #ff6b35;
+    }
+}
+
+// 移动端
+@media (max-width: 768px) {
+    .team-member-card {
+        padding: 20px 40px 0 40px;
+    }
+    .team-member-image {
+        img {
+            margin-top: -20px !important;
+        }
+        margin-bottom: 0px;
+    }
+    .has-border {
+        width: 160px;
+        height: 160px;
+        border: none;
+    }
+    .team-member-name {
+        margin-top: 40px;
+        margin-bottom: 0px;
     }
 }
 </style>
