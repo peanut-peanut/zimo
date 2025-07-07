@@ -136,7 +136,7 @@ export default {
 }
 .team-members-container {
     display: flex;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
     gap: 20px;
 }
 .team-member-card {
