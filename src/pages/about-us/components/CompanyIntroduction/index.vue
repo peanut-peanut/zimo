@@ -10,7 +10,7 @@
             <div class="right-content">
                 <div class="right-content-title">
                     <div class="right-content-title-text">
-                        Founded in 2018, our mission is simple yet powerful:
+                        Founded in 2020, our mission is simple yet powerful:
                     </div>
                     <div class="right-content-title-text orange-text">
                         Unlock your life answer in China.
