@@ -252,7 +252,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 50;
+    z-index: 99999;
     height: 80px;
     background: #ff6b35;
     transition: all 0.3s ease;
@@ -304,7 +304,7 @@ export default {
     width: 216px;
     height: 59px;
     cursor: pointer;
-    z-index: 100;
+    z-index: 99999;
 }
 
 // 桌面端导航
@@ -385,7 +385,7 @@ export default {
         right: -20px;
         height: 10px;
         background: transparent;
-        z-index: 99;
+        z-index: 99999;
     }
 }
 
@@ -414,7 +414,7 @@ export default {
     background: white;
     border-radius: 8px;
     min-width: 190px;
-    z-index: 100;
+    z-index: 999999;
     opacity: 1;
     visibility: visible;
     transition: all 0.2s ease;

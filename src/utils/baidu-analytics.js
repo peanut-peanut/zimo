@@ -6,13 +6,40 @@
 class BaiduAnalytics {
   constructor() {
     this.isReady = false
+    this.isLocalhost = this.checkIsLocalhost()
     this.checkReady()
+  }
+
+  /**
+   * 检查是否为本地环境
+   */
+  checkIsLocalhost() {
+    if (typeof window === 'undefined') return false
+    
+    const hostname = window.location.hostname
+    const isLocalhost = hostname === 'localhost' || 
+                       hostname === '127.0.0.1' || 
+                       hostname === '0.0.0.0' ||
+                       hostname.startsWith('192.168.') ||
+                       hostname.startsWith('10.') ||
+                       hostname.endsWith('.local')
+    
+    if (isLocalhost) {
+      console.log('🚫 检测到本地环境，百度统计已禁用:', hostname)
+    }
+    
+    return isLocalhost
   }
 
   /**
    * 检查百度统计是否准备就绪
    */
   checkReady() {
+    if (this.isLocalhost) {
+      this.isReady = false
+      return
+    }
+    
     if (typeof window !== 'undefined' && typeof _hmt !== 'undefined') {
       this.isReady = true
     } else {
@@ -28,11 +55,16 @@ class BaiduAnalytics {
    * @param {string} path - 页面路径
    */
   trackPageView(path) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 页面访问上报 (未发送):', path)
+      return
+    }
+    
     if (this.isReady) {
       _hmt.push(['_trackPageview', path])
-      console.log('百度统计 - 页面访问上报:', path)
+      console.log('📊 百度统计 - 页面访问上报:', path)
     } else {
-      console.warn('百度统计未就绪，无法上报页面访问:', path)
+      console.warn('⚠️ 百度统计未就绪，无法上报页面访问:', path)
     }
   }
 
@@ -44,11 +76,16 @@ class BaiduAnalytics {
    * @param {number} value - 事件值
    */
   trackEvent(category, action, label = '', value = 0) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 事件上报 (未发送):', { category, action, label, value })
+      return
+    }
+    
     if (this.isReady) {
       _hmt.push(['_trackEvent', category, action, label, value])
-      console.log('百度统计 - 事件上报:', { category, action, label, value })
+      console.log('📊 百度统计 - 事件上报:', { category, action, label, value })
     } else {
-      console.warn('百度统计未就绪，无法上报事件:', { category, action, label, value })
+      console.warn('⚠️ 百度统计未就绪，无法上报事件:', { category, action, label, value })
     }
   }
 
@@ -59,6 +96,11 @@ class BaiduAnalytics {
    * @param {object} extra - 额外信息
    */
   trackUserAction(action, page, extra = {}) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 用户行为上报 (未发送):', { action, page, extra })
+      return
+    }
+    
     this.trackEvent('user_action', action, page, 1)
     
     // 如果有额外信息，也上报
@@ -73,6 +115,10 @@ class BaiduAnalytics {
    * @param {number} duration - 停留时间（秒）
    */
   trackPageDuration(page, duration) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 页面停留时间上报 (未发送):', { page, duration })
+      return
+    }
     this.trackEvent('page_duration', 'stay_time', page, duration)
   }
 
@@ -82,6 +128,10 @@ class BaiduAnalytics {
    * @param {string} result - 提交结果 (success/fail)
    */
   trackFormSubmit(formName, result) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 表单提交上报 (未发送):', { formName, result })
+      return
+    }
     this.trackEvent('form_submit', result, formName, 1)
   }
 
@@ -92,6 +142,10 @@ class BaiduAnalytics {
    * @param {string} linkText - 链接文本
    */
   trackLinkClick(linkType, linkUrl, linkText = '') {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 链接点击上报 (未发送):', { linkType, linkUrl, linkText })
+      return
+    }
     this.trackEvent('link_click', linkType, linkUrl, 1)
     if (linkText) {
       this.trackEvent('link_click_text', linkType, linkText, 1)
@@ -104,6 +158,10 @@ class BaiduAnalytics {
    * @param {string} fileType - 文件类型
    */
   trackDownload(fileName, fileType) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 文件下载上报 (未发送):', { fileName, fileType })
+      return
+    }
     this.trackEvent('download', fileType, fileName, 1)
   }
 
@@ -113,6 +171,10 @@ class BaiduAnalytics {
    * @param {number} resultCount - 搜索结果数量
    */
   trackSearch(keyword, resultCount = 0) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 搜索行为上报 (未发送):', { keyword, resultCount })
+      return
+    }
     this.trackEvent('search', 'keyword', keyword, resultCount)
   }
 
@@ -122,6 +184,10 @@ class BaiduAnalytics {
    * @param {string} action - 播放动作 (play/pause/end)
    */
   trackVideo(videoTitle, action) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 视频播放上报 (未发送):', { videoTitle, action })
+      return
+    }
     this.trackEvent('video', action, videoTitle, 1)
   }
 
@@ -131,6 +197,10 @@ class BaiduAnalytics {
    * @param {string} content - 分享内容
    */
   trackShare(platform, content) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 社交分享上报 (未发送):', { platform, content })
+      return
+    }
     this.trackEvent('share', platform, content, 1)
   }
 
@@ -140,6 +210,10 @@ class BaiduAnalytics {
    * @param {string} errorMessage - 错误信息
    */
   trackError(errorType, errorMessage) {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 错误上报 (未发送):', { errorType, errorMessage })
+      return
+    }
     this.trackEvent('error', errorType, errorMessage, 1)
   }
 }
