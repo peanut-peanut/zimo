@@ -408,7 +408,7 @@
                             </div>
                             <div class="program-item fee">
                                 <div class="program-item-label">
-                                    Tuition Fee (USD)
+                                    Tuition Fee (RMB)
                                 </div>
                                 <div class="program-item-value">
                                     {{ program.tuitionFee }}
