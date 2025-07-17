@@ -1,6 +1,7 @@
 import { ref, computed, watch, onMounted } from "vue";
 import { searchStore } from "../../store/searchStore";
 import { ROUTES } from "../../router/routes";
+import { addStructuredData, structuredDataTemplates } from "../../utils/seo.js";
 
 // 筛选选项数据
 export const degrees = ["Bachelor", "Master", "PHD"];
@@ -415,6 +416,20 @@ export const useProgram = () => {
 
     // 在组件挂载时，从store获取搜索内容
     onMounted(async () => {
+        // 添加结构化数据
+        addStructuredData({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Study Programs in China",
+            "description": "Browse over 30,000 study programs across 400+ Chinese universities",
+            "numberOfItems": 30000,
+            "itemListElement": {
+                "@type": "Course",
+                "name": "Chinese University Programs",
+                "description": "Comprehensive listing of academic programs available at Chinese universities for international students"
+            }
+        });
+        
         // 先获取城市数据
         await fetchCities();
 

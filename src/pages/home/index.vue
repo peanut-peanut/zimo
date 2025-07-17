@@ -115,6 +115,7 @@
 import { defineAsyncComponent, onMounted, onUnmounted } from "vue";
 import Header from "./components/Header/index.vue";
 import Hero from "./components/Hero/index.vue";
+import { setSEO, addStructuredData, structuredDataTemplates } from "../../utils/seo.js";
 
 // 懒加载非首屏组件
 const WhyChooseChina = defineAsyncComponent(() =>
@@ -265,24 +266,13 @@ export default {
                 document.body.scrollTop = 0;
             }, 100);
             
-            // 设置页面标题和meta信息
-            document.title = "ZIMO - study in china";
-
-            const metaDescription = document.querySelector(
-                'meta[name="description"]'
-            );
-            if (metaDescription) {
-                metaDescription.setAttribute(
-                    "content",
-                    "ZIMO - study in china"
-                );
-            } else {
-                const meta = document.createElement("meta");
-                meta.name = "description";
-                meta.content =
-                    "ZIMO - study in china";
-                document.head.appendChild(meta);
-            }
+            // 使用SEO工具设置页面SEO信息
+            setSEO('home');
+            
+            // 添加结构化数据
+            addStructuredData(structuredDataTemplates.organization);
+            addStructuredData(structuredDataTemplates.educationalOrganization);
+            addStructuredData(structuredDataTemplates.service);
 
             // 延迟初始化动画，确保DOM完全加载
             setTimeout(() => {

@@ -86,6 +86,7 @@ import Header from "../home/components/Header/index.vue";
 import Top from "./components/Top/index.vue";
 import CompanyIntroduction from "./components/CompanyIntroduction/index.vue";
 import baiduAnalytics from "@/utils/baidu-analytics";
+import { setSEO } from "../../utils/seo.js";
 
 // 懒加载非首屏组件
 const ProductsServices = defineAsyncComponent(() =>
@@ -232,23 +233,8 @@ export default {
                 document.body.scrollTop = 0;
             }, 100);
             
-            // 设置页面标题和meta信息
-            document.title = "About Us - ZIMO";
-
-            const metaDescription = document.querySelector(
-                'meta[name="description"]'
-            );
-            if (metaDescription) {
-                metaDescription.setAttribute(
-                    "content",
-                    "About ZIMO - Learn more about our mission and services"
-                );
-            } else {
-                const meta = document.createElement("meta");
-                meta.name = "description";
-                meta.content = "About ZIMO - Learn more about our mission and services";
-                document.head.appendChild(meta);
-            }
+            // 使用SEO工具设置页面SEO信息
+            setSEO('aboutUs');
 
             // 延迟初始化动画，确保DOM完全加载
             setTimeout(() => {

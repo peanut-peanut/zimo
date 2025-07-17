@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // import { createRouter, createWebHashHistory } from 'vue-router'
 import { ROUTES } from './routes'
 import baiduAnalytics from '../utils/baidu-analytics'
+import { setSEO } from '../utils/seo.js'
 
 // 页面组件导入
 import Home from '../pages/home/index.vue'
@@ -106,11 +107,30 @@ const router = createRouter({
   }
 })
 
-// 路由守卫 - 设置页面标题和百度统计上报
+// 路由守卫 - 设置页面SEO和百度统计上报
 router.beforeEach((to, from, next) => {
-  if (to.meta.title) {
-    document.title = `ZIMO - ${to.meta.title}`
+  // 根据路由名称设置SEO
+  const seoPageMap = {
+    'Home': 'home',
+    'AboutUs': 'aboutUs',
+    'Program': 'program',
+    'SuccessfulCases': 'successfulCases',
+    'Guides': 'guides',
+    'StudyInChina': 'studyInChina',
+    'GuidesCities': 'cities',
+    'GuidesUniversities': 'universities',
+    'GuidesScholarships': 'scholarships',
+    'ApplyNow': 'applyNow'
   }
+  
+  const seoPage = seoPageMap[to.name]
+  if (seoPage) {
+    // 延迟执行，确保DOM已经加载
+    setTimeout(() => {
+      setSEO(seoPage)
+    }, 100)
+  }
+  
   next()
 })
 
