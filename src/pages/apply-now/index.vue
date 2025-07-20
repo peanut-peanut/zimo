@@ -645,6 +645,10 @@ export default {
                 baiduAnalytics.trackEvent('user_profile', 'application_submit', form.country, 1);
                 baiduAnalytics.trackEvent('user_profile', 'degree_interest', form.targetDegree, 1);
                 baiduAnalytics.trackEvent('user_profile', 'major_interest', form.targetMajor, 1);
+                
+                // 上报表单提交的设备信息
+                baiduAnalytics.trackEvent('form_device', 'submit_device_type', baiduAnalytics.deviceInfo.deviceType, 1);
+                baiduAnalytics.trackEvent('form_device', 'submit_os', baiduAnalytics.deviceInfo.os, 1);
 
                 // 显示二维码弹窗
                 showQrcodeModal.value = true;

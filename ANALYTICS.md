@@ -120,7 +120,14 @@ baiduAnalytics.trackEvent(
 - **转化漏斗**: 浏览→申请→提交的转化路径
 - **错误追踪**: API错误、表单错误等
 
-### 4. 技术统计
+### 4. 设备信息统计
+- **设备类型**: 自动检测mobile/tablet/desktop
+- **操作系统**: iOS、Android、其他系统
+- **屏幕分辨率**: 按分辨率范围分类统计
+- **视口大小**: 实际浏览器窗口大小统计
+- **页面设备组合**: 页面访问与设备类型的关联
+
+### 5. 技术统计
 - **性能监控**: 页面加载时间、API响应时间
 - **错误监控**: JavaScript错误、资源加载失败
 
@@ -135,6 +142,56 @@ baiduAnalytics.trackEvent(
    - **页面分析**: 各页面访问情况
    - **事件分析**: 自定义事件统计
    - **转化分析**: 业务转化数据
+   - **设备分析**: 移动端/PC端访问分析
+
+## 设备信息统计详解
+
+### 统计维度
+
+1. **设备类型统计**
+   - 事件类别: `device_info`
+   - 事件动作: `device_type`
+   - 事件标签: `mobile` | `tablet` | `desktop`
+
+2. **操作系统统计**
+   - 事件类别: `device_info`
+   - 事件动作: `operating_system`
+   - 事件标签: `ios` | `android` | `other`
+
+3. **屏幕分辨率统计**
+   - 事件类别: `device_info`
+   - 事件动作: `screen_resolution`
+   - 事件标签: `mobile_small` | `mobile_large` | `tablet` | `laptop` | `desktop` | `large_screen`
+
+4. **视口大小统计**
+   - 事件类别: `device_info`
+   - 事件动作: `viewport_size`
+   - 事件标签: `narrow` | `medium` | `wide` | `extra_wide` | `ultra_wide`
+
+5. **页面设备组合统计**
+   - 事件类别: `page_device`
+   - 事件动作: `page_view_by_device`
+   - 事件标签: `{页面路径}_{设备类型}` (如: `/apply-now_mobile`)
+
+### 分辨率分类说明
+
+| 分类 | 宽度范围 | 典型设备 |
+|------|----------|----------|
+| mobile_small | ≤480px | 小屏手机 |
+| mobile_large | 481-768px | 大屏手机 |
+| tablet | 769-1024px | 平板电脑 |
+| laptop | 1025-1366px | 笔记本电脑 |
+| desktop | 1367-1920px | 台式机 |
+| large_screen | >1920px | 大屏显示器 |
+
+### 查看设备统计数据
+
+在百度统计后台的**事件分析**中，可以查看以下设备相关数据：
+
+1. **设备类型分布**: 查看 `device_info.device_type` 事件
+2. **操作系统分布**: 查看 `device_info.operating_system` 事件
+3. **屏幕分辨率分布**: 查看 `device_info.screen_resolution` 事件
+4. **各页面的设备访问情况**: 查看 `page_device.page_view_by_device` 事件
 
 ## 数据分析建议
 
@@ -192,6 +249,19 @@ onUnmounted(() => {
   const duration = Math.floor((Date.now() - pageStartTime) / 1000)
   baiduAnalytics.trackPageDuration(pageName, duration)
 })
+```
+
+### 4. 设备信息上报
+
+```javascript
+// 自动上报当前页面的设备信息
+baiduAnalytics.trackDeviceInfo('/current-page')
+
+// 获取设备信息
+import { getDeviceInfo } from '@/utils/baidu-analytics'
+const deviceInfo = getDeviceInfo()
+console.log('设备类型:', deviceInfo.deviceType) // mobile, tablet, desktop
+console.log('操作系统:', deviceInfo.os) // ios, android, other
 ```
 
 ## 注意事项

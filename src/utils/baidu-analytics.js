@@ -3,11 +3,49 @@
  * 提供统一的埋点上报方法
  */
 
+// 导入设备检测函数
+import { getDeviceType, isMobileDevice, isIOS, isAndroid } from './common.js'
+
 class BaiduAnalytics {
   constructor() {
     this.isReady = false
     this.isLocalhost = this.checkIsLocalhost()
+    this.deviceInfo = this.getDeviceInfo()
     this.checkReady()
+  }
+
+  /**
+   * 获取设备信息
+   */
+  getDeviceInfo() {
+    if (typeof window === 'undefined') {
+      return {
+        deviceType: 'unknown',
+        isMobile: false,
+        isTablet: false,
+        isDesktop: false,
+        os: 'unknown',
+        screenWidth: 0,
+        screenHeight: 0,
+        userAgent: ''
+      }
+    }
+
+    const deviceType = getDeviceType()
+    const userAgent = navigator.userAgent
+
+    return {
+      deviceType: deviceType, // mobile, tablet, desktop
+      isMobile: deviceType === 'mobile',
+      isTablet: deviceType === 'tablet', 
+      isDesktop: deviceType === 'desktop',
+      os: isIOS() ? 'ios' : isAndroid() ? 'android' : 'other',
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
+      userAgent: userAgent
+    }
   }
 
   /**
@@ -56,16 +94,84 @@ class BaiduAnalytics {
    */
   trackPageView(path) {
     if (this.isLocalhost) {
-      console.log('🏠 本地环境 - 页面访问上报 (未发送):', path)
+      console.log('🏠 本地环境 - 页面访问上报 (未发送):', path, this.deviceInfo)
       return
     }
     
     if (this.isReady) {
+      // 基础页面访问上报
       _hmt.push(['_trackPageview', path])
-      console.log('📊 百度统计 - 页面访问上报:', path)
+      
+      // 上报设备类型信息
+      this.trackDeviceInfo(path)
+      
+      console.log('📊 百度统计 - 页面访问上报:', {
+        path: path,
+        deviceType: this.deviceInfo.deviceType,
+        screenSize: `${this.deviceInfo.screenWidth}x${this.deviceInfo.screenHeight}`,
+        viewport: `${this.deviceInfo.viewportWidth}x${this.deviceInfo.viewportHeight}`
+      })
     } else {
       console.warn('⚠️ 百度统计未就绪，无法上报页面访问:', path)
     }
+  }
+
+  /**
+   * 设备信息上报
+   * @param {string} currentPage - 当前页面路径
+   */
+  trackDeviceInfo(currentPage = '') {
+    if (this.isLocalhost) {
+      console.log('🏠 本地环境 - 设备信息上报 (未发送):', this.deviceInfo)
+      return
+    }
+
+    // 上报设备类型
+    this.trackEvent('device_info', 'device_type', this.deviceInfo.deviceType, 1)
+    
+    // 上报操作系统
+    this.trackEvent('device_info', 'operating_system', this.deviceInfo.os, 1)
+    
+    // 上报屏幕分辨率范围
+    const screenCategory = this.getScreenCategory(this.deviceInfo.screenWidth)
+    this.trackEvent('device_info', 'screen_resolution', screenCategory, 1)
+    
+    // 上报视口大小范围
+    const viewportCategory = this.getViewportCategory(this.deviceInfo.viewportWidth)
+    this.trackEvent('device_info', 'viewport_size', viewportCategory, 1)
+    
+    // 上报页面和设备类型的组合信息
+    if (currentPage) {
+      const pageDevice = `${currentPage}_${this.deviceInfo.deviceType}`
+      this.trackEvent('page_device', 'page_view_by_device', pageDevice, 1)
+    }
+  }
+
+  /**
+   * 获取屏幕分辨率分类
+   * @param {number} width - 屏幕宽度
+   * @returns {string} 分辨率分类
+   */
+  getScreenCategory(width) {
+    if (width <= 480) return 'mobile_small'      // ≤480px
+    if (width <= 768) return 'mobile_large'      // 481-768px  
+    if (width <= 1024) return 'tablet'           // 769-1024px
+    if (width <= 1366) return 'laptop'           // 1025-1366px
+    if (width <= 1920) return 'desktop'          // 1367-1920px
+    return 'large_screen'                        // >1920px
+  }
+
+  /**
+   * 获取视口大小分类
+   * @param {number} width - 视口宽度
+   * @returns {string} 视口分类
+   */
+  getViewportCategory(width) {
+    if (width <= 480) return 'narrow'            // ≤480px
+    if (width <= 768) return 'medium'            // 481-768px
+    if (width <= 1024) return 'wide'             // 769-1024px
+    if (width <= 1366) return 'extra_wide'       // 1025-1366px
+    return 'ultra_wide'                          // >1366px
   }
 
   /**
@@ -233,4 +339,8 @@ export const trackDownload = (fileName, fileType) => baiduAnalytics.trackDownloa
 export const trackSearch = (keyword, resultCount) => baiduAnalytics.trackSearch(keyword, resultCount)
 export const trackVideo = (videoTitle, action) => baiduAnalytics.trackVideo(videoTitle, action)
 export const trackShare = (platform, content) => baiduAnalytics.trackShare(platform, content)
-export const trackError = (errorType, errorMessage) => baiduAnalytics.trackError(errorType, errorMessage) 
+export const trackError = (errorType, errorMessage) => baiduAnalytics.trackError(errorType, errorMessage)
+export const trackDeviceInfo = (currentPage) => baiduAnalytics.trackDeviceInfo(currentPage)
+
+// 导出设备信息获取方法
+export const getDeviceInfo = () => baiduAnalytics.deviceInfo 

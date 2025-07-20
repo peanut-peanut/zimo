@@ -46,6 +46,17 @@ export const FORM_EVENTS = {
   }
 }
 
+// 设备信息事件
+export const DEVICE_EVENTS = {
+  DEVICE_TYPE: 'device_type',
+  OPERATING_SYSTEM: 'operating_system', 
+  SCREEN_RESOLUTION: 'screen_resolution',
+  VIEWPORT_SIZE: 'viewport_size',
+  PAGE_VIEW_BY_DEVICE: 'page_view_by_device',
+  ORIENTATION_CHANGE: 'orientation_change',
+  TOUCH_CAPABILITY: 'touch_capability',
+}
+
 // 用户交互事件
 export const INTERACTION_EVENTS = {
   SOCIAL_MEDIA: {
@@ -116,6 +127,8 @@ export const EVENT_CATEGORIES = {
   PERFORMANCE: 'performance',
   SOCIAL_MEDIA: 'social_media',
   PAGE_INFO: 'page_info',
+  DEVICE_INFO: 'device_info',
+  PAGE_DEVICE: 'page_device',
 }
 
 // 常用事件动作
