@@ -446,7 +446,12 @@ export const useProgram = () => {
         fetchDataFromApi();
     });
 
-    const handleSearch = () => {
+    const handleSearch = (query) => {
+        // 如果有传入query参数，更新searchQuery
+        if (typeof query === 'string') {
+            searchQuery.value = query;
+        }
+        
         // 防抖处理
         if (searchTimeout) {
             clearTimeout(searchTimeout);

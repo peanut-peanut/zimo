@@ -1,22 +1,10 @@
 <template>
     <div class="program-container">
-        <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
-            <div class="search-container">
-                <input
-                    type="text"
-                    class="search-input"
-                    placeholder="ENTER THE NAME OF A UNIVERSITY OR A PROGRAM"
-                    v-model="searchQuery"
-                    @input="handleSearch"
-                />
-                <img
-                    src="/assets/image/Program/SearchIcon.png"
-                    alt="search"
-                    class="search-icon"
-                />
-            </div>
-        </div>
+        <ProgramHeader 
+            :isFrom="'Program'" 
+            :searchQuery="searchQuery"
+            @search="handleSearch"
+        />
 
         <div class="apply-now-container" @click="applyNow">
             <img src="/assets/image/Program/CommentIcon.png" alt="go-guides" />
@@ -524,9 +512,13 @@
 
 <script>
 import { useProgram } from "./index.js";
+import ProgramHeader from "./components/ProgramHeader.vue";
 
 export default {
     name: "Program",
+    components: {
+        ProgramHeader,
+    },
     setup() {
         return useProgram();
     },

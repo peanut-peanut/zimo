@@ -2,84 +2,10 @@
     width: 100%;
     min-height: 100vh;
     background-color: #f8f9fa;
-    padding-top: 80px;
+    padding-top: 140px; // 80px (header) + 60px (navigation)
 }
 
-.header-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 50;
-    height: 80px;
-    background: #ff6b35;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 400px;
-    padding-right: 400px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 593px;
-    height: 50px;
-
-    border-radius: 227px;
-    margin: 0 auto;
-    background: #ffffff;
-    box-sizing: border-box;
-    border: 1px solid #ffffff;
-}
-
-.search-input {
-    width: 559px;
-    height: 42px;
-    padding: 0 20px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    font-family: PingFang SC;
-    font-size: 22px;
-    font-weight: normal;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    letter-spacing: normal;
-    color: #2e4057;
-
-    &::placeholder {
-        font-family: PingFang SC;
-        font-size: 20px;
-        font-weight: normal;
-        line-height: 22px;
-        display: flex;
-        align-items: center;
-        letter-spacing: normal;
-        color: #dbdfec;
-    }
-}
-
-.search-icon {
-    position: absolute;
-    right: 16px;
-    width: 24px;
-    height: 24px;
-    pointer-events: none;
-}
-
-.logo {
-    position: absolute;
-    left: 160px;
-    width: 216px;
-    height: 59px;
-    cursor: pointer;
-    z-index: 100;
-}
+// Header styles moved to ProgramHeader component
 
 .apply-now-container {
     position: fixed;
