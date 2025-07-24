@@ -97,7 +97,7 @@ export default {
 <style lang="less" scoped>
 #application-process {
     padding: 40px 0px;
-    background: #f8f9fa;
+    background: #fff;
 }
 
 .service-module {
