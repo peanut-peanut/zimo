@@ -22,6 +22,12 @@ export const seoConfig = {
     keywords: 'china study programs, chinese university programs, study abroad programs china, undergraduate programs china, graduate programs china, doctoral programs china',
     ogImage: 'https://zimo.club/assets/image/Program/NoContentImage.png'
   },
+  programDetail: {
+    title: 'Program Details - Study in China with ZIMO',
+    description: 'Detailed information about study programs in Chinese universities. Learn about tuition fees, duration, application deadlines, and more to make an informed decision.',
+    keywords: 'china university program, study program details, chinese university course, program application, study in china details',
+    ogImage: 'https://zimo.club/assets/image/Program/NoContentImage.png'
+  },
   successfulCases: {
     title: 'Success Stories - ZIMO Student Admissions',
     description: 'Read inspiring success stories from international students who achieved their dreams of studying in China with ZIMO. 95%+ admission rate to top universities.',
@@ -402,6 +408,9 @@ function addPageSpecificStructuredData(page) {
     case 'program':
       addProgramPageStructuredData()
       break
+    case 'programDetail':
+      addProgramDetailStructuredData()
+      break
     case 'aboutUs':
       addAboutPageStructuredData()
       break
@@ -471,6 +480,34 @@ function addProgramPageStructuredData() {
   }
   
   addStructuredData(programData)
+}
+
+function addProgramDetailStructuredData() {
+  // 尝试从页面中获取程序详细信息
+  const programTitle = document.querySelector('.program-title')?.textContent || 'Study Program';
+  const universityName = document.querySelector('.university-name')?.textContent || 'University in China';
+  const tuitionFee = document.querySelector('.info-row:nth-child(5) .info-value')?.textContent || '';
+  
+  const programDetailData = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": programTitle,
+    "description": `${programTitle} at ${universityName} - Study in China with ZIMO`,
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": universityName
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": tuitionFee ? tuitionFee.replace(/[^0-9.]/g, '') : '',
+      "priceCurrency": "RMB"
+    },
+    "educationalCredentialAwarded": programTitle.includes('Bachelor') ? "Bachelor's Degree" : 
+                                   programTitle.includes('Master') ? "Master's Degree" :
+                                   programTitle.includes('PhD') ? "Doctoral Degree" : "Degree"
+  };
+  
+  addStructuredData(programDetailData);
 }
 
 function addAboutPageStructuredData() {

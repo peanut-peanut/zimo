@@ -5,6 +5,7 @@
 export const ROUTES = {
   HOME: '/',
   PROGRAM: '/program',
+  PROGRAM_DETAIL: '/program/:id',
   ABOUT_US: '/about-us',
   SUCCESSFULCASES: '/successful-cases',
   GUIDES: '/guides',
@@ -58,5 +59,5 @@ export const mainRoutes = [
  * @returns {string} 格式化后的路径
  */
 export const getProgramDetailPath = (id) => {
-  return ROUTES.PROGRAM.DETAIL.replace(':id', id.toString())
+  return ROUTES.PROGRAM_DETAIL.replace(':id', id.toString())
 } 

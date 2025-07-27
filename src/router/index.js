@@ -9,6 +9,7 @@ import { setSEO } from '../utils/seo.js'
 import Home from '../pages/home/index.vue'
 import AboutUs from '../pages/about-us/index.vue'
 import Program from '../pages/program/index.vue'
+import ProgramDetail from '../pages/program/detail.vue'
 import SuccessfulCases from '../pages/successful-cases/index.vue'
 import ApplyNow from '../pages/apply-now/index.vue'
 import Guides from '../pages/guides/index.vue'
@@ -43,6 +44,12 @@ const routes = [
     name: 'Program',
     component: Program,
     meta: { title: 'program' }
+  },
+  {
+    path: ROUTES.PROGRAM_DETAIL,
+    name: 'ProgramDetail',
+    component: ProgramDetail,
+    meta: { title: 'program-detail' }
   },
   {
     path: ROUTES.SUCCESSFULCASES,
@@ -114,6 +121,7 @@ router.beforeEach((to, from, next) => {
     'Home': 'home',
     'AboutUs': 'aboutUs',
     'Program': 'program',
+    'ProgramDetail': 'programDetail',
     'SuccessfulCases': 'successfulCases',
     'Guides': 'guides',
     'StudyInChina': 'studyInChina',

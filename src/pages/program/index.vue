@@ -341,6 +341,7 @@
                     v-for="program in filteredPrograms"
                     :key="program.id"
                     class="program-card"
+                    @click="goToProgramDetail(program.id)"
                 >
                     <div class="program-card-left">
                         <img :src="program.logoUrl" :alt="program.university" />
@@ -350,7 +351,7 @@
                         <div class="program-header">
                             <div class="program-title">{{ program.title }}</div>
                             <div class="apply-button">
-                                <button @click="applyNow(program)">
+                                <button @click.stop="applyNow(program)">
                                     APPLY NOW
                                 </button>
                             </div>

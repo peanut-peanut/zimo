@@ -1,7 +1,8 @@
 import { ref, computed, watch, onMounted } from "vue";
 import { searchStore } from "../../store/searchStore";
-import { ROUTES } from "../../router/routes";
+import { ROUTES, getProgramDetailPath } from "../../router/routes";
 import { addStructuredData, structuredDataTemplates } from "../../utils/seo.js";
+import { useRouter } from 'vue-router';
 
 // 筛选选项数据
 export const degrees = ["Bachelor", "Master", "PHD"];
@@ -127,6 +128,8 @@ export const processApiResponse = (response) => {
 };
 
 export const useProgram = () => {
+    const router = useRouter();
+    
     // 搜索功能
     const searchQuery = ref("");
     let searchTimeout = null;
@@ -410,6 +413,22 @@ export const useProgram = () => {
         window.open(ROUTES.APPLYNOW, "_blank");
     };
 
+    // 跳转到详情页
+    const goToProgramDetail = (programId) => {
+        // 上报点击事件
+        if (window._hmt) {
+            window._hmt.push(['_trackEvent', 'program', 'click', `program_${programId}`, 1]);
+        }
+        
+        console.log('跳转到详情页:', programId);
+        
+        // 确保ID是数字
+        const id = Number(programId) || programId;
+        
+        // 在新窗口打开详情页
+        window.open(`/program/${id}`, '_blank');
+    };
+
     const goToGuides = () => {
         window.open(ROUTES.GUIDES_STUDY_IN_CHINA, "_blank");
     };
@@ -492,6 +511,7 @@ export const useProgram = () => {
         // 方法
         clearFilter,
         applyNow,
+        goToProgramDetail,
         goToGuides,
         toggleFilter,
         handleSearch,
