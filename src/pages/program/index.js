@@ -479,7 +479,7 @@ export const useProgram = () => {
             // 重置到第一页并重新获取数据
             currentPage.value = 1;
             fetchDataFromApi(1);
-        }, 300);
+        }, 100);
     };
 
     return {

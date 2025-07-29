@@ -2,7 +2,7 @@
     <div class="program-detail-container">
         <ProgramHeader
             :isFrom="'Program'"
-            :searchQuery="''"
+            :searchQuery="searchQuery"
             @search="handleSearch"
         />
 
@@ -54,11 +54,22 @@
                                             active: currentSlide === index,
                                         }"
                                     >
+                                        <!-- 当前显示的图片和下一张图片使用普通img，其他使用LazyImage -->
                                         <img
+                                            v-if="index === currentSlide || index === (currentSlide + 1) % programDetail.university_images.length || preloadedImages.has(image)"
                                             :src="image"
                                             :alt="`${
                                                 programDetail.university_name
                                             } - Image ${index + 1}`"
+                                            @load="() => preloadedImages.add(image)"
+                                        />
+                                        <LazyImage
+                                            v-else
+                                            :src="image"
+                                            :alt="`${
+                                                programDetail.university_name
+                                            } - Image ${index + 1}`"
+                                            aspect-ratio="42.9%" 
                                         />
                                     </div>
 
@@ -148,8 +159,9 @@
                         >
                             <div class="section-header">
                                 <img
-                                    src="/assets/image/Program/CommentIcon.png"
+                                    src="/assets/image/Program/Detail/ProjectIntroductionIcon.png"
                                     alt="Project Introduction"
+                                    class="project-icon"
                                 />
                                 <div class="section-header-text">
                                     Project Introduction
@@ -181,8 +193,9 @@
                         >
                             <div class="section-header">
                                 <img
-                                    src="/assets/image/Program/CommentIcon.png"
+                                    src="/assets/image/Program/Detail/AccommodationIcon.png"
                                     alt="Accommodation"
+                                    class="accommodation-icon"
                                 />
                                 <div class="section-header-text">
                                     Accommodation
@@ -205,64 +218,59 @@
                         </div>
 
                         <!-- 费用表格 -->
-                        <div class="fees-table">
+                        <div
+                            class="fees-table"
+                            v-if="
+                                programDetail.fee_str &&
+                                Object.keys(programDetail.fee_str).length > 0
+                            "
+                        >
                             <div class="left-table">
                                 <div class="table-header">Billionaires</div>
-                                <div class="table-cell table-font yellow">
-                                    Tuition fee
-                                </div>
-                                <div class="table-cell table-font">
-                                    Accommodation fee
-                                </div>
-                                <div class="table-cell table-font yellow">
-                                    Application fee
-                                </div>
-                                <div class="table-cell table-font">
-                                    Service charge
-                                </div>
-                                <div class="table-cell table-font yellow">
-                                    Estimated living expenses
+                                <div
+                                    v-for="(feeKey, index) in Object.keys(
+                                        programDetail.fee_str
+                                    )"
+                                    :key="feeKey"
+                                    class="table-cell table-font"
+                                    :class="{ yellow: index % 2 === 0 }"
+                                >
+                                    {{ formatFeeLabel(feeKey) }}
                                 </div>
                             </div>
                             <div class="right-table">
                                 <div class="table-header"></div>
-                                <div class="table-cell table-font yellow">
-                                    <div class="cell-content" :title="programDetail.fee_str && programDetail.fee_str.tuition_fee ? programDetail.fee_str.tuition_fee : (programDetail.tuition_fee_rmb ? `${programDetail.tuition_fee_rmb.toLocaleString()} RMB per year` : '-')">
-                                        {{ programDetail.fee_str && programDetail.fee_str.tuition_fee ? programDetail.fee_str.tuition_fee : (programDetail.tuition_fee_rmb ? `${programDetail.tuition_fee_rmb.toLocaleString()} RMB per year` : '-') }}
-                                    </div>
-                                </div>
-                                <div class="table-cell table-font">
-                                    <div class="cell-content" :title="programDetail.fee_str && programDetail.fee_str.accommodation_fee ? programDetail.fee_str.accommodation_fee : '-'">
-                                        {{ programDetail.fee_str && programDetail.fee_str.accommodation_fee ? programDetail.fee_str.accommodation_fee : '-' }}
-                                    </div>
-                                </div>
-                                <div class="table-cell table-font yellow">
-                                    <div class="cell-content" :title="programDetail.fee_str && programDetail.fee_str.other_fees ? programDetail.fee_str.other_fees : '-'">
-                                        {{ programDetail.fee_str && programDetail.fee_str.other_fees ? programDetail.fee_str.other_fees : '-' }}
-                                    </div>
-                                </div>
-                                <div class="table-cell table-font">
-                                    <div class="cell-content" :title="programDetail.fee_str && programDetail.fee_str.other_fees ? programDetail.fee_str.other_fees : '-'">
-                                        {{ programDetail.fee_str && programDetail.fee_str.other_fees ? programDetail.fee_str.other_fees : '-' }}
-                                    </div>
-                                </div>
-                                <div class="table-cell table-font yellow">
-                                    <div class="cell-content" :title="programDetail.fee_str && programDetail.fee_str.living_expenses ? programDetail.fee_str.living_expenses : '-'">
-                                        {{ programDetail.fee_str && programDetail.fee_str.living_expenses ? programDetail.fee_str.living_expenses : '-' }}
+                                <div
+                                    v-for="(feeKey, index) in Object.keys(
+                                        programDetail.fee_str
+                                    )"
+                                    :key="feeKey"
+                                    class="table-cell table-font"
+                                    :class="{ yellow: index % 2 === 0 }"
+                                >
+                                    <div
+                                        class="cell-content"
+                                        :title="programDetail.fee_str[feeKey]"
+                                    >
+                                        {{ programDetail.fee_str[feeKey] }}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- 申请流程 -->
-                        <div class="admissions-process">
+                        <div class="section admissions-process">
                             <div class="section-header">
                                 <img
-                                    src="/assets/image/Program/CommentIcon.png"
+                                    src="/assets/image/Program/Detail/AdmissionsProcessIcon.png"
                                     alt="Admissions Process"
+                                    class="admissions-process-icon"
                                 />
-                                <h2>Admissions Process</h2>
+                                <div class="section-header-text">
+                                    Admissions Process
+                                </div>
                             </div>
+
                             <div class="process-steps">
                                 <div class="step">
                                     <div class="step-number">1</div>
@@ -273,7 +281,7 @@
                                     <div class="step-number">2</div>
                                     <div class="step-name">APPLY ONLINE</div>
                                 </div>
-                                <div class="step-line"></div>
+                                <div class="step-line second-step"></div>
                                 <div class="step">
                                     <div class="step-number">3</div>
                                     <div class="step-name">ENROLL IN CHINA</div>
@@ -281,7 +289,9 @@
                             </div>
 
                             <div class="required-documents">
-                                <h3>Required Documents:</h3>
+                                <div class="required-documents-title">
+                                    Required Documents:
+                                </div>
                                 <ul>
                                     <li>
                                         Supplemental Information Form: Dalian
@@ -307,8 +317,17 @@
                 </div>
 
                 <!-- 推荐相似项目 -->
-                <div class="similar-programs">
-                    <h2>Recommended similar items</h2>
+                <div v-if="similarPrograms.length > 0" class="section similar-programs">
+                    <div class="section-header">
+                        <img
+                            src="/assets/image/Program/Detail/RecommendedIcon.png"
+                            class="recommended-icon"
+                            alt="Recommended Similar Items"
+                        />
+                        <div class="section-header-text">
+                            Recommended similar items
+                        </div>
+                    </div>
                     <div class="similar-programs-list">
                         <div
                             v-for="program in similarPrograms"
@@ -370,14 +389,14 @@
                             {{ programDetail.starting_date }}
                         </div>
                     </div>
-                    <div class="info-row">
+                    <!-- <div class="info-row">
                         <div class="info-label">Application fee：</div>
                         <div class="info-value">50 USD</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Service charge：</div>
                         <div class="info-value">50 USD</div>
-                    </div>
+                    </div> -->
                     <div class="info-row">
                         <div class="info-label">Application deadline：</div>
                         <div class="info-value">
@@ -388,7 +407,8 @@
                         <div class="info-label">Tuition fee：</div>
                         <div class="info-value">
                             {{ programDetail.tuition_fee_rmb.toLocaleString() }}
-                            per year<br />
+                            per year
+                            <!-- <br />
                             {{
                                 (
                                     (programDetail.tuition_fee_rmb *
@@ -398,7 +418,7 @@
                                     .toFixed(2)
                                     .toLocaleString()
                             }}
-                            USD in total
+                            USD in total -->
                         </div>
                     </div>
                     <div class="info-row">
@@ -424,9 +444,9 @@
                         APPLY NOW
                     </button>
 
-                    <div class="applicants-count">
+                    <!-- <div class="applicants-count">
                         {{ applicantsCount }} students applied for this program
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="why-choose-zimo">
@@ -490,13 +510,16 @@
 import { ref, onMounted, computed, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ProgramHeader from "./components/ProgramHeader.vue";
+import LazyImage from "@/components/LazyImage.vue";
 import baiduAnalytics from "@/utils/baidu-analytics";
 import { setSEO } from "@/utils/seo.js";
+import { searchStore } from "@/store/searchStore.js";
 
 export default {
     name: "ProgramDetail",
     components: {
         ProgramHeader,
+        LazyImage,
     },
     setup() {
         const route = useRoute();
@@ -508,6 +531,8 @@ export default {
         const isLoading = ref(true);
         const error = ref(null);
         const applicantsCount = ref(Math.floor(Math.random() * 500) + 500); // 随机生成申请人数
+        const searchQuery = ref(""); // 搜索查询字符串
+        let searchTimeout = null; // 搜索防抖定时器
 
         // 控制内容展开收起
         const expandedSections = ref({
@@ -520,6 +545,7 @@ export default {
         const currentSlide = ref(0);
         const slideInterval = ref(null);
         const isHovering = ref(false);
+        const preloadedImages = ref(new Set()); // 已预加载的图片集合
 
         const startAutoSlide = () => {
             if (slideInterval.value) {
@@ -575,9 +601,53 @@ export default {
                 currentSlide.value =
                     (currentSlide.value + 1) %
                     programDetail.value.university_images.length;
+                
+                // 预加载下一张图片
+                preloadNextImages();
+                
                 // 自动轮播时不需要停止，但手动点击时需要暂停
                 if (isHovering.value) {
                     stopAutoSlide();
+                }
+            }
+        };
+
+        // 预加载图片函数
+        const preloadImage = (src) => {
+            return new Promise((resolve, reject) => {
+                if (preloadedImages.value.has(src)) {
+                    resolve();
+                    return;
+                }
+                
+                const img = new Image();
+                img.onload = () => {
+                    preloadedImages.value.add(src);
+                    resolve();
+                };
+                img.onerror = reject;
+                img.src = src;
+            });
+        };
+
+        // 预加载下一张和下下张图片
+        const preloadNextImages = () => {
+            if (!programDetail.value?.university_images?.length) return;
+            
+            const images = programDetail.value.university_images;
+            const total = images.length;
+            
+            // 预加载下一张图片
+            const nextIndex = (currentSlide.value + 1) % total;
+            if (images[nextIndex] && !preloadedImages.value.has(images[nextIndex])) {
+                preloadImage(images[nextIndex]).catch(console.error);
+            }
+            
+            // 预加载下下张图片
+            if (total > 2) {
+                const nextNextIndex = (currentSlide.value + 2) % total;
+                if (images[nextNextIndex] && !preloadedImages.value.has(images[nextNextIndex])) {
+                    preloadImage(images[nextNextIndex]).catch(console.error);
                 }
             }
         };
@@ -609,14 +679,24 @@ export default {
                         1
                     );
 
-                    // 如果有多张图片，启动轮播
-                    if (
-                        result.data.university_images &&
-                        result.data.university_images.length > 1
-                    ) {
-                        setTimeout(() => {
-                            startAutoSlide();
-                        }, 500);
+                    // 预加载前几张图片
+                    if (result.data.university_images && result.data.university_images.length > 0) {
+                        // 立即预加载第一张图片
+                        preloadImage(result.data.university_images[0]).catch(console.error);
+                        
+                        // 预加载第二张图片（如果存在）
+                        if (result.data.university_images.length > 1) {
+                            setTimeout(() => {
+                                preloadImage(result.data.university_images[1]).catch(console.error);
+                            }, 100);
+                        }
+                        
+                        // 如果有多张图片，启动轮播
+                        if (result.data.university_images.length > 1) {
+                            setTimeout(() => {
+                                startAutoSlide();
+                            }, 500);
+                        }
                     }
                 } else {
                     error.value =
@@ -675,16 +755,32 @@ export default {
                 programDetail.value?.course_name,
                 1
             );
-            router.push("/apply-now");
+            //
+            window.open("/apply-now", "_blank");
         };
 
-        // 搜索处理
+        // 搜索处理 - 带防抖功能
         const handleSearch = (query) => {
-            baiduAnalytics.trackEvent("program_detail", "search", query, 1);
-            router.push({
-                path: "/program",
-                query: { keyword: query },
-            });
+            searchQuery.value = query; // 更新搜索查询状态
+            
+            // 清除之前的定时器
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+            
+            // 如果查询为空，不进行跳转
+            if (!query.trim()) {
+                return;
+            }
+            
+            // 设置新的定时器，等待用户停止输入1000ms后执行跳转
+            searchTimeout = setTimeout(() => {
+                baiduAnalytics.trackEvent("program_detail", "search", query, 1);
+                // 保存搜索内容到store
+                searchStore.setSearchQuery(query.trim());
+                // 跳转到Program页面
+                router.push("/program");
+            }, 1000);
         };
 
         // 跳转到其他项目详情页
@@ -698,15 +794,25 @@ export default {
             router.push(`/program/${id}`);
         };
 
+        // 格式化费用标签
+        const formatFeeLabel = (feeKey) => {
+            return feeKey
+                .replace(/_/g, " ")
+                .replace(/\b\w/g, (l) => l.toUpperCase());
+        };
+
         onMounted(() => {
             fetchProgramDetail();
             fetchSimilarPrograms();
         });
 
-        // 确保在组件销毁时清除轮播定时器
+        // 确保在组件销毁时清除定时器
         onUnmounted(() => {
             if (slideInterval.value) {
                 clearInterval(slideInterval.value);
+            }
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
             }
         });
 
@@ -716,6 +822,7 @@ export default {
             isLoading,
             error,
             applicantsCount,
+            searchQuery,
             expandedSections,
             toggleSection,
             applyNow,
@@ -728,6 +835,8 @@ export default {
             stopAutoSlide,
             resumeAutoSlide,
             isHovering, // 暴露 isHovering 状态
+            formatFeeLabel,
+            preloadedImages, // 暴露预加载图片集合
         };
     },
 };
@@ -735,7 +844,7 @@ export default {
 
 <style lang="less" scoped>
 .program-detail-container {
-    padding: 260px;
+    padding: 220px 260px 100px 260px;
     background-color: #fff;
 }
 
@@ -753,6 +862,7 @@ export default {
     width: 488px;
 
     .info-card {
+        margin-top: 10px;
         background-color: #fff;
 
         border: 1px solid #dbdfec;
@@ -887,7 +997,7 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-around;
         gap: 7px;
         height: 100%;
         .program-title {
@@ -941,6 +1051,25 @@ export default {
             height: 24.83px;
         }
 
+        .recommended-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .project-icon {
+            width: 28px;
+            height: 21px;
+        }
+
+        .accommodation-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .admissions-process-icon {
+            width: 28px;
+            height: 28px;
+        }
         .section-header-text {
             font-family: PingFang SC;
             font-size: 22px;
@@ -990,7 +1119,8 @@ export default {
     }
 
     .show-more {
-        height: 28px;
+        height: 40px;
+        padding-bottom: 12px;
         width: 100%;
         font-family: PingFang SC;
         font-size: 20px;
@@ -998,6 +1128,7 @@ export default {
         line-height: normal;
         text-align: center;
         letter-spacing: 0em;
+        border-bottom: 1px solid #d8d8d8;
 
         font-variation-settings: "opsz" auto;
         color: #30659b;
@@ -1010,7 +1141,7 @@ export default {
 }
 
 .fees-table {
-    margin-bottom: 30px;
+    margin-bottom: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1087,75 +1218,125 @@ export default {
 }
 
 .admissions-process {
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 
     .process-steps {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 30px 0;
+        margin: 40px 0;
 
         .step {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 20px;
 
             .step-number {
-                width: 40px;
-                height: 40px;
+                width: 65px;
+                height: 65px;
                 border-radius: 50%;
                 background-color: #ff6b35;
-                color: white;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 18px;
-                font-weight: 600;
-                margin-bottom: 10px;
+                font-family: PingFang SC;
+                font-size: 30px;
+                font-weight: 500;
+                line-height: normal;
+                letter-spacing: 0em;
+
+                font-variation-settings: "opsz" auto;
+                color: #ffffff;
             }
 
             .step-name {
-                font-size: 14px;
-                color: #666;
+                font-family: PingFang SC;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: normal;
                 text-align: center;
+                letter-spacing: 0em;
+
+                font-variation-settings: "opsz" auto;
+                color: #ff6b35;
             }
         }
 
         .step-line {
             flex: 1;
             height: 2px;
-            background-color: #ddd;
-            margin: 0 15px;
+            background-image: repeating-linear-gradient(
+                to right,
+                #ff6b35 0px,
+                #ff6b35 8px,
+                transparent 8px,
+                transparent 16px
+            );
+            margin-left: -45px;
+            margin-right: -10px;
+
+            position: relative;
+            align-self: flex-start;
+            margin-top: 32px; /* 65px圆圈高度的一半 - 1px线条高度的一半 = 32px */
+
+            /* 添加箭头 */
+            &::after {
+                content: "";
+                position: absolute;
+                right: -8px;
+                top: -5px;
+                width: 0;
+                height: 0;
+                border-left: 16px solid #ff6b35;
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+            }
+
+            &.second-step {
+                margin-left: -10px;
+                margin-right: -20px;
+            }
         }
     }
 
     .required-documents {
-        h3 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 15px;
+        .required-documents-title {
+            font-family: PingFang SC;
+            font-size: 22px;
+            font-weight: 500;
+            line-height: normal;
+            letter-spacing: 0em;
+
+            font-variation-settings: "opsz" auto;
+            color: #3d3d3d;
+            margin-bottom: 20px;
         }
 
         ul {
-            padding-left: 20px;
+            padding-left: 30px;
+            // ul 圆点的样式
 
             li {
-                margin-bottom: 8px;
-                color: #666;
+                font-family: PingFang SC;
+                font-size: 20px;
+                font-weight: 300;
+                line-height: normal;
+                letter-spacing: 0em;
+
+                font-variation-settings: "opsz" auto;
+                color: #3d3d3d;
+                margin-bottom: 2px;
+                &::marker {
+                    font-size: 16px;
+                }
             }
         }
     }
 }
 
 .similar-programs {
-    margin-top: 50px;
-    margin-bottom: 50px;
-
-    h2 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
-    }
+  
 
     .similar-programs-list {
         display: flex;
