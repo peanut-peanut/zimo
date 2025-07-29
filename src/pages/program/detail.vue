@@ -514,6 +514,8 @@ import LazyImage from "@/components/LazyImage.vue";
 import baiduAnalytics from "@/utils/baidu-analytics";
 import { setSEO } from "@/utils/seo.js";
 import { searchStore } from "@/store/searchStore.js";
+// 导入API工具函数
+import { apiGet, apiPost } from "@/utils/api.js";
 
 export default {
     name: "ProgramDetail",
@@ -656,8 +658,7 @@ export default {
         const fetchProgramDetail = async () => {
             try {
                 isLoading.value = true;
-                const response = await fetch(`/api/courses/${programId.value}`);
-                const result = await response.json();
+                const result = await apiGet(`/api/courses/${programId.value}`);
 
                 if (result.success) {
                     programDetail.value = result.data;
