@@ -559,7 +559,7 @@ export default {
                 !isHovering.value &&
                 programDetail.value?.university_images?.length > 1
             ) {
-                slideInterval.value = setInterval(nextSlide, 2000); // 每2秒切换一次
+                slideInterval.value = setInterval(nextSlide, 4000); // 每4秒切换一次
                 console.log("轮播已启动");
             }
         };
