@@ -714,10 +714,9 @@ export default {
         // 获取相似项目
         const fetchSimilarPrograms = async () => {
             try {
-                const response = await fetch(
+                const result = await apiGet(
                     `/api/courses/similar/${programId.value}`
                 );
-                const result = await response.json();
 
                 if (result.success) {
                     similarPrograms.value = result.data;
