@@ -1,7 +1,7 @@
 <template>
     <div class="program-container">
-        <ProgramHeader 
-            :isFrom="'Program'" 
+        <ProgramHeader
+            :isFrom="'Program'"
             :searchQuery="searchQuery"
             @search="handleSearch"
         />
@@ -351,7 +351,10 @@
                         <div class="program-header">
                             <div class="program-title">{{ program.title }}</div>
                             <div class="apply-button">
-                                <button @click.stop="applyNow(program)">
+                                <!-- <button @click.stop="applyNow(program)">
+                                    APPLY NOW
+                                </button> -->
+                                <button>
                                     APPLY NOW
                                 </button>
                             </div>

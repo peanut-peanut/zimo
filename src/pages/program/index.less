@@ -206,6 +206,7 @@
     border-radius: 10px;
     padding: 30px;
     height: 220px;
+    cursor: pointer;
     // min-height: 260px;
     background: #ffffff;
     box-sizing: border-box;
@@ -214,8 +215,14 @@
 
     /* grey 03 */
     border: 1px solid #dbdfec;
-    box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
-        5px 5px 10px 0px rgba(190, 190, 190, 0.25);
+    box-shadow: -2px 0px 5px 0px rgba(190, 190, 190, 0.15),
+        2px 2px 5px 0px rgba(190, 190, 190, 0.15);
+
+    &:hover {
+        box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
+            5px 5px 10px 0px rgba(190, 190, 190, 0.25);
+       // transform: translateY(-4px);
+    }
 }
 
 .program-card-left {
@@ -274,6 +281,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .apply-button button {

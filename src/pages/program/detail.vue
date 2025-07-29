@@ -56,12 +56,22 @@
                                     >
                                         <!-- 当前显示的图片和下一张图片使用普通img，其他使用LazyImage -->
                                         <img
-                                            v-if="index === currentSlide || index === (currentSlide + 1) % programDetail.university_images.length || preloadedImages.has(image)"
+                                            v-if="
+                                                index === currentSlide ||
+                                                index ===
+                                                    (currentSlide + 1) %
+                                                        programDetail
+                                                            .university_images
+                                                            .length ||
+                                                preloadedImages.has(image)
+                                            "
                                             :src="image"
                                             :alt="`${
                                                 programDetail.university_name
                                             } - Image ${index + 1}`"
-                                            @load="() => preloadedImages.add(image)"
+                                            @load="
+                                                () => preloadedImages.add(image)
+                                            "
                                         />
                                         <LazyImage
                                             v-else
@@ -69,7 +79,7 @@
                                             :alt="`${
                                                 programDetail.university_name
                                             } - Image ${index + 1}`"
-                                            aspect-ratio="42.9%" 
+                                            aspect-ratio="42.9%"
                                         />
                                     </div>
 
@@ -123,7 +133,13 @@
                         </div>
 
                         <!-- 学校介绍 -->
-                        <div class="section school-introduction">
+                        <div
+                            v-if="
+                                programDetail.introduction &&
+                                programDetail.introduction.trim()
+                            "
+                            class="section school-introduction"
+                        >
                             <div class="section-header">
                                 <img
                                     src="/assets/image/Program/Detail/SchoolIntroductionIcon.png"
@@ -315,70 +331,6 @@
 
                     <!-- 右侧信息栏 -->
                 </div>
-
-                <!-- 推荐相似项目 -->
-                <div v-if="similarPrograms.length > 0" class="section similar-programs">
-                    <div class="section-header">
-                        <img
-                            src="/assets/image/Program/Detail/RecommendedIcon.png"
-                            class="recommended-icon"
-                            alt="Recommended Similar Items"
-                        />
-                        <div class="section-header-text">
-                            Recommended similar items
-                        </div>
-                    </div>
-                    <div class="similar-programs-list">
-                        <div
-                            v-for="program in similarPrograms"
-                            :key="program.course_id"
-                            class="similar-program-card"
-                            @click="goToProgramDetail(program.course_id)"
-                        >
-                            <div class="similar-program-logo">
-                                <img
-                                    :src="
-                                        program.logo_url ||
-                                        '/assets/image/Logo.png'
-                                    "
-                                    :alt="program.university_name"
-                                />
-                            </div>
-                            <div class="similar-program-info">
-                                <h3 class="similar-program-title">
-                                    {{ program.course_name }}
-                                </h3>
-                                <div class="similar-program-university">
-                                    {{ program.university_name }}
-                                </div>
-                            </div>
-                            <div class="similar-program-details">
-                                <div class="similar-detail-row">
-                                    <div class="similar-detail-label">
-                                        Tuition
-                                    </div>
-                                    <div class="similar-detail-value">
-                                        {{
-                                            program.tuition_fee_rmb.toLocaleString()
-                                        }}
-                                        RMB
-                                    </div>
-                                </div>
-                                <div class="similar-detail-row">
-                                    <div class="similar-detail-label">
-                                        Start Date
-                                    </div>
-                                    <div class="similar-detail-value">
-                                        {{ program.starting_date }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="view-more">
-                        <a href="/program">View more items</a>
-                    </div>
-                </div>
             </div>
 
             <div class="right-sidebar">
@@ -492,18 +444,75 @@
             </div>
         </div>
 
+        <!-- 推荐相似项目 -->
+        <div v-if="similarPrograms.length > 0" class="section similar-programs">
+            <div class="section-header">
+                <img
+                    src="/assets/image/Program/Detail/RecommendedIcon.png"
+                    class="recommended-icon"
+                    alt="Recommended Similar Items"
+                />
+                <div class="section-header-text">Recommended similar items</div>
+            </div>
+            <div class="similar-programs-list">
+                <div
+                    v-for="program in displayedSimilarPrograms"
+                    :key="program.course_id"
+                    class="similar-program-card"
+                    @click="goToProgramDetail(program.course_id)"
+                >
+                    <div class="card-header">
+                        <div class="similar-program-logo">
+                            <img
+                                :src="
+                                    program.logo_url || programDetail.logo_url
+                                "
+                                :alt="program.university_name"
+                            />
+                        </div>
+                        <div class="similar-program-info">
+                            <div class="similar-program-title">
+                                {{ program.course_name }}
+                            </div>
+                            <div class="similar-program-university">
+                                {{ program.university_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="similar-program-details">
+                        <div class="similar-detail-row">
+                            <div class="similar-detail-label">Tuition</div>
+                            <div class="similar-detail-label">Start Date</div>
+                        </div>
+                        <div class="similar-detail-row">
+                            <div class="similar-detail-value">
+                                {{ formatTuition(program.tuition_fee_rmb) }}
+                            </div>
+                            <div class="similar-detail-value">
+                                {{ program.starting_date }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="shouldShowViewMore" class="view-more">
+                <div class="view-more-btn" @click="showMoreSimilarPrograms">
+                    View more items
+                </div>
+            </div>
+        </div>
+
+      
+
         <!-- 加载状态 -->
         <div v-else-if="isLoading" class="loading-container">
             <div class="loading-spinner"></div>
             <p>Loading program details...</p>
         </div>
-
-        <!-- 错误状态 -->
-        <div v-else class="error-container">
-            <p>Sorry, we couldn't find the program you're looking for.</p>
-            <a href="/program">Back to Programs</a>
-        </div>
+      
     </div>
+    <AboutUs v-if="!isLoading" />
+    <Footer v-if="!isLoading" />
 </template>
 
 <script>
@@ -514,6 +523,9 @@ import LazyImage from "@/components/LazyImage.vue";
 import baiduAnalytics from "@/utils/baidu-analytics";
 import { setSEO } from "@/utils/seo.js";
 import { searchStore } from "@/store/searchStore.js";
+import AboutUs from "../home/components/AboutUs/index.vue";
+import Footer from "../home/components/Footer/index.vue";
+
 // 导入API工具函数
 import { apiGet, apiPost } from "@/utils/api.js";
 
@@ -522,6 +534,8 @@ export default {
     components: {
         ProgramHeader,
         LazyImage,
+        AboutUs,
+        Footer,
     },
     setup() {
         const route = useRoute();
@@ -535,6 +549,26 @@ export default {
         const applicantsCount = ref(Math.floor(Math.random() * 500) + 500); // 随机生成申请人数
         const searchQuery = ref(""); // 搜索查询字符串
         let searchTimeout = null; // 搜索防抖定时器
+        const showAllSimilarPrograms = ref(false); // 是否显示所有相似项目
+
+        // 计算显示的相似项目
+        const displayedSimilarPrograms = computed(() => {
+            if (
+                showAllSimilarPrograms.value ||
+                similarPrograms.value.length <= 3
+            ) {
+                return similarPrograms.value;
+            }
+            return similarPrograms.value.slice(0, 3);
+        });
+
+        // 是否显示"View more items"按钮
+        const shouldShowViewMore = computed(() => {
+            return (
+                similarPrograms.value.length > 3 &&
+                !showAllSimilarPrograms.value
+            );
+        });
 
         // 控制内容展开收起
         const expandedSections = ref({
@@ -603,10 +637,10 @@ export default {
                 currentSlide.value =
                     (currentSlide.value + 1) %
                     programDetail.value.university_images.length;
-                
+
                 // 预加载下一张图片
                 preloadNextImages();
-                
+
                 // 自动轮播时不需要停止，但手动点击时需要暂停
                 if (isHovering.value) {
                     stopAutoSlide();
@@ -621,7 +655,7 @@ export default {
                     resolve();
                     return;
                 }
-                
+
                 const img = new Image();
                 img.onload = () => {
                     preloadedImages.value.add(src);
@@ -635,20 +669,26 @@ export default {
         // 预加载下一张和下下张图片
         const preloadNextImages = () => {
             if (!programDetail.value?.university_images?.length) return;
-            
+
             const images = programDetail.value.university_images;
             const total = images.length;
-            
+
             // 预加载下一张图片
             const nextIndex = (currentSlide.value + 1) % total;
-            if (images[nextIndex] && !preloadedImages.value.has(images[nextIndex])) {
+            if (
+                images[nextIndex] &&
+                !preloadedImages.value.has(images[nextIndex])
+            ) {
                 preloadImage(images[nextIndex]).catch(console.error);
             }
-            
+
             // 预加载下下张图片
             if (total > 2) {
                 const nextNextIndex = (currentSlide.value + 2) % total;
-                if (images[nextNextIndex] && !preloadedImages.value.has(images[nextNextIndex])) {
+                if (
+                    images[nextNextIndex] &&
+                    !preloadedImages.value.has(images[nextNextIndex])
+                ) {
                     preloadImage(images[nextNextIndex]).catch(console.error);
                 }
             }
@@ -681,17 +721,24 @@ export default {
                     );
 
                     // 预加载前几张图片
-                    if (result.data.university_images && result.data.university_images.length > 0) {
+                    if (
+                        result.data.university_images &&
+                        result.data.university_images.length > 0
+                    ) {
                         // 立即预加载第一张图片
-                        preloadImage(result.data.university_images[0]).catch(console.error);
-                        
+                        preloadImage(result.data.university_images[0]).catch(
+                            console.error
+                        );
+
                         // 预加载第二张图片（如果存在）
                         if (result.data.university_images.length > 1) {
                             setTimeout(() => {
-                                preloadImage(result.data.university_images[1]).catch(console.error);
+                                preloadImage(
+                                    result.data.university_images[1]
+                                ).catch(console.error);
                             }, 100);
                         }
-                        
+
                         // 如果有多张图片，启动轮播
                         if (result.data.university_images.length > 1) {
                             setTimeout(() => {
@@ -762,17 +809,17 @@ export default {
         // 搜索处理 - 带防抖功能
         const handleSearch = (query) => {
             searchQuery.value = query; // 更新搜索查询状态
-            
+
             // 清除之前的定时器
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
             }
-            
+
             // 如果查询为空，不进行跳转
             if (!query.trim()) {
                 return;
             }
-            
+
             // 设置新的定时器，等待用户停止输入1000ms后执行跳转
             searchTimeout = setTimeout(() => {
                 baiduAnalytics.trackEvent("program_detail", "search", query, 1);
@@ -791,7 +838,19 @@ export default {
                 `program_${id}`,
                 1
             );
-            router.push(`/program/${id}`);
+            // 新开页面跳转到项目详情
+            window.open(`/program/${id}`, "_blank");
+        };
+
+        // 显示更多相似项目
+        const showMoreSimilarPrograms = () => {
+            showAllSimilarPrograms.value = true;
+            baiduAnalytics.trackEvent(
+                "program_detail",
+                "view_more_similar_programs",
+                programDetail.value?.course_name,
+                1
+            );
         };
 
         // 格式化费用标签
@@ -799,6 +858,12 @@ export default {
             return feeKey
                 .replace(/_/g, " ")
                 .replace(/\b\w/g, (l) => l.toUpperCase());
+        };
+
+        // 格式化学费显示
+        const formatTuition = (tuition) => {
+            if (!tuition) return "-";
+            return `${tuition.toLocaleString()} RMB`;
         };
 
         onMounted(() => {
@@ -819,6 +884,8 @@ export default {
         return {
             programDetail,
             similarPrograms,
+            displayedSimilarPrograms,
+            shouldShowViewMore,
             isLoading,
             error,
             applicantsCount,
@@ -828,6 +895,7 @@ export default {
             applyNow,
             handleSearch,
             goToProgramDetail,
+            showMoreSimilarPrograms,
             currentSlide,
             setSlide,
             prevSlide,
@@ -836,6 +904,7 @@ export default {
             resumeAutoSlide,
             isHovering, // 暴露 isHovering 状态
             formatFeeLabel,
+            formatTuition,
             preloadedImages, // 暴露预加载图片集合
         };
     },
@@ -844,7 +913,7 @@ export default {
 
 <style lang="less" scoped>
 .program-detail-container {
-    padding: 220px 260px 100px 260px;
+    padding: 220px 260px 40px 260px;
     background-color: #fff;
 }
 
@@ -1336,72 +1405,127 @@ export default {
 }
 
 .similar-programs {
-  
+    width: 100%;
+    // margin: 60px auto 0;
+    // padding: 0 260px;
 
     .similar-programs-list {
+        margin-top: 30px;
         display: flex;
         gap: 20px;
-        overflow-x: auto;
-        padding-bottom: 20px;
 
         .similar-program-card {
-            min-width: 300px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 15px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            width: 453px;
+            height: 200px;
+            border-radius: 10px;
+            background: #ffffff;
+
+            box-sizing: border-box;
+            /* grey 03 */
+            border: 1px solid #dbdfec;
+
+            box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
+                5px 5px 10px 0px rgba(190, 190, 190, 0.25);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
 
             &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                border-color: #ff6b35;
             }
 
-            .similar-program-logo {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                overflow: hidden;
-                margin-bottom: 15px;
+            .card-header {
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                margin-bottom: 20px;
 
-                img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: contain;
-                }
-            }
+                .similar-program-logo {
+                    width: 68px;
+                    height: 68px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 1px solid #e8e8e8;
+                    flex-shrink: 0;
 
-            .similar-program-info {
-                margin-bottom: 15px;
-
-                .similar-program-title {
-                    font-size: 16px;
-                    font-weight: 600;
-                    margin-bottom: 5px;
-                    color: #333;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
                 }
 
-                .similar-program-university {
-                    font-size: 14px;
-                    color: #666;
+                .similar-program-info {
+                    flex: 1;
+                    height: 68px;
+                    min-width: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding-bottom: 5px;
+
+                    .similar-program-title {
+                        font-family: PingFang SC;
+                        font-size: 18px;
+                        font-weight: 500;
+                        line-height: normal;
+                        letter-spacing: 0em;
+
+                        font-variation-settings: "opsz" auto;
+                        color: #2e4057;
+                    }
+
+                    .similar-program-university {
+                        font-family: PingFang SC;
+                        font-size: 14px;
+                        font-weight: normal;
+                        line-height: normal;
+                        letter-spacing: 0em;
+
+                        font-variation-settings: "opsz" auto;
+                        color: #3a3e48;
+                    }
                 }
             }
 
             .similar-program-details {
+                padding-left: 88px;
                 .similar-detail-row {
                     display: flex;
                     justify-content: space-between;
-                    margin-bottom: 8px;
+                    align-items: center;
+                    margin-bottom: 10px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
 
                     .similar-detail-label {
-                        font-size: 12px;
-                        color: #999;
+                        font-family: PingFang SC;
+                        font-size: 14px;
+                        font-weight: normal;
+                        line-height: normal;
+                        letter-spacing: 0em;
+
+                        font-variation-settings: "opsz" auto;
+                        color: #3a3e48;
                     }
 
                     .similar-detail-value {
-                        font-size: 12px;
-                        color: #333;
+                        font-family: PingFang SC;
+                        font-size: 14px;
                         font-weight: 500;
+                        line-height: normal;
+                        text-align: right;
+                        letter-spacing: 0em;
+
+                        font-variation-settings: "opsz" auto;
+                        color: #3a3e48;
                     }
                 }
             }
@@ -1409,21 +1533,36 @@ export default {
     }
 
     .view-more {
-        text-align: center;
-        margin-top: 20px;
+        text-align: left;
+        margin-top: 30px;
 
-        a {
-            display: inline-block;
-            padding: 8px 20px;
+        .view-more-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 172px;
+            height: 44px;
+            border-radius: 4px;
+            opacity: 1;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            box-sizing: border-box;
             border: 1px solid #ff6b35;
-            border-radius: 20px;
+            font-family: PingFang SC;
+            font-size: 18px;
+            font-weight: normal;
+            line-height: 24px;
+            letter-spacing: 0px;
+
+            font-variation-settings: "opsz" auto;
             color: #ff6b35;
-            text-decoration: none;
-            transition: all 0.3s;
 
             &:hover {
                 background-color: #ff6b35;
                 color: white;
+                transform: translateY(-1px);
             }
         }
     }
