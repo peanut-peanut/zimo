@@ -241,37 +241,39 @@
                                 Object.keys(programDetail.fee_str).length > 0
                             "
                         >
-                            <div class="left-table">
-                                <div class="table-header">Billionaires</div>
-                                <div
-                                    v-for="(feeKey, index) in Object.keys(
-                                        programDetail.fee_str
-                                    )"
-                                    :key="feeKey"
-                                    class="table-cell table-font"
-                                    :class="{ yellow: index % 2 === 0 }"
-                                >
-                                    {{ formatFeeLabel(feeKey) }}
-                                </div>
-                            </div>
-                            <div class="right-table">
-                                <div class="table-header"></div>
-                                <div
-                                    v-for="(feeKey, index) in Object.keys(
-                                        programDetail.fee_str
-                                    )"
-                                    :key="feeKey"
-                                    class="table-cell table-font"
-                                    :class="{ yellow: index % 2 === 0 }"
-                                >
-                                    <div
-                                        class="cell-content"
-                                        :title="programDetail.fee_str[feeKey]"
+                            <table class="fee-table-wrapper">
+                                <thead>
+                                    <tr>
+                                        <th class="left-header">Billionaires</th>
+                                        <th class="right-header"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr 
+                                        v-for="(feeKey, index) in Object.keys(programDetail.fee_str)" 
+                                        :key="feeKey"
+                                        :class="{ 'yellow-row': index % 2 === 0 }"
                                     >
-                                        {{ programDetail.fee_str[feeKey] }}
-                                    </div>
-                                </div>
-                            </div>
+                                        <td class="left-cell">
+                                            <div class="table-font">{{ formatFeeLabel(feeKey) }}</div>
+                                        </td>
+                                        <td class="right-cell">
+                                            <div class="table-font cell-content">
+                                                <template v-if="programDetail.fee_str[feeKey] && typeof programDetail.fee_str[feeKey] === 'string' && programDetail.fee_str[feeKey].includes(';')">
+                                                    <ul class="fee-list">
+                                                        <li v-for="(item, itemIndex) in programDetail.fee_str[feeKey].split(';')" :key="itemIndex">
+                                                            {{ item.trim() }}
+                                                        </li>
+                                                    </ul>
+                                                </template>
+                                                <template v-else>
+                                                    {{ programDetail.fee_str[feeKey] || '-' }}
+                                                </template>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                         <!-- 申请流程 -->
@@ -700,10 +702,12 @@ export default {
                 isLoading.value = true;
                 const result = await apiGet(`/api/courses/${programId.value}`);
 
-                if (result.success) {
-                    programDetail.value = result.data;
+                                    if (result.success) {
+                        programDetail.value = result.data;
+                        
+                        // 使用HTML表格后不再需要手动同步高度
 
-                    // 设置SEO信息
+                        // 设置SEO信息
                     setSEO("programDetail", {
                         title: `${result.data.course_name} - ${result.data.university_name}`,
                         description:
@@ -866,16 +870,24 @@ export default {
             return `${tuition.toLocaleString()} RMB`;
         };
 
+        // 表格现在使用HTML表格布局，不再需要手动同步高度
+
+        // 使用HTML表格后不再需要手动处理窗口大小变化
+
         onMounted(() => {
             fetchProgramDetail();
             fetchSimilarPrograms();
         });
+        
+        // 使用HTML表格后不再需要监听变化同步高度
 
         // 确保在组件销毁时清除定时器
         onUnmounted(() => {
+            // 清除轮播定时器
             if (slideInterval.value) {
                 clearInterval(slideInterval.value);
             }
+            // 清除搜索防抖定时器
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
             }
@@ -905,7 +917,7 @@ export default {
             isHovering, // 暴露 isHovering 状态
             formatFeeLabel,
             formatTuition,
-            preloadedImages, // 暴露预加载图片集合
+            preloadedImages // 暴露预加载图片集合
         };
     },
 };
@@ -1209,80 +1221,119 @@ export default {
     }
 }
 
-.fees-table {
+    .fees-table {
     margin-bottom: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
+    width: 100%;
+    
     .table-font {
         font-family: PingFang SC;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: normal;
-        line-height: normal;
+        line-height: 1.4;
         text-align: center;
         letter-spacing: 0em;
-
         font-variation-settings: "opsz" auto;
         color: #2e4057;
     }
-    .table-header {
+    
+    .fee-table-wrapper {
         width: 100%;
-        border-radius: 18px 18px 0px 0px;
-        background: #ff6b35;
-        height: 73px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-width: 0px 0px 4px 0px;
-        border-style: solid;
-        border-color: #ffffff;
-        font-family: PingFang SC;
-        font-size: 22px;
-        font-weight: 600;
-        line-height: normal;
-        text-align: center;
-        letter-spacing: 0em;
-        font-variation-settings: "opsz" auto;
-        color: #ffffff;
-    }
-    .table-cell {
-        background: #fffdf5;
-        height: 68px;
-        border-width: 4px 0px 4px 0px;
-        border-style: solid;
-        border-color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        cursor: default;
-    }
-
-    /* 修改右侧表格单元格样式，使省略号生效 */
-    .right-table .table-cell {
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    .yellow {
-        background: #fffade;
-    }
-    .left-table {
-        width: 313px;
-        display: flex;
-        flex-direction: column;
-    }
-    .right-table {
-        width: 539px;
-        display: flex;
-        flex-direction: column;
+        border-collapse: separate;
+        border-spacing: 20px 0; /* 添加列之间的间距 */
+        table-layout: fixed;
+        
+        th, td {
+            padding: 0;
+            margin: 0;
+            vertical-align: middle;
+        }
+        
+        th {
+            height: 73px;
+            background: #ff6b35;
+            color: #ffffff;
+            font-family: PingFang SC;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 4px solid #ffffff;
+        }
+        
+        .left-header {
+            width: 300px;
+            border-radius: 18px 18px 0 0;
+        }
+        
+        .right-header {
+            width: 520px;
+            border-radius: 18px 18px 0 0;
+        }
+        
+        td {
+            border-bottom: 4px solid #ffffff;
+            border-top: 4px solid #ffffff;
+            background: #fffdf5;
+            min-height: 60px; /* 设置单元格最小高度 */
+            height: auto; /* 允许高度自动增长 */
+            vertical-align: middle;
+        }
+        
+        /* 为最后一行添加圆角 */
+        tr:last-child .left-cell {
+            border-radius: 0 0 18px 18px;
+        }
+        
+        tr:last-child .right-cell {
+            border-radius: 0 0 18px 18px;
+        }
+        
+        .left-cell {
+            width: 300px;
+            padding: 10px 15px;
+            text-align: center;
+        }
+        
+        .right-cell {
+            width: 520px;
+            padding: 10px 15px;
+            text-align: center;
+        }
+        
+        .yellow-row td {
+            background: #fffade;
+        }
+        
+        .cell-content {
+            white-space: normal;
+            word-break: break-word;
+            padding: 5px 0;
+            font-weight: 500; /* 稍微加粗右侧内容 */
+            
+            .fee-list {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                text-align: left;
+                
+                li {
+                    margin-bottom: 10px;
+                    position: relative;
+                    padding-left: 15px;
+                    line-height: 1.4;
+                    
+                    &:before {
+                        content: "•";
+                        position: absolute;
+                        left: 0;
+                        color: #ff6b35;
+                    }
+                    
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1738,10 +1789,5 @@ export default {
     position: absolute;
 }
 
-.cell-content {
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+/* 单元格内容样式已移至表格定义中 */
 </style>
