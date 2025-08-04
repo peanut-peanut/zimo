@@ -222,7 +222,7 @@ export const useProgram = () => {
         durations: false,
         startDates: false,
         tuition: false,
-        degrees: false,
+        degrees: true, // 默认展开学位筛选
         languages: false,
     });
 

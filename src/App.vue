@@ -23,5 +23,5 @@ export default {
 </script>
 
 <style lang="less">
-// 全局样式已在main.js中引入s
+// 全局样式已在main.js中引入
 </style> 

@@ -1,5 +1,5 @@
 <template>
-    <div class="program-container">
+    <div class="program-container program-max-width">
         <ProgramHeader
             :isFrom="'Program'"
             :searchQuery="searchQuery"
@@ -16,6 +16,52 @@
                 class="filter-sidebar"
                 :class="{ 'expanded-sidebar': isAnyFilterExpanded }"
             >
+                <!-- 学位筛选 (移到第一位) -->
+                <div class="filter-group">
+                    <div class="filter-header" @click="toggleFilter('degrees')">
+                        <div class="filter-title">
+                            <img
+                                src="/assets/image/Program/DateIcon.png"
+                                alt="Degree"
+                                class="filter-icon"
+                            />
+                            Degree
+                        </div>
+                        <div class="filter-arrow">
+                            <img
+                                :src="
+                                    expandedFilters.degrees
+                                        ? '/assets/image/Program/ArrowDown.png'
+                                        : '/assets/image/Program/ArrowUp.png'
+                                "
+                                alt="Arrow"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="filter-options"
+                        :class="{
+                            'filter-options-expanded': expandedFilters.degrees,
+                        }"
+                    >
+                        <div
+                            v-for="degree in degrees"
+                            :key="degree"
+                            class="filter-option"
+                        >
+                            <input
+                                type="checkbox"
+                                :id="`degree-${degree}`"
+                                :value="degree"
+                                v-model="selectedDegrees"
+                            />
+                            <label :for="`degree-${degree}`">{{
+                                degree
+                            }}</label>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- 城市筛选 -->
                 <div class="filter-group">
                     <div class="filter-header" @click="toggleFilter('cities')">
@@ -258,51 +304,7 @@
                     </div>
                 </div>
 
-                <!-- 学位筛选 -->
-                <div class="filter-group">
-                    <div class="filter-header" @click="toggleFilter('degrees')">
-                        <div class="filter-title">
-                            <img
-                                src="/assets/image/Program/DateIcon.png"
-                                alt="Degree"
-                                class="filter-icon"
-                            />
-                            Degree
-                        </div>
-                        <div class="filter-arrow">
-                            <img
-                                :src="
-                                    expandedFilters.degrees
-                                        ? '/assets/image/Program/ArrowDown.png'
-                                        : '/assets/image/Program/ArrowUp.png'
-                                "
-                                alt="Arrow"
-                            />
-                        </div>
-                    </div>
-                    <div
-                        class="filter-options"
-                        :class="{
-                            'filter-options-expanded': expandedFilters.degrees,
-                        }"
-                    >
-                        <div
-                            v-for="degree in degrees"
-                            :key="degree"
-                            class="filter-option"
-                        >
-                            <input
-                                type="checkbox"
-                                :id="`degree-${degree}`"
-                                :value="degree"
-                                v-model="selectedDegrees"
-                            />
-                            <label :for="`degree-${degree}`">{{
-                                degree
-                            }}</label>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
             <!-- 项目列表区域 -->

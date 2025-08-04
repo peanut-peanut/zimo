@@ -1,8 +1,15 @@
 .program-container {
     width: 100%;
     min-height: 100vh;
-    background-color: #f8f9fa;
+    background-color: #fff;
     padding-top: 140px; // 80px (header) + 60px (navigation)
+    
+    &.program-max-width {
+        @media (min-width: 1921px) {
+          //  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        //  background-color: #f8f9fa;
+        }
+    }
 }
 
 // Header styles moved to ProgramHeader component

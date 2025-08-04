@@ -1,5 +1,5 @@
 <template>
-    <div class="program-detail-container">
+    <div class="program-detail-container program-max-width">
         <ProgramHeader
             :isFrom="'Program'"
             :searchQuery="searchQuery"
@@ -927,6 +927,12 @@ export default {
 .program-detail-container {
     padding: 220px 260px 40px 260px;
     background-color: #fff;
+    
+    &.program-max-width {
+        @media (min-width: 1921px) {
+           // box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+    }
 }
 
 .content-container {
