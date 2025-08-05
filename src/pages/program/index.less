@@ -3,11 +3,11 @@
     min-height: 100vh;
     background-color: #fff;
     padding-top: 140px; // 80px (header) + 60px (navigation)
-    
+
     &.program-max-width {
-        @media (min-width: 1921px) {
-          //  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        //  background-color: #f8f9fa;
+        @media (min-width: 1681px) {
+            //  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            //  background-color: #f8f9fa;
         }
     }
 }
@@ -30,7 +30,7 @@
 
 .content-container {
     display: flex;
-    padding: 80px 260px;
+    padding: 80px 140px;
     // max-width: 1440px;
     margin: 0 auto;
     gap: 40px;
@@ -228,7 +228,7 @@
     &:hover {
         box-shadow: -5px 0px 10px 0px rgba(190, 190, 190, 0.25),
             5px 5px 10px 0px rgba(190, 190, 190, 0.25);
-       // transform: translateY(-4px);
+        // transform: translateY(-4px);
     }
 }
 
@@ -525,5 +525,127 @@
     font-size: 14px;
     &:hover {
         background-color: darken(#ff6b35, 5%);
+    }
+}
+
+/* 大屏幕字体缩放 - 屏幕宽度大于1680px时所有字体减少2px */
+@media (min-width: 1681px) {
+    // .filter-title {
+    //     font-size: 14px; // 原16px减2px
+    // }
+
+    // .filter-option {
+    //     font-size: 13px; // 原15px减2px
+    // }
+
+    // .tuition-label {
+    //     font-size: 12px; // 原14px减2px
+    // }
+
+    // .tuition-input {
+    //     font-size: 12px; // 原14px减2px
+    //     &::placeholder {
+    //         font-size: 10px; // 原12px减2px
+    //     }
+    // }
+    .content-container {
+        padding: 80px 120px;
+    }
+    .programs-list {
+        gap: 25px;
+    }
+    .apply-now-container {
+        right: 60px;
+        bottom: 60px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .program-title {
+        font-size: 22px; // 原26px减2px
+    }
+
+    .apply-button button {
+        font-size: 18px; // 原22px减2px
+    }
+
+    .university-name {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .program-item-label {
+        font-size: 12px; // 原16px减2px
+    }
+
+    .program-item-value {
+        font-size: 12px; // 原16px减2px
+    }
+
+    // 调整卡片和头像尺寸
+    .program-card {
+        height: 170px; // 原220px减20px
+        padding: 20px 30px; // 原30px减5px
+    }
+
+    .program-card-left {
+        width: 120px; // 原160px减20px
+        height: calc(100% - 10px); // 相应调整高度
+    }
+
+    .apply-button button {
+        width: 145px; // 原165px减20px
+        height: 40px; // 原44px减4px
+        font-size: 18px; // 原22px减2px
+    }
+
+    .program-header {
+        height: 50px; // 原62px减6px
+    }
+
+    .program-item-container {
+        height: 44px; // 原52px减4px
+
+        .program-item {
+            height: 44px; // 原52px减4px
+
+            .program-item-label {
+                height: 22px; // 原26px减2px
+                line-height: 22px; // 原26px减2px
+            }
+
+            .program-item-value {
+                height: 22px; // 原26px减2px
+                line-height: 22px; // 原26px减2px
+            }
+        }
+    }
+
+    .pagination-button {
+        font-size: 15px; // 原17px减2px
+    }
+
+    .pagination-ellipsis {
+        font-size: 12px; // 原14px减2px
+    }
+
+    .no-content-text {
+        font-size: 18px; // 原20px减2px
+    }
+
+    .loading-container p {
+        font-size: 16px; // 原18px减2px
+    }
+
+    .goto-text {
+        font-size: 12px; // 原14px减2px
+    }
+
+    .goto-input {
+        font-size: 12px; // 原14px减2px
+    }
+
+    .goto-button {
+        font-size: 12px; // 原14px减2px
     }
 }

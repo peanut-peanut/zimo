@@ -925,11 +925,11 @@ export default {
 
 <style lang="less" scoped>
 .program-detail-container {
-    padding: 220px 260px 40px 260px;
+    padding: 220px 140px 40px 140px;
     background-color: #fff;
     
     &.program-max-width {
-        @media (min-width: 1921px) {
+        @media (min-width: 1681px) {
            // box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
     }
@@ -1796,4 +1796,348 @@ export default {
 }
 
 /* 单元格内容样式已移至表格定义中 */
+
+/* 大屏幕字体缩放和尺寸调整 - 屏幕宽度大于1680px时 */
+@media (min-width: 1681px) {
+    .program-detail-container {
+        padding: 200px 240px 40px 240px; // 减少顶部和左右内边距
+    }
+    
+    .content-container {
+        gap: 45px; // 原40px减5px
+    }
+    
+    .left-content {
+        width: 800px; // 原872px减72px
+    }
+    
+    .right-sidebar {
+        width: 440px; // 原488px减48px
+        
+        .info-card {
+            padding: 25px 18px; // 原30px 20px减少
+            margin-bottom: 25px; // 原30px减5px
+            
+            .info-row {
+                margin-bottom: 18px; // 原20px减2px
+                line-height: 26px; // 原28px减2px
+                
+                .info-label {
+                    font-size: 18px; // 原20px减2px
+                }
+                
+                .info-value {
+                    font-size: 16px; // 原18px减2px
+                }
+            }
+            
+            .apply-now-button {
+                height: 50px; // 原56px减6px
+                font-size: 20px; // 原22px减2px
+                line-height: 22px; // 原24px减2px
+            }
+            
+            .applicants-count {
+                font-size: 16px; // 原18px减2px
+            }
+        }
+        
+        .why-choose-zimo {
+            padding: 0 18px; // 原0 20px减2px
+            
+            .why-choose-zimo-title {
+                font-size: 24px; // 原28px减2px
+                margin-bottom: 20px; // 原30px减5px
+            }
+            
+            .benefit-item {
+                margin-bottom: 18px; // 原20px减2px
+                
+                img {
+                    width: 18px; // 原20px减2px
+                    height: 18px; // 原20px减2px
+                }
+                
+                .benefit-text {
+                    font-size: 18px; // 原20px减2px
+                    line-height: 26px; // 原28px减2px
+                }
+            }
+        }
+    }
+    
+    .program-header {
+        margin-bottom: 25px; // 原30px减5px
+        height: 110px; // 原120px减10px
+        gap: 25px; // 原30px减5px
+        
+        .university-logo {
+            width: 110px; // 原120px减10px
+        }
+        
+        .program-info {
+            gap: 5px; // 原7px减2px
+            
+            .program-title {
+                font-size: 24px; // 原28px减2px
+            }
+            
+            .university-name {
+                font-size: 18px; // 原22px减2px
+            }
+        }
+    }
+    
+    .program-detail-content {
+        gap: 25px; // 原30px减5px
+        
+        .left-content {
+            .university-image {
+                height: 340px; // 原374px减34px
+                margin-bottom: 35px; // 原40px减5px
+            }
+        }
+    }
+    
+    .section {
+        margin-bottom: 50px; // 原60px减10px
+        
+        .section-header {
+            margin-bottom: 12px; // 原15px减3px
+            gap: 20px; // 原23.25px减少
+            
+            img {
+                width: 20px; // 原21.82px减少
+                height: 22px; // 原24.83px减少
+            }
+            
+            .recommended-icon {
+                width: 26px; // 原28px减2px
+                height: 26px; // 原28px减2px
+            }
+            
+            .project-icon {
+                width: 26px; // 原28px减2px
+                height: 19px; // 原21px减2px
+            }
+            
+            .accommodation-icon {
+                width: 26px; // 原28px减2px
+                height: 26px; // 原28px减2px
+            }
+            
+            .admissions-process-icon {
+                width: 26px; // 原28px减2px
+                height: 26px; // 原28px减2px
+            }
+            
+            .section-header-text {
+                font-size: 20px; // 原22px减2px
+                height: 28px; // 原31px减3px
+            }
+        }
+        
+        .section-content {
+            font-size: 18px; // 原20px减2px
+            line-height: 30px; // 原32px减2px
+            max-height: 220px; // 原240px减20px
+            
+            &.expanded {
+                max-height: 1800px; // 原2000px减200px
+            }
+            
+            &:not(.expanded)::after {
+                height: 70px; // 原80px减10px
+            }
+        }
+        
+        .show-more {
+            height: 36px; // 原40px减4px
+            padding-bottom: 10px; // 原12px减2px
+            font-size: 18px; // 原20px减2px
+        }
+    }
+    
+    .fees-table {
+        margin-bottom: 50px; // 原60px减10px
+        
+        .table-font {
+            font-size: 16px; // 原18px减2px
+        }
+        
+        .fee-table-wrapper {
+            border-spacing: 18px 0; // 原20px减2px
+            
+            th {
+                height: 65px; // 原73px减8px
+                font-size: 20px; // 原22px减2px
+            }
+            
+            .left-header {
+                width: 280px; // 原300px减20px
+            }
+            
+            .right-header {
+                width: 480px; // 原520px减40px
+            }
+            
+            .left-cell {
+                width: 280px; // 原300px减20px
+                padding: 8px 12px; // 原10px 15px减少
+            }
+            
+            .right-cell {
+                width: 480px; // 原520px减40px
+                padding: 8px 12px; // 原10px 15px减少
+            }
+        }
+    }
+    
+    .admissions-process {
+        margin-bottom: 50px; // 原60px减10px
+        
+        .process-steps {
+            margin: 35px 0; // 原40px减5px
+            
+            .step {
+                gap: 18px; // 原20px减2px
+                
+                .step-number {
+                    width: 60px; // 原65px减5px
+                    height: 60px; // 原65px减5px
+                    font-size: 28px; // 原30px减2px
+                }
+                
+                .step-name {
+                    font-size: 18px; // 原20px减2px
+                }
+            }
+            
+            .step-line {
+                margin-top: 29px; // 原32px减3px (60px圆圈高度的一半 - 1px = 29px)
+            }
+        }
+        
+        .required-documents {
+            .required-documents-title {
+                font-size: 20px; // 原22px减2px
+                margin-bottom: 18px; // 原20px减2px
+            }
+            
+            ul {
+                padding-left: 25px; // 原30px减5px
+                
+                li {
+                    font-size: 18px; // 原20px减2px
+                    
+                    &::marker {
+                        font-size: 14px; // 原16px减2px
+                    }
+                }
+            }
+        }
+    }
+    
+    .similar-programs {
+        .similar-programs-list {
+            margin-top: 25px; // 原30px减5px
+            gap: 18px; // 原20px减2px
+            
+            .similar-program-card {
+                width: 420px; // 原453px减33px
+                height: 180px; // 原200px减20px
+                padding: 18px; // 原20px减2px
+                
+                .card-header {
+                    gap: 18px; // 原20px减2px
+                    margin-bottom: 18px; // 原20px减2px
+                    
+                    .similar-program-logo {
+                        width: 60px; // 原68px减8px
+                        height: 60px; // 原68px减8px
+                    }
+                    
+                    .similar-program-info {
+                        height: 60px; // 原68px减8px
+                        
+                        .similar-program-title {
+                            font-size: 16px; // 原18px减2px
+                        }
+                        
+                        .similar-program-university {
+                            font-size: 12px; // 原14px减2px
+                        }
+                    }
+                }
+                
+                .similar-program-details {
+                    padding-left: 78px; // 原88px减10px
+                    
+                    .similar-detail-row {
+                        margin-bottom: 8px; // 原10px减2px
+                        
+                        .similar-detail-label {
+                            font-size: 12px; // 原14px减2px
+                        }
+                        
+                        .similar-detail-value {
+                            font-size: 12px; // 原14px减2px
+                        }
+                    }
+                }
+            }
+        }
+        
+        .view-more {
+            margin-top: 25px; // 原30px减5px
+            
+            .view-more-btn {
+                width: 160px; // 原172px减12px
+                height: 40px; // 原44px减4px
+                font-size: 16px; // 原18px减2px
+                line-height: 22px; // 原24px减2px
+            }
+        }
+    }
+    
+    .loading-container,
+    .error-container {
+        height: 360px; // 原400px减40px
+        
+        .loading-spinner {
+            width: 36px; // 原40px减4px
+            height: 36px; // 原40px减4px
+            margin-bottom: 18px; // 原20px减2px
+        }
+        
+        p {
+            font-size: 16px; // 原18px减2px
+        }
+    }
+    
+    .carousel-indicators {
+        bottom: 8px; // 原10px减2px
+        gap: 6px; // 原8px减2px
+        
+        .indicator {
+            width: 8px; // 原10px减2px
+            height: 8px; // 原10px减2px
+        }
+    }
+    
+    .carousel-controls button {
+        padding: 8px; // 原10px减2px
+        font-size: 22px; // 原24px减2px
+        width: 36px; // 原40px减4px
+        height: 36px; // 原40px减4px
+    }
+    
+    .carousel-controls .prev-btn {
+        left: 8px; // 原10px减2px
+    }
+    
+    .carousel-controls .next-btn {
+        right: 8px; // 原10px减2px
+    }
+}
 </style>
