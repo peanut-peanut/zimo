@@ -110,7 +110,7 @@ export const processApiResponse = (response) => {
             id: course.course_id,
             title: course.course_name,
             university: course.university_name,
-            hasScholarship: false, // API中没有奖学金信息，默认为false
+            hasScholarship: !!course.has_scholarship, // API中没有奖学金信息，默认为false
             startDate: course.starting_date || "N/A",
             duration: course.duration || "N/A",
             deadline: formatDate(course.application_deadline) || "N/A",
@@ -172,6 +172,11 @@ export const useProgram = () => {
                 );
             }
 
+            // 添加奖学金筛选
+            if (selectedScholarship.value !== "") {
+                requestBody.scholarship = selectedScholarship.value === "true";
+            }
+
             // 添加语言筛选（数组）
             if (selectedLanguages.value.length > 0) {
                 requestBody.languages = [...selectedLanguages.value];
@@ -223,6 +228,7 @@ export const useProgram = () => {
         startDates: false,
         tuition: false,
         degrees: true, // 默认展开学位筛选
+        scholarship: false,
         languages: false,
     });
 
@@ -240,6 +246,7 @@ export const useProgram = () => {
 
     // 用户选择的筛选条件
     const selectedDegrees = ref([]);
+    const selectedScholarship = ref(""); // 奖学金筛选，空字符串表示全部
     const selectedLanguages = ref([]);
     const selectedCities = ref([]);
     const selectedDurations = ref([]);
@@ -365,8 +372,8 @@ export const useProgram = () => {
     // 监听筛选条件变化，重置到第一页并重新获取数据
     watch(
         [
-            searchQuery,
             selectedDegrees,
+            selectedScholarship,
             selectedLanguages,
             selectedCities,
             selectedDurations,
@@ -386,6 +393,9 @@ export const useProgram = () => {
         switch (filterType) {
             case "degrees":
                 selectedDegrees.value = [];
+                break;
+            case "scholarship":
+                selectedScholarship.value = "";
                 break;
             case "languages":
                 selectedLanguages.value = [];
@@ -479,7 +489,7 @@ export const useProgram = () => {
             // 重置到第一页并重新获取数据
             currentPage.value = 1;
             fetchDataFromApi(1);
-        }, 100);
+        }, 500);
     };
 
     return {
@@ -491,6 +501,7 @@ export const useProgram = () => {
         durations,
         startDates,
         selectedDegrees,
+        selectedScholarship,
         selectedLanguages,
         selectedCities,
         selectedDurations,

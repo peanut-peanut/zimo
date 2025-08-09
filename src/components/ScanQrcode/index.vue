@@ -1,5 +1,5 @@
 <template>
-    <div class="popup-content">
+    <div class="popup-content" :class="{ 'from-detail': isFromDetail }">
         <div class="contact-details">
             <div class="popup-header">
                 <img
@@ -41,7 +41,13 @@
 
 <script>
 export default {
-    name: "ScanQrcode"
+    name: "ScanQrcode",
+    props: {
+        isFromDetail: {
+            type: Boolean,
+            default: false,
+        },
+    },
 };
 </script>
 
@@ -141,5 +147,63 @@ export default {
     color: #3a3e48;
     text-align: center;
     margin-bottom: -2px;
+}
+
+// 详情页面缩放比例
+@detail-screen-ratio: 0.6;
+
+/* 当从 detail 页面调用时的媒体查询 */
+.popup-content.from-detail {
+    @media (min-width: 1681px) {
+        padding: floor(22px * @detail-screen-ratio); // 原 22px
+        width: floor(520px * @detail-screen-ratio); // 原 520px
+
+        .popup-header {
+            gap: floor(10px * @detail-screen-ratio); // 原 10px
+            margin-bottom: floor(15px * @detail-screen-ratio); // 原 15px
+        }
+
+        .avatar-image {
+            width: floor(60px * @detail-screen-ratio); // 原 60px
+            height: floor(60px * @detail-screen-ratio); // 原 60px
+        }
+
+        .popup-name {
+            font-size: floor(24px * @detail-screen-ratio); // 原 24px
+        }
+
+        .contact-list {
+            gap: floor(8px * @detail-screen-ratio); // 原 8px
+        }
+
+        .contact-item {
+            &::before {
+                font-size: floor(24px * @detail-screen-ratio); // 原 24px
+            }
+        }
+
+        .contact-label {
+            margin: 0 floor(6px * @detail-screen-ratio); // 原 0 6px
+            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+        }
+
+        .contact-value {
+            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+        }
+
+        .qr-code-container {
+            padding-top: floor(10px * @detail-screen-ratio); // 原 10px
+        }
+
+        .qr-code-image {
+            width: floor(100px * @detail-screen-ratio); // 原 100px
+            height: floor(100px * @detail-screen-ratio); // 原 100px
+        }
+
+        .qr-code-label {
+            font-size: floor(22px * @detail-screen-ratio); // 原 22px
+            margin-bottom: floor(-2px * @detail-screen-ratio); // 原 -2px
+        }
+    }
 }
 </style>

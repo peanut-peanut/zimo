@@ -1,5 +1,5 @@
 <template>
-    <div class="program-container program-max-width">
+    <div class="program-container">
         <ProgramHeader
             :isFrom="'Program'"
             :searchQuery="searchQuery"
@@ -61,7 +61,68 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- 奖学金筛选 -->
+                <div class="filter-group">
+                    <div class="filter-header" @click="toggleFilter('scholarship')">
+                        <div class="filter-title">
+                            <img
+                                src="/assets/image/Program/DateIcon.png"
+                                alt="Scholarship"
+                                class="filter-icon"
+                            />
+                            Scholarship
+                        </div>
+                        <div class="filter-arrow">
+                            <img
+                                :src="
+                                    expandedFilters.scholarship
+                                        ? '/assets/image/Program/ArrowDown.png'
+                                        : '/assets/image/Program/ArrowUp.png'
+                                "
+                                alt="Arrow"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="filter-options"
+                        :class="{
+                            'filter-options-expanded': expandedFilters.scholarship,
+                        }"
+                    >
+                        <div class="filter-option">
+                            <input
+                                type="radio"
+                                id="scholarship-all"
+                                value=""
+                                v-model="selectedScholarship"
+                                name="scholarship"
+                            />
+                            <label for="scholarship-all">All</label>
+                        </div>
+                        <div class="filter-option">
+                            <input
+                                type="radio"
+                                id="scholarship-yes"
+                                value="true"
+                                v-model="selectedScholarship"
+                                name="scholarship"
+                            />
+                            <label for="scholarship-yes">Available</label>
+                        </div>
+                        <div class="filter-option">
+                            <input
+                                type="radio"
+                                id="scholarship-no"
+                                value="false"
+                                v-model="selectedScholarship"
+                                name="scholarship"
+                            />
+                            <label for="scholarship-no">Not Available</label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 城市筛选 -->
                 <div class="filter-group">
                     <div class="filter-header" @click="toggleFilter('cities')">
@@ -303,8 +364,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <!-- 项目列表区域 -->
@@ -351,14 +410,22 @@
 
                     <div class="program-card-right">
                         <div class="program-header">
-                            <div class="program-title">{{ program.title }}</div>
+                            <div class="title-container">
+                                <div class="program-title">
+                                    <span class="title-text">{{ program.title }}</span>
+                                    <span
+                                        class="scholarship-badge"
+                                        v-if="program.hasScholarship"
+                                    >
+                                        Scholarship
+                                    </span>
+                                </div>
+                            </div>
                             <div class="apply-button">
                                 <!-- <button @click.stop="applyNow(program)">
                                     APPLY NOW
                                 </button> -->
-                                <button>
-                                    APPLY NOW
-                                </button>
+                                <button>APPLY NOW</button>
                             </div>
                         </div>
                         <div class="university-name">

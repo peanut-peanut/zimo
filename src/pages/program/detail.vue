@@ -1,5 +1,5 @@
 <template>
-    <div class="program-detail-container program-max-width">
+    <div class="program-detail-container">
         <ProgramHeader
             :isFrom="'Program'"
             :searchQuery="searchQuery"
@@ -244,30 +244,63 @@
                             <table class="fee-table-wrapper">
                                 <thead>
                                     <tr>
-                                        <th class="left-header">Billionaires</th>
+                                        <th class="left-header">
+                                            Billionaires
+                                        </th>
                                         <th class="right-header"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr 
-                                        v-for="(feeKey, index) in Object.keys(programDetail.fee_str)" 
+                                    <tr
+                                        v-for="(feeKey, index) in Object.keys(
+                                            programDetail.fee_str
+                                        )"
                                         :key="feeKey"
-                                        :class="{ 'yellow-row': index % 2 === 0 }"
+                                        :class="{
+                                            'yellow-row': index % 2 === 0,
+                                        }"
                                     >
                                         <td class="left-cell">
-                                            <div class="table-font">{{ formatFeeLabel(feeKey) }}</div>
+                                            <div class="table-font">
+                                                {{ formatFeeLabel(feeKey) }}
+                                            </div>
                                         </td>
                                         <td class="right-cell">
-                                            <div class="table-font cell-content">
-                                                <template v-if="programDetail.fee_str[feeKey] && typeof programDetail.fee_str[feeKey] === 'string' && programDetail.fee_str[feeKey].includes(';')">
+                                            <div
+                                                class="table-font cell-content"
+                                            >
+                                                <template
+                                                    v-if="
+                                                        programDetail.fee_str[
+                                                            feeKey
+                                                        ] &&
+                                                        typeof programDetail
+                                                            .fee_str[feeKey] ===
+                                                            'string' &&
+                                                        programDetail.fee_str[
+                                                            feeKey
+                                                        ].includes(';')
+                                                    "
+                                                >
                                                     <ul class="fee-list">
-                                                        <li v-for="(item, itemIndex) in programDetail.fee_str[feeKey].split(';')" :key="itemIndex">
+                                                        <li
+                                                            v-for="(
+                                                                item, itemIndex
+                                                            ) in programDetail.fee_str[
+                                                                feeKey
+                                                            ].split(';')"
+                                                            :key="itemIndex"
+                                                        >
                                                             {{ item.trim() }}
                                                         </li>
                                                     </ul>
                                                 </template>
                                                 <template v-else>
-                                                    {{ programDetail.fee_str[feeKey] || '-' }}
+                                                    {{
+                                                        programDetail.fee_str[
+                                                            feeKey
+                                                        ] || "-"
+                                                    }}
                                                 </template>
                                             </div>
                                         </td>
@@ -310,23 +343,36 @@
                                 <div class="required-documents-title">
                                     Required Documents:
                                 </div>
-                                <ul>
-                                    <li>
-                                        Supplemental Information Form: Dalian
-                                        Medical University
+                                <ul v-if="formattedRequirements.length > 0">
+                                    <li
+                                        v-for="(
+                                            req, index
+                                        ) in formattedRequirements"
+                                        :key="index"
+                                    >
+                                        <template
+                                            v-if="typeof req === 'string'"
+                                        >
+                                            {{ req }}
+                                        </template>
+                                        <template v-else>
+                                            {{ req.main }}
+                                            <ul v-if="req.sub">
+                                                <li
+                                                    v-for="(
+                                                        subReq, subIndex
+                                                    ) in req.sub"
+                                                    :key="subIndex"
+                                                >
+                                                    {{ subReq }}
+                                                </li>
+                                            </ul>
+                                        </template>
                                     </li>
-                                    <li>Bank Statement</li>
-                                    <li>No Criminal Record Certificate</li>
-                                    <li>Medical Examination Form</li>
-                                    <li>English Language Certificate</li>
-                                    <li>
-                                        Your Highest Academic Transcript (In
-                                        English/Your Graduation Certificate (In
-                                        English)
-                                    </li>
-                                    <li>Your Photograph</li>
-                                    <li>Your Passport Copy</li>
                                 </ul>
+                                <div v-else class="no-requirements">
+                                    No specific documents required
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -504,17 +550,14 @@
             </div>
         </div>
 
-      
-
         <!-- 加载状态 -->
         <div v-else-if="isLoading" class="loading-container">
             <div class="loading-spinner"></div>
             <p>Loading program details...</p>
         </div>
-      
     </div>
-    <AboutUs v-if="!isLoading" />
-    <Footer v-if="!isLoading" />
+    <AboutUs v-if="!isLoading" :is-from-detail="true" />
+    <Footer v-if="!isLoading" :is-from-detail="true" />
 </template>
 
 <script>
@@ -702,12 +745,12 @@ export default {
                 isLoading.value = true;
                 const result = await apiGet(`/api/courses/${programId.value}`);
 
-                                    if (result.success) {
-                        programDetail.value = result.data;
-                        
-                        // 使用HTML表格后不再需要手动同步高度
+                if (result.success) {
+                    programDetail.value = result.data;
 
-                        // 设置SEO信息
+                    // 使用HTML表格后不再需要手动同步高度
+
+                    // 设置SEO信息
                     setSEO("programDetail", {
                         title: `${result.data.course_name} - ${result.data.university_name}`,
                         description:
@@ -878,7 +921,7 @@ export default {
             fetchProgramDetail();
             fetchSimilarPrograms();
         });
-        
+
         // 使用HTML表格后不再需要监听变化同步高度
 
         // 确保在组件销毁时清除定时器
@@ -917,7 +960,233 @@ export default {
             isHovering, // 暴露 isHovering 状态
             formatFeeLabel,
             formatTuition,
-            preloadedImages // 暴露预加载图片集合
+            preloadedImages, // 暴露预加载图片集合
+
+            // 格式化申请要求
+            formattedRequirements: computed(() => {
+                if (!programDetail.value?.requirements) return [];
+
+                const reqText = programDetail.value.requirements;
+                const requirements = [];
+
+                // 尝试按句子分割文本，支持多种分隔符
+                let sentences = reqText
+                    .split(/[.。;；\n]/)
+                    .map((s) => s.trim())
+                    .filter((s) => s.length > 0);
+
+                // 如果分割后的句子太少，可能是一整段文字，尝试其他分割方式
+                if (sentences.length <= 2) {
+                    // 尝试按照常见的需求关键词分割
+                    sentences = reqText
+                        .split(
+                            /(?=Healthy|A master|Under \d+|Applicants for|Applicants without|Entrance)/i
+                        )
+                        .map((s) => s.trim())
+                        .filter((s) => s.length > 0);
+                }
+
+                // 处理每个句子/段落
+                sentences.forEach((sentence) => {
+                    const cleanSentence = sentence
+                        .replace(/^[^\w\u4e00-\u9fa5]+/, "")
+                        .trim();
+                    if (cleanSentence.length < 10) return; // 忽略太短的片段
+
+                    // 国籍要求
+                    if (
+                        /healthy.*foreign.*nationals?/i.test(cleanSentence) ||
+                        /non-chinese.*citizens?/i.test(cleanSentence)
+                    ) {
+                        requirements.push(
+                            "Healthy foreign nationals (Non-Chinese citizens)"
+                        );
+                        return;
+                    }
+
+                    // 学历要求
+                    if (
+                        /master.*degree/i.test(cleanSentence) ||
+                        /bachelor.*degree/i.test(cleanSentence) ||
+                        /undergraduate/i.test(cleanSentence)
+                    ) {
+                        const degreeMatch = cleanSentence.match(
+                            /(master|bachelor|undergraduate).*?(degree|diploma)/i
+                        );
+                        if (degreeMatch) {
+                            let degreeText = cleanSentence;
+                            // 提取学科领域信息
+                            if (
+                                /medicine|pharmacy|science/i.test(cleanSentence)
+                            ) {
+                                const fieldMatch = cleanSentence.match(
+                                    /on\s+(medicine|pharmacy|[\w\s]+science)/i
+                                );
+                                if (fieldMatch) {
+                                    degreeText = `${degreeMatch[0]} in ${fieldMatch[1]} or related field`;
+                                }
+                            }
+                            requirements.push(
+                                degreeText.charAt(0).toUpperCase() +
+                                    degreeText.slice(1)
+                            );
+                        }
+                        return;
+                    }
+
+                    // 年龄要求
+                    if (/under \d+.*years?.*age/i.test(cleanSentence)) {
+                        const ageMatch = cleanSentence.match(
+                            /under (\d+).*years?.*age/i
+                        );
+                        if (ageMatch) {
+                            requirements.push(
+                                `Under ${ageMatch[1]} years of age`
+                            );
+                        }
+                        return;
+                    }
+
+                    // 语言要求 - HSK
+                    if (/hsk.*level/i.test(cleanSentence)) {
+                        const hskMatch =
+                            cleanSentence.match(/hsk.*level\s*(\d+)/i);
+                        const scoreMatch =
+                            cleanSentence.match(/(\d+)\s*points/i);
+                        if (hskMatch && scoreMatch) {
+                            requirements.push({
+                                main: "Chinese Language Proficiency:",
+                                sub: [
+                                    `HSK Level ${hskMatch[1]} with minimum ${scoreMatch[1]} points`,
+                                ],
+                            });
+                        }
+                        return;
+                    }
+
+                    // 语言要求 - TOEFL/IELTS
+                    if (/toefl|ielts/i.test(cleanSentence)) {
+                        const subRequirements = [];
+                        if (/toefl/i.test(cleanSentence)) {
+                            const toeflMatch =
+                                cleanSentence.match(/toefl.*?(\d+)/i);
+                            if (toeflMatch) {
+                                subRequirements.push(
+                                    `TOEFL minimum ${toeflMatch[1]}`
+                                );
+                            }
+                        }
+                        if (/ielts/i.test(cleanSentence)) {
+                            const ieltsMatch =
+                                cleanSentence.match(/ielts.*?([\d.]+)/i);
+                            if (ieltsMatch) {
+                                subRequirements.push(
+                                    `IELTS minimum ${ieltsMatch[1]}`
+                                );
+                            }
+                        }
+                        if (subRequirements.length > 0) {
+                            requirements.push({
+                                main: "English Language Certificate:",
+                                sub: subRequirements,
+                            });
+                        }
+                        return;
+                    }
+
+                    // 学术背景要求
+                    if (
+                        /tcm.*background|traditional.*chinese.*medicine/i.test(
+                            cleanSentence
+                        )
+                    ) {
+                        requirements.push(
+                            "Traditional Chinese Medicine background (preferred)"
+                        );
+                        return;
+                    }
+
+                    // 研究能力要求
+                    if (
+                        /self-study.*research|academic.*research/i.test(
+                            cleanSentence
+                        )
+                    ) {
+                        requirements.push(
+                            "Self-study and academic research abilities"
+                        );
+                        return;
+                    }
+
+                    // 入学考试
+                    if (/entrance.*exam|mock.*test/i.test(cleanSentence)) {
+                        requirements.push("Entrance examination or mock test");
+                        return;
+                    }
+
+                    // 通用文档要求关键词
+                    if (/transcript/i.test(cleanSentence)) {
+                        requirements.push("Academic Transcripts");
+                        return;
+                    }
+                    if (/passport/i.test(cleanSentence)) {
+                        requirements.push("Valid Passport");
+                        return;
+                    }
+                    if (
+                        /health.*certificate|medical.*report/i.test(
+                            cleanSentence
+                        )
+                    ) {
+                        requirements.push("Health Certificate");
+                        return;
+                    }
+                    if (
+                        /character.*reference|recommendation.*letter/i.test(
+                            cleanSentence
+                        )
+                    ) {
+                        requirements.push(
+                            "Character Reference or Recommendation Letter"
+                        );
+                        return;
+                    }
+
+                    // 如果是较长的描述性文本，尝试提取关键信息
+                    if (
+                        cleanSentence.length > 50 &&
+                        cleanSentence.length < 200
+                    ) {
+                        // 如果包含多个关键信息，作为一个完整要求
+                        if (
+                            /applicants|students|candidates/i.test(
+                                cleanSentence
+                            )
+                        ) {
+                            requirements.push(cleanSentence);
+                        }
+                    }
+                });
+
+                // 如果没有提取到任何要求，返回原始文本作为单个要求
+                if (requirements.length === 0) {
+                    return [reqText];
+                }
+
+                // 去重
+                const uniqueRequirements = [];
+                const seen = new Set();
+
+                requirements.forEach((req) => {
+                    const key = typeof req === "string" ? req : req.main;
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        uniqueRequirements.push(req);
+                    }
+                });
+
+                return uniqueRequirements;
+            }),
         };
     },
 };
@@ -925,14 +1194,8 @@ export default {
 
 <style lang="less" scoped>
 .program-detail-container {
-    padding: 220px 140px 40px 140px;
+    padding: 220px 260px 40px 260px;
     background-color: #fff;
-    
-    &.program-max-width {
-        @media (min-width: 1681px) {
-           // box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-    }
 }
 
 .content-container {
@@ -1227,10 +1490,10 @@ export default {
     }
 }
 
-    .fees-table {
+.fees-table {
     margin-bottom: 60px;
     width: 100%;
-    
+
     .table-font {
         font-family: PingFang SC;
         font-size: 18px;
@@ -1241,19 +1504,20 @@ export default {
         font-variation-settings: "opsz" auto;
         color: #2e4057;
     }
-    
+
     .fee-table-wrapper {
         width: 100%;
         border-collapse: separate;
         border-spacing: 20px 0; /* 添加列之间的间距 */
         table-layout: fixed;
-        
-        th, td {
+
+        th,
+        td {
             padding: 0;
             margin: 0;
             vertical-align: middle;
         }
-        
+
         th {
             height: 73px;
             background: #ff6b35;
@@ -1264,17 +1528,17 @@ export default {
             text-align: center;
             border-bottom: 4px solid #ffffff;
         }
-        
+
         .left-header {
             width: 300px;
             border-radius: 18px 18px 0 0;
         }
-        
+
         .right-header {
             width: 520px;
             border-radius: 18px 18px 0 0;
         }
-        
+
         td {
             border-bottom: 4px solid #ffffff;
             border-top: 4px solid #ffffff;
@@ -1283,57 +1547,57 @@ export default {
             height: auto; /* 允许高度自动增长 */
             vertical-align: middle;
         }
-        
+
         /* 为最后一行添加圆角 */
         tr:last-child .left-cell {
             border-radius: 0 0 18px 18px;
         }
-        
+
         tr:last-child .right-cell {
             border-radius: 0 0 18px 18px;
         }
-        
+
         .left-cell {
             width: 300px;
             padding: 10px 15px;
             text-align: center;
         }
-        
+
         .right-cell {
             width: 520px;
             padding: 10px 15px;
             text-align: center;
         }
-        
+
         .yellow-row td {
             background: #fffade;
         }
-        
+
         .cell-content {
             white-space: normal;
             word-break: break-word;
             padding: 5px 0;
             font-weight: 500; /* 稍微加粗右侧内容 */
-            
+
             .fee-list {
                 list-style-type: none;
                 padding: 0;
                 margin: 0;
                 text-align: left;
-                
+
                 li {
                     margin-bottom: 10px;
                     position: relative;
                     padding-left: 15px;
                     line-height: 1.4;
-                    
+
                     &:before {
                         content: "•";
                         position: absolute;
                         left: 0;
                         color: #ff6b35;
                     }
-                    
+
                     &:last-child {
                         margin-bottom: 0;
                     }
@@ -1457,6 +1721,16 @@ export default {
                     font-size: 16px;
                 }
             }
+        }
+
+        .no-requirements {
+            font-family: PingFang SC;
+            font-size: 20px;
+            font-weight: 300;
+            line-height: normal;
+            color: #666;
+            font-style: italic;
+            padding: 10px 0;
         }
     }
 }
@@ -1797,347 +2071,374 @@ export default {
 
 /* 单元格内容样式已移至表格定义中 */
 
+// 大屏幕缩放比例
+@large-screen-ratio: 0.6;
+
 /* 大屏幕字体缩放和尺寸调整 - 屏幕宽度大于1680px时 */
 @media (min-width: 1681px) {
     .program-detail-container {
-        padding: 200px 240px 40px 240px; // 减少顶部和左右内边距
+        //  padding: 80px 300px 40px 300px;
+        max-width: 1680px;
+        margin: 0 auto;
     }
-    
+
     .content-container {
-        gap: 45px; // 原40px减5px
+        padding: 0 120px;
+        gap: 0px; // 原 40px
+        //space-around
+        justify-content: space-between;
     }
-    
+
     .left-content {
-        width: 800px; // 原872px减72px
+        width: floor(872px * @large-screen-ratio); // 原 872px
     }
-    
+
     .right-sidebar {
-        width: 440px; // 原488px减48px
-        
+        width: floor(488px * @large-screen-ratio); // 原 488px
+
         .info-card {
-            padding: 25px 18px; // 原30px 20px减少
-            margin-bottom: 25px; // 原30px减5px
-            
+            padding: floor(30px * @large-screen-ratio)
+                floor(20px * @large-screen-ratio); // 原 30px 20px
+            margin-bottom: floor(30px * @large-screen-ratio); // 原 30px
+
             .info-row {
-                margin-bottom: 18px; // 原20px减2px
-                line-height: 26px; // 原28px减2px
-                
+                margin-bottom: floor(20px * @large-screen-ratio); // 原 20px
+                line-height: floor(28px * @large-screen-ratio); // 原 28px
+
                 .info-label {
-                    font-size: 18px; // 原20px减2px
+                    font-size: floor(20px * @large-screen-ratio); // 原 20px
                 }
-                
+
                 .info-value {
-                    font-size: 16px; // 原18px减2px
+                    font-size: floor(18px * @large-screen-ratio); // 原 18px
                 }
             }
-            
+
             .apply-now-button {
-                height: 50px; // 原56px减6px
-                font-size: 20px; // 原22px减2px
-                line-height: 22px; // 原24px减2px
+                height: floor(56px * @large-screen-ratio); // 原 56px
+                font-size: floor(22px * @large-screen-ratio); // 原 22px
+                line-height: floor(24px * @large-screen-ratio); // 原 24px
             }
-            
+
             .applicants-count {
-                font-size: 16px; // 原18px减2px
+                font-size: floor(18px * @large-screen-ratio); // 原 18px
             }
         }
-        
+
         .why-choose-zimo {
-            padding: 0 18px; // 原0 20px减2px
-            
+            padding: 0 floor(20px * @large-screen-ratio); // 原 0 20px
+
             .why-choose-zimo-title {
-                font-size: 24px; // 原28px减2px
-                margin-bottom: 20px; // 原30px减5px
+                font-size: floor(28px * @large-screen-ratio); // 原 28px
+                margin-bottom: floor(30px * @large-screen-ratio); // 原 30px
             }
-            
+
             .benefit-item {
-                margin-bottom: 18px; // 原20px减2px
-                
+                margin-bottom: floor(20px * @large-screen-ratio); // 原 20px
+
                 img {
-                    width: 18px; // 原20px减2px
-                    height: 18px; // 原20px减2px
+                    width: floor(20px * @large-screen-ratio); // 原 20px
+                    height: floor(20px * @large-screen-ratio); // 原 20px
                 }
-                
+
                 .benefit-text {
-                    font-size: 18px; // 原20px减2px
-                    line-height: 26px; // 原28px减2px
+                    font-size: floor(20px * @large-screen-ratio); // 原 20px
+                    line-height: floor(28px * @large-screen-ratio); // 原 28px
                 }
             }
         }
     }
-    
+
     .program-header {
-        margin-bottom: 25px; // 原30px减5px
-        height: 110px; // 原120px减10px
-        gap: 25px; // 原30px减5px
-        
+        margin-bottom: floor(30px * @large-screen-ratio); // 原 30px
+        height: floor(120px * @large-screen-ratio); // 原 120px
+        gap: floor(30px * @large-screen-ratio); // 原 30px
+
         .university-logo {
-            width: 110px; // 原120px减10px
+            width: floor(120px * @large-screen-ratio); // 原 120px
         }
-        
+
         .program-info {
-            gap: 5px; // 原7px减2px
-            
+            gap: floor(7px * @large-screen-ratio); // 原 7px
+
             .program-title {
-                font-size: 24px; // 原28px减2px
+                font-size: floor(28px * @large-screen-ratio); // 原 28px
             }
-            
+
             .university-name {
-                font-size: 18px; // 原22px减2px
+                font-size: floor(22px * @large-screen-ratio); // 原 22px
             }
         }
     }
-    
+
     .program-detail-content {
-        gap: 25px; // 原30px减5px
-        
+        gap: floor(30px * @large-screen-ratio); // 原 30px
+
         .left-content {
             .university-image {
-                height: 340px; // 原374px减34px
-                margin-bottom: 35px; // 原40px减5px
+                height: floor(374px * @large-screen-ratio); // 原 374px
+                margin-bottom: floor(40px * @large-screen-ratio); // 原 40px
             }
         }
     }
-    
+
     .section {
-        margin-bottom: 50px; // 原60px减10px
-        
+        margin-bottom: floor(60px * @large-screen-ratio); // 原 60px
+
         .section-header {
-            margin-bottom: 12px; // 原15px减3px
-            gap: 20px; // 原23.25px减少
-            
+            margin-bottom: floor(15px * @large-screen-ratio); // 原 15px
+            gap: floor(23.25px * @large-screen-ratio); // 原 23.25px
+
             img {
-                width: 20px; // 原21.82px减少
-                height: 22px; // 原24.83px减少
+                width: floor(21.82px * @large-screen-ratio); // 原 21.82px
+                height: floor(24.83px * @large-screen-ratio); // 原 24.83px
             }
-            
+
             .recommended-icon {
-                width: 26px; // 原28px减2px
-                height: 26px; // 原28px减2px
+                width: floor(28px * @large-screen-ratio); // 原 28px
+                height: floor(28px * @large-screen-ratio); // 原 28px
             }
-            
+
             .project-icon {
-                width: 26px; // 原28px减2px
-                height: 19px; // 原21px减2px
+                width: floor(28px * @large-screen-ratio); // 原 28px
+                height: floor(21px * @large-screen-ratio); // 原 21px
             }
-            
+
             .accommodation-icon {
-                width: 26px; // 原28px减2px
-                height: 26px; // 原28px减2px
+                width: floor(28px * @large-screen-ratio); // 原 28px
+                height: floor(28px * @large-screen-ratio); // 原 28px
             }
-            
+
             .admissions-process-icon {
-                width: 26px; // 原28px减2px
-                height: 26px; // 原28px减2px
+                width: floor(28px * @large-screen-ratio); // 原 28px
+                height: floor(28px * @large-screen-ratio); // 原 28px
             }
-            
+
             .section-header-text {
-                font-size: 20px; // 原22px减2px
-                height: 28px; // 原31px减3px
+                font-size: floor(22px * @large-screen-ratio); // 原 22px
+                height: floor(31px * @large-screen-ratio); // 原 31px
             }
         }
-        
+
         .section-content {
-            font-size: 18px; // 原20px减2px
-            line-height: 30px; // 原32px减2px
-            max-height: 220px; // 原240px减20px
-            
+            font-size: floor(20px * @large-screen-ratio); // 原 20px
+            line-height: floor(32px * @large-screen-ratio); // 原 32px
+            max-height: floor(240px * @large-screen-ratio); // 原 240px
+
             &.expanded {
-                max-height: 1800px; // 原2000px减200px
+                max-height: floor(2000px * @large-screen-ratio); // 原 2000px
             }
-            
+
             &:not(.expanded)::after {
-                height: 70px; // 原80px减10px
+                height: floor(80px * @large-screen-ratio); // 原 80px
             }
         }
-        
+
         .show-more {
-            height: 36px; // 原40px减4px
-            padding-bottom: 10px; // 原12px减2px
-            font-size: 18px; // 原20px减2px
+            height: floor(40px * @large-screen-ratio); // 原 40px
+            padding-bottom: floor(12px * @large-screen-ratio); // 原 12px
+            font-size: floor(20px * @large-screen-ratio); // 原 20px
         }
     }
-    
+
     .fees-table {
-        margin-bottom: 50px; // 原60px减10px
-        
+        margin-bottom: floor(60px * @large-screen-ratio); // 原 60px
+
         .table-font {
-            font-size: 16px; // 原18px减2px
+            font-size: floor(18px * @large-screen-ratio); // 原 18px
         }
-        
+
         .fee-table-wrapper {
-            border-spacing: 18px 0; // 原20px减2px
-            
+            border-spacing: floor(20px * @large-screen-ratio) 0; // 原 20px
+
             th {
-                height: 65px; // 原73px减8px
-                font-size: 20px; // 原22px减2px
+                height: floor(73px * @large-screen-ratio); // 原 73px
+                font-size: floor(22px * @large-screen-ratio); // 原 22px
             }
-            
+
             .left-header {
-                width: 280px; // 原300px减20px
+                width: floor(300px * @large-screen-ratio); // 原 300px
             }
-            
+
             .right-header {
-                width: 480px; // 原520px减40px
+                width: floor(520px * @large-screen-ratio); // 原 520px
             }
-            
+
             .left-cell {
-                width: 280px; // 原300px减20px
-                padding: 8px 12px; // 原10px 15px减少
+                width: floor(300px * @large-screen-ratio); // 原 300px
+                padding: floor(10px * @large-screen-ratio)
+                    floor(15px * @large-screen-ratio); // 原 10px 15px
             }
-            
+
             .right-cell {
-                width: 480px; // 原520px减40px
-                padding: 8px 12px; // 原10px 15px减少
+                width: floor(520px * @large-screen-ratio); // 原 520px
+                padding: floor(10px * @large-screen-ratio)
+                    floor(15px * @large-screen-ratio); // 原 10px 15px
             }
         }
     }
-    
+
     .admissions-process {
-        margin-bottom: 50px; // 原60px减10px
-        
+        margin-bottom: floor(60px * @large-screen-ratio); // 原 60px
+
         .process-steps {
-            margin: 35px 0; // 原40px减5px
-            
+            margin: floor(40px * @large-screen-ratio) 0; // 原 40px
+
             .step {
-                gap: 18px; // 原20px减2px
-                
+                gap: floor(20px * @large-screen-ratio); // 原 20px
+
                 .step-number {
-                    width: 60px; // 原65px减5px
-                    height: 60px; // 原65px减5px
-                    font-size: 28px; // 原30px减2px
+                    width: floor(65px * @large-screen-ratio); // 原 65px
+                    height: floor(65px * @large-screen-ratio); // 原 65px
+                    font-size: floor(30px * @large-screen-ratio); // 原 30px
                 }
-                
+
                 .step-name {
-                    font-size: 18px; // 原20px减2px
+                    font-size: floor(20px * @large-screen-ratio); // 原 20px
                 }
             }
-            
+
             .step-line {
-                margin-top: 29px; // 原32px减3px (60px圆圈高度的一半 - 1px = 29px)
+                margin-top: floor(32px * @large-screen-ratio); // 原 32px
             }
         }
-        
+
         .required-documents {
             .required-documents-title {
-                font-size: 20px; // 原22px减2px
-                margin-bottom: 18px; // 原20px减2px
+                font-size: floor(22px * @large-screen-ratio); // 原 22px
+                margin-bottom: floor(20px * @large-screen-ratio); // 原 20px
             }
-            
+
             ul {
-                padding-left: 25px; // 原30px减5px
-                
+                padding-left: floor(30px * @large-screen-ratio); // 原 30px
+
                 li {
-                    font-size: 18px; // 原20px减2px
-                    
+                    font-size: floor(20px * @large-screen-ratio); // 原 20px
+
                     &::marker {
-                        font-size: 14px; // 原16px减2px
+                        font-size: floor(16px * @large-screen-ratio); // 原 16px
                     }
                 }
             }
+
+            .no-requirements {
+                font-size: floor(20px * @large-screen-ratio); // 原 20px
+                padding: floor(10px * @large-screen-ratio) 0; // 原 10px 0
+            }
         }
     }
-    
+
     .similar-programs {
+        padding: 0 120px;
         .similar-programs-list {
-            margin-top: 25px; // 原30px减5px
-            gap: 18px; // 原20px减2px
-            
+            margin-top: floor(30px * @large-screen-ratio); // 原 30px
+            gap: floor(20px * @large-screen-ratio); // 原 20px
+
             .similar-program-card {
-                width: 420px; // 原453px减33px
-                height: 180px; // 原200px减20px
-                padding: 18px; // 原20px减2px
-                
+                width: floor(453px * @large-screen-ratio); // 原 453px
+                height: floor(200px * @large-screen-ratio); // 原 200px
+                padding: floor(20px * @large-screen-ratio); // 原 20px
+
                 .card-header {
-                    gap: 18px; // 原20px减2px
-                    margin-bottom: 18px; // 原20px减2px
-                    
+                    gap: floor(20px * @large-screen-ratio); // 原 20px
+                    margin-bottom: floor(20px * @large-screen-ratio); // 原 20px
+
                     .similar-program-logo {
-                        width: 60px; // 原68px减8px
-                        height: 60px; // 原68px减8px
+                        width: floor(68px * @large-screen-ratio); // 原 68px
+                        height: floor(68px * @large-screen-ratio); // 原 68px
                     }
-                    
+
                     .similar-program-info {
-                        height: 60px; // 原68px减8px
-                        
+                        height: floor(68px * @large-screen-ratio); // 原 68px
+
                         .similar-program-title {
-                            font-size: 16px; // 原18px减2px
+                            font-size: floor(
+                                18px * @large-screen-ratio
+                            ); // 原 18px
                         }
-                        
+
                         .similar-program-university {
-                            font-size: 12px; // 原14px减2px
+                            font-size: floor(
+                                14px * @large-screen-ratio
+                            ); // 原 14px
                         }
                     }
                 }
-                
+
                 .similar-program-details {
-                    padding-left: 78px; // 原88px减10px
-                    
+                    padding-left: floor(88px * @large-screen-ratio); // 原 88px
+
                     .similar-detail-row {
-                        margin-bottom: 8px; // 原10px减2px
-                        
+                        margin-bottom: floor(
+                            10px * @large-screen-ratio
+                        ); // 原 10px
+
                         .similar-detail-label {
-                            font-size: 12px; // 原14px减2px
+                            font-size: floor(
+                                14px * @large-screen-ratio
+                            ); // 原 14px
                         }
-                        
+
                         .similar-detail-value {
-                            font-size: 12px; // 原14px减2px
+                            font-size: floor(
+                                14px * @large-screen-ratio
+                            ); // 原 14px
                         }
                     }
                 }
             }
         }
-        
+
         .view-more {
-            margin-top: 25px; // 原30px减5px
-            
+            margin-top: floor(30px * @large-screen-ratio); // 原 30px
+
             .view-more-btn {
-                width: 160px; // 原172px减12px
-                height: 40px; // 原44px减4px
-                font-size: 16px; // 原18px减2px
-                line-height: 22px; // 原24px减2px
+                width: floor(172px * @large-screen-ratio); // 原 172px
+                height: floor(44px * @large-screen-ratio); // 原 44px
+                font-size: floor(18px * @large-screen-ratio); // 原 18px
+                line-height: floor(24px * @large-screen-ratio); // 原 24px
             }
         }
     }
-    
+
     .loading-container,
     .error-container {
-        height: 360px; // 原400px减40px
-        
+        height: floor(400px * @large-screen-ratio); // 原 400px
+
         .loading-spinner {
-            width: 36px; // 原40px减4px
-            height: 36px; // 原40px减4px
-            margin-bottom: 18px; // 原20px减2px
+            width: floor(40px * @large-screen-ratio); // 原 40px
+            height: floor(40px * @large-screen-ratio); // 原 40px
+            margin-bottom: floor(20px * @large-screen-ratio); // 原 20px
         }
-        
+
         p {
-            font-size: 16px; // 原18px减2px
+            font-size: floor(18px * @large-screen-ratio); // 原 18px
         }
     }
-    
+
     .carousel-indicators {
-        bottom: 8px; // 原10px减2px
-        gap: 6px; // 原8px减2px
-        
+        bottom: floor(10px * @large-screen-ratio); // 原 10px
+        gap: floor(8px * @large-screen-ratio); // 原 8px
+
         .indicator {
-            width: 8px; // 原10px减2px
-            height: 8px; // 原10px减2px
+            width: floor(10px * @large-screen-ratio); // 原 10px
+            height: floor(10px * @large-screen-ratio); // 原 10px
         }
     }
-    
+
     .carousel-controls button {
-        padding: 8px; // 原10px减2px
-        font-size: 22px; // 原24px减2px
-        width: 36px; // 原40px减4px
-        height: 36px; // 原40px减4px
+        padding: floor(10px * @large-screen-ratio); // 原 10px
+        font-size: floor(24px * @large-screen-ratio); // 原 24px
+        width: floor(40px * @large-screen-ratio); // 原 40px
+        height: floor(40px * @large-screen-ratio); // 原 40px
     }
-    
+
     .carousel-controls .prev-btn {
-        left: 8px; // 原10px减2px
+        left: floor(10px * @large-screen-ratio); // 原 10px
     }
-    
+
     .carousel-controls .next-btn {
-        right: 8px; // 原10px减2px
+        right: floor(10px * @large-screen-ratio); // 原 10px
     }
 }
 </style>

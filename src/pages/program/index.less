@@ -3,13 +3,6 @@
     min-height: 100vh;
     background-color: #fff;
     padding-top: 140px; // 80px (header) + 60px (navigation)
-
-    &.program-max-width {
-        @media (min-width: 1681px) {
-            //  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            //  background-color: #f8f9fa;
-        }
-    }
 }
 
 // Header styles moved to ProgramHeader component
@@ -30,7 +23,7 @@
 
 .content-container {
     display: flex;
-    padding: 80px 140px;
+    padding: 80px 260px;
     // max-width: 1440px;
     margin: 0 auto;
     gap: 40px;
@@ -39,8 +32,8 @@
 /* 筛选侧边栏样式 */
 .filter-sidebar {
     width: 240px;
-    height: 360px;
-    min-height: 360px;
+    height: 400px;
+    min-height: 400px;
     // max-height: calc(100vh - 120px);
     overflow: hidden; /* 修改这里，防止收起时出现滚动条 */
     flex-shrink: 0;
@@ -211,14 +204,14 @@
 
 .program-card {
     border-radius: 10px;
-    padding: 30px;
+    padding: 25px;
     height: 220px;
     cursor: pointer;
     // min-height: 260px;
     background: #ffffff;
     box-sizing: border-box;
     display: flex;
-    gap: 30px;
+    gap: 25px;
 
     /* grey 03 */
     border: 1px solid #dbdfec;
@@ -234,7 +227,7 @@
 
 .program-card-left {
     width: 160px;
-    height: 100%;
+    height: 160px;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
@@ -254,33 +247,73 @@
 
 .program-card-right {
     flex: 1;
-    height: calc(100% - 10px);
+    height: 160px;
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
+    justify-content: space-around;
 }
 
 .program-header {
     display: flex;
-    gap: 10px;
+    //  gap: 2px;
     justify-content: space-between;
-    align-items: center;
-    height: 62px;
+    align-items: flex-start;
+    min-height: 62px;
+
+    .title-container {
+        flex: 1;
+        position: relative;
+    }
 }
+
 .program-title {
-    flex: 1;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 600;
-    line-height: normal;
+    line-height: 32px;
     letter-spacing: normal;
     color: #2e4057;
-    margin-bottom: 7px;
-    // 最多两行，超过省略号
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
+    display: block;
+    position: relative;
+    max-height: 64px; // 两行的高度
     overflow: hidden;
-    text-overflow: ellipsis;
+
+    .title-text {
+        display: inline;
+        background: white;
+        position: relative;
+        margin-right: 6px;
+
+        // 使用伪元素创建第二行的padding
+        // &::after {
+        //     content: '';
+        //     position: absolute;
+        //     right: 0;
+        //     top: 32px; // 第二行的位置
+        //     width: 120px; // 预留空间，比badge稍宽
+        //     height: 32px; // 行高
+        //     background: white;
+        //     z-index: 1;
+        // }
+    }
+
+    .scholarship-badge {
+        z-index: 2; // 确保badge在伪元素之上
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 28px;
+        background-color: #88afe9;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #ffffff;
+        padding: 0 10px;
+        white-space: nowrap;
+        // margin-left: 10px;
+        position: relative;
+        top: -4px;
+    }
 }
 
 .apply-button {
@@ -289,19 +322,20 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .apply-button button {
-    width: 165px;
+    width: 145px;
     height: 44px;
-    padding: 10px 16px;
+    padding: 10px;
     background-color: #ff6b35;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
     font-family: PingFang SC;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
     line-height: 24px;
     letter-spacing: normal;
@@ -311,14 +345,20 @@
 .apply-button button:hover {
     background-color: #e55a2b;
 }
+.university-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
 .university-name {
     font-size: 18px;
     height: 32px;
     font-weight: 300;
-    line-height: normal;
+    line-height: 32px;
     letter-spacing: normal;
     color: #3a3e48;
-    margin-bottom: 20px;
 }
 
 .program-item-container {
@@ -528,124 +568,161 @@
     }
 }
 
-/* 大屏幕字体缩放 - 屏幕宽度大于1680px时所有字体减少2px */
+// 大屏幕缩放比例
+@large-screen-ratio: 0.7;
+
+/* 大屏幕字体缩放 - 屏幕宽度大于1680px */
 @media (min-width: 1681px) {
-    // .filter-title {
-    //     font-size: 14px; // 原16px减2px
-    // }
+    .program-container {
+        max-width: 1680px;
+        margin: 0 auto;
+    }
 
-    // .filter-option {
-    //     font-size: 13px; // 原15px减2px
-    // }
-
-    // .tuition-label {
-    //     font-size: 12px; // 原14px减2px
-    // }
-
-    // .tuition-input {
-    //     font-size: 12px; // 原14px减2px
-    //     &::placeholder {
-    //         font-size: 10px; // 原12px减2px
-    //     }
-    // }
     .content-container {
-        padding: 80px 120px;
+        padding: 80px 300px;
+        // padding: floor(80px * @large-screen-ratio)
+        //     floor(260px * @large-screen-ratio); // 原 80px 260px
     }
+
+    .filter-sidebar {
+     //   width: floor(240px * @large-screen-ratio); // 原 240px
+        height: floor(360px * @large-screen-ratio); // 原 360px
+        min-height: floor(360px * @large-screen-ratio); // 原 360px
+        padding: floor(20px * @large-screen-ratio); // 原 20px
+    }
+
+    .filter-group {
+        margin-bottom: floor(4px * @large-screen-ratio);
+        min-height: floor(40px * @large-screen-ratio); // 原 40px
+    }
+
+    .filter-title {
+        font-size: floor(16px * @large-screen-ratio); // 原 16px
+    }
+
+    .filter-icon {
+        width: floor(18px * @large-screen-ratio); // 原 18px
+        height: floor(18px * @large-screen-ratio); // 原 18px
+        margin-right: floor(10px * @large-screen-ratio); // 原 10px
+    }
+
+    .filter-arrow img {
+        width: floor(14px * @large-screen-ratio); // 原 14px
+        height: floor(14px * @large-screen-ratio); // 原 14px
+    }
+
+    .filter-option {
+        height: floor(30px * @large-screen-ratio); // 原 30px
+        font-size: floor(15px * @large-screen-ratio); // 原 15px
+        gap: floor(12px * @large-screen-ratio); // 原 12px
+    }
+
+    .filter-option input[type="checkbox"] {
+        width: floor(16px * @large-screen-ratio); // 原 16px
+        height: floor(16px * @large-screen-ratio); // 原 16px
+    }
+
     .programs-list {
-        gap: 25px;
-    }
-    .apply-now-container {
-        right: 60px;
-        bottom: 60px;
-        width: 80px;
-        height: 80px;
+        width: floor(1120px * @large-screen-ratio); // 原 1120px
+        gap: 12px; // 原 30px
     }
 
-    .program-title {
-        font-size: 22px; // 原26px减2px
-    }
-
-    .apply-button button {
-        font-size: 18px; // 原22px减2px
-    }
-
-    .university-name {
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-
-    .program-item-label {
-        font-size: 12px; // 原16px减2px
-    }
-
-    .program-item-value {
-        font-size: 12px; // 原16px减2px
-    }
-
-    // 调整卡片和头像尺寸
     .program-card {
-        height: 170px; // 原220px减20px
-        padding: 20px 30px; // 原30px减5px
+        padding: 18px; // 原 25px
+        height: 125px;
+        gap: 10px; // 原 25px
     }
 
     .program-card-left {
-        width: 120px; // 原160px减20px
-        height: calc(100% - 10px); // 相应调整高度
+        // width: floor(160px * @large-screen-ratio); // 原 160px
+        // height: floor(160px * @large-screen-ratio); // 原 160px
+        width: 90px;
+        height: 90px;
     }
 
-    .apply-button button {
-        width: 145px; // 原165px减20px
-        height: 40px; // 原44px减4px
-        font-size: 18px; // 原22px减2px
+    .program-card-right {
+        height: 90px;
     }
 
     .program-header {
-        height: 50px; // 原62px减6px
+        min-height: 40px;
+    }
+
+    .program-title {
+        font-size: 16px; // 原 24px
+        line-height: 20px; // 原 32px
+        margin-bottom: 4px; // 原 8px
+        max-height: 40px; // 原 64px
+    }
+
+    .title-text {
+        margin-right: floor(6px * @large-screen-ratio); // 原 6px
+    }
+
+    .scholarship-badge {
+        height: 17px !important;
+        font-size: 10px !important;
+        line-height: 17px !important;
+        padding: 0 6px !important;
+        // padding: 0 floor(10px * @large-screen-ratio); // 原 0 10px
+    }
+
+    .university-name {
+        font-size: floor(18px * @large-screen-ratio); // 原 18px
+        height: floor(32px * @large-screen-ratio); // 原 32px
+        line-height: floor(32px * @large-screen-ratio); // 原 32px
     }
 
     .program-item-container {
-        height: 44px; // 原52px减4px
+        gap: floor(20px * @large-screen-ratio); // 原 20px
+        height: 40px;
 
         .program-item {
-            height: 44px; // 原52px减4px
+            width: floor(100px * @large-screen-ratio); // 原 100px
+            height: 40px; // 原 52px
 
             .program-item-label {
-                height: 22px; // 原26px减2px
-                line-height: 22px; // 原26px减2px
+                height: 14px;
+                font-size: 10px; // 原 16px
+                line-height: 14px; // 原 26px
             }
 
             .program-item-value {
-                height: 22px; // 原26px减2px
-                line-height: 22px; // 原26px减2px
+                height: 14px;
+                font-size: 10px; // 原 16px
+                line-height: 14px; // 原 26px
             }
+        }
+
+        .starting-date {
+            width: floor(150px * @large-screen-ratio); // 原 150px
+        }
+
+        .application-deadline {
+            width: floor(160px * @large-screen-ratio); // 原 160px
+        }
+
+        .fee {
+            width: floor(146px * @large-screen-ratio); // 原 146px
         }
     }
 
+    .apply-button button {
+        width: floor(145px * @large-screen-ratio); // 原 145px
+        height: floor(44px * @large-screen-ratio); // 原 44px
+        padding: floor(10px * @large-screen-ratio); // 原 10px
+        font-size: floor(20px * @large-screen-ratio); // 原 20px
+        line-height: floor(24px * @large-screen-ratio); // 原 24px
+    }
+
+    .pagination {
+        margin-top: floor(30px * @large-screen-ratio); // 原 30px
+        gap: floor(8px * @large-screen-ratio); // 原 8px
+    }
+
     .pagination-button {
-        font-size: 15px; // 原17px减2px
-    }
-
-    .pagination-ellipsis {
-        font-size: 12px; // 原14px减2px
-    }
-
-    .no-content-text {
-        font-size: 18px; // 原20px减2px
-    }
-
-    .loading-container p {
-        font-size: 16px; // 原18px减2px
-    }
-
-    .goto-text {
-        font-size: 12px; // 原14px减2px
-    }
-
-    .goto-input {
-        font-size: 12px; // 原14px减2px
-    }
-
-    .goto-button {
-        font-size: 12px; // 原14px减2px
+        width: floor(50px * @large-screen-ratio); // 原 50px
+        height: floor(50px * @large-screen-ratio); // 原 50px
+        font-size: floor(17px * @large-screen-ratio); // 原 17px
     }
 }

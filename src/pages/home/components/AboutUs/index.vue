@@ -1,5 +1,5 @@
 <template>
-    <section id="about" ref="sectionRef" class="about-section">
+    <section id="about" ref="sectionRef" class="about-section" :class="{ 'from-detail': isFromDetail }">
         <div class="container">
             <!-- 标题部分 -->
             <!-- <SectionTitle title="About Us" /> -->
@@ -206,7 +206,13 @@ export default {
     components: {
         SectionTitle,
     },
-    setup() {
+    props: {
+        isFromDetail: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    setup(props) {
         const sectionRef = ref(null);
         const showScrollToTop = ref(false);
 
@@ -803,6 +809,122 @@ export default {
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
+    }
+}
+
+// 详情页面缩放比例
+@detail-screen-ratio: 0.7;
+
+/* 当从 detail 页面调用时的媒体查询 */
+.about-section.from-detail {
+    padding: 0 100px;
+    @media (min-width: 1681px) {
+        .container {
+            padding: floor(75px * @detail-screen-ratio) floor(200px * @detail-screen-ratio); // 原 75px 200px
+        }
+
+        .footer-title {
+            font-size: floor(21px * @detail-screen-ratio); // 原 21px
+        }
+
+        .footer-link {
+            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+        }
+
+        .social-icons {
+            gap: floor(22.5px * @detail-screen-ratio); // 原 22.5px
+        }
+
+        .social-icon {
+            width: floor(24px * @detail-screen-ratio); // 原 24px
+            height: floor(24px * @detail-screen-ratio); // 原 24px
+        }
+
+        .stats {
+            gap: floor(40px * @detail-screen-ratio) floor(80px * @detail-screen-ratio); // 原 40px 80px
+            width: floor(296px * @detail-screen-ratio); // 原 296px
+        }
+
+        .stat-circle {
+            width: floor(96px * @detail-screen-ratio); // 原 96px
+            height: floor(96px * @detail-screen-ratio); // 原 96px
+        }
+
+        .stat-number {
+            font-size: floor(24px * @detail-screen-ratio); // 原 24px
+        }
+
+        .stat-label {
+            font-size: floor(16px * @detail-screen-ratio); // 原 16px
+        }
+
+        .contact {
+            gap: floor(160px * @detail-screen-ratio); // 原 160px
+        }
+
+        .contact-title {
+            font-size: floor(22px * @detail-screen-ratio); // 原 22px
+            margin: 0 0 floor(40px * @detail-screen-ratio) 0; // 原 40px
+        }
+
+        .contact-info {
+            font-size: floor(22px * @detail-screen-ratio); // 原 22px
+        }
+
+        .social-tooltip {
+            margin-bottom: floor(10px * @detail-screen-ratio); // 原 10px
+        }
+
+        .tooltip-content {
+            padding: floor(10px * @detail-screen-ratio); // 原 10px
+            width: floor(150px * @detail-screen-ratio); // 原 150px
+            max-width: floor(320px * @detail-screen-ratio); // 原 320px
+        }
+
+        .telegram-tooltip-content {
+            width: floor(220px * @detail-screen-ratio); // 原 220px
+            height: floor(100px * @detail-screen-ratio); // 原 100px
+            padding: floor(30px * @detail-screen-ratio) floor(20px * @detail-screen-ratio); // 原 30px 20px
+            font-size: floor(24px * @detail-screen-ratio); // 原 24px
+            line-height: floor(36px * @detail-screen-ratio); // 原 36px
+        }
+
+        .wechat-tooltip-content {
+            width: floor(320px * @detail-screen-ratio); // 原 320px
+            height: floor(400px * @detail-screen-ratio); // 原 400px
+            padding: floor(20px * @detail-screen-ratio); // 原 20px
+        }
+
+        .wechat-tooltip-content-title {
+            height: floor(80px * @detail-screen-ratio); // 原 80px
+            font-size: floor(22px * @detail-screen-ratio); // 原 22px
+            line-height: floor(32px * @detail-screen-ratio); // 原 32px
+            margin-bottom: floor(10px * @detail-screen-ratio); // 原 10px
+        }
+
+        .wechat-tooltip-content-image {
+            width: floor(280px * @detail-screen-ratio); // 原 280px
+            height: floor(280px * @detail-screen-ratio); // 原 280px
+        }
+
+        .tooltip-arrow {
+            border-left: floor(12px * @detail-screen-ratio) solid transparent; // 原 12px
+            border-right: floor(12px * @detail-screen-ratio) solid transparent; // 原 12px
+            border-top: floor(12px * @detail-screen-ratio) solid white; // 原 12px
+
+            &::before {
+                top: floor(-12px * @detail-screen-ratio); // 原 -12px
+                left: floor(-12px * @detail-screen-ratio); // 原 -12px
+                border-left: floor(12px * @detail-screen-ratio) solid transparent; // 原 12px
+                border-right: floor(12px * @detail-screen-ratio) solid transparent; // 原 12px
+                border-top: floor(12px * @detail-screen-ratio) solid #fff; // 原 12px
+            }
+        }
+
+        .scroll-to-top-button {
+            width: floor(60px * @detail-screen-ratio); // 原 60px
+            height: floor(60px * @detail-screen-ratio); // 原 60px
+        }
     }
 }
 </style>

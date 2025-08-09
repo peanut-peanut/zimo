@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer">
+    <footer class="footer" :class="{ 'from-detail': isFromDetail }">
         <div class="container">
             <!-- 左侧版权信息 -->
             <div class="copyright">
@@ -20,7 +20,7 @@
 
                 <!-- 联系方式弹窗 -->
                 <div v-if="showContactPopup" class="contact-popup">
-                    <ScanQrcode />
+                    <ScanQrcode :is-from-detail="isFromDetail" />
                 </div>
             </div>
 
@@ -49,7 +49,13 @@ export default {
     components: {
         ScanQrcode
     },
-    setup() {
+    props: {
+        isFromDetail: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    setup(props) {
         const showContactPopup = ref(false);
 
         const handleContactMouseEnter = () => {
@@ -219,6 +225,68 @@ export default {
     to {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
+    }
+}
+
+// 详情页面缩放比例
+@detail-screen-ratio: 0.7;
+
+/* 当从 detail 页面调用时的媒体查询 */
+.footer.from-detail {
+    @media (min-width: 1681px) {
+        height: floor(80px * @detail-screen-ratio); // 原 80px
+
+        .container {
+            height: floor(80px * @detail-screen-ratio); // 原 80px
+            padding: 0 floor(250px * @detail-screen-ratio); // 原 0 250px
+        }
+
+        .copyright span {
+            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+        }
+
+        .contact-person {
+            gap: floor(12px * @detail-screen-ratio); // 原 12px
+        }
+
+        .help-text {
+            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+        }
+
+        .person-info {
+            gap: floor(8px * @detail-screen-ratio); // 原 8px
+        }
+
+        .avatar {
+            width: floor(32px * @detail-screen-ratio); // 原 32px
+            height: floor(32px * @detail-screen-ratio); // 原 32px
+            font-size: floor(16px * @detail-screen-ratio); // 原 16px
+        }
+
+        .person-name {
+            font-size: floor(16px * @detail-screen-ratio); // 原 16px
+        }
+
+        .plan-button {
+            gap: floor(6px * @detail-screen-ratio); // 原 6px
+            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+        }
+
+        .email-icon {
+            width: floor(24px * @detail-screen-ratio); // 原 24px
+            height: floor(24px * @detail-screen-ratio); // 原 24px
+        }
+
+        .contact-popup {
+            margin-bottom: floor(15px * @detail-screen-ratio); // 原 15px
+
+            &::after {
+                right: 220px; // 原 175px
+                border-left: floor(8px * @detail-screen-ratio) solid transparent; // 原 8px
+                border-right: floor(8px * @detail-screen-ratio) solid transparent; // 原 8px
+                border-top: floor(8px * @detail-screen-ratio) solid rgba(255, 255, 255, 0.95); // 原 8px
+            }
+        }
     }
 }
 </style>
