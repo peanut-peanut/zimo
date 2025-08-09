@@ -18,7 +18,13 @@
                     </div>
                     <div class="program-info">
                         <h1 class="program-title">
-                            {{ programDetail.course_name }}
+                            <span class="title-text">{{ programDetail.course_name }}</span>
+                            <span
+                                class="scholarship-badge"
+                                v-if="programDetail.has_scholarship"
+                            >
+                                Scholarship
+                            </span>
                         </h1>
                         <div class="university-name">
                             {{ programDetail.university_name }}
@@ -1351,13 +1357,41 @@ export default {
         gap: 7px;
         height: 100%;
         .program-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
             color: #2e4057;
+            display: block;
+            position: relative;
+            max-height: 68px; // 两行的高度
+            overflow: hidden;
+
+            .title-text {
+                display: inline;
+                background: white;
+                position: relative;
+                margin-right: 6px;
+            }
+
+            .scholarship-badge {
+                z-index: 2;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 28px;
+                background-color: #88afe9;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 500;
+                color: #ffffff;
+                padding: 0 10px;
+                white-space: nowrap;
+                position: relative;
+                top: -4px;
+            }
         }
 
         .university-name {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 300;
             color: #3a3e48;
         }
@@ -2159,14 +2193,26 @@ export default {
         }
 
         .program-info {
-            gap: floor(7px * @large-screen-ratio); // 原 7px
+            gap: 3px; // 原 7px
 
             .program-title {
-                font-size: floor(28px * @large-screen-ratio); // 原 28px
+                font-size: floor(24px * @large-screen-ratio); // 原 28px
+                max-height: 46px;
+
+                .title-text {
+                    margin-right: floor(6px * @large-screen-ratio); // 原 6px
+                }
+
+                .scholarship-badge {
+                    height: floor(28px * @large-screen-ratio); // 原 28px
+                    font-size: floor(14px * @large-screen-ratio); // 原 14px
+                    padding: 0 floor(10px * @large-screen-ratio); // 原 0 10px
+                    top: floor(-4px * @large-screen-ratio); // 原 -4px
+                }
             }
 
             .university-name {
-                font-size: floor(22px * @large-screen-ratio); // 原 22px
+                font-size: floor(18px * @large-screen-ratio); // 原 22px
             }
         }
     }

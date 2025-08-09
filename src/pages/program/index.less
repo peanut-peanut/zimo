@@ -585,10 +585,15 @@
     }
 
     .filter-sidebar {
-     //   width: floor(240px * @large-screen-ratio); // 原 240px
+        //   width: floor(240px * @large-screen-ratio); // 原 240px
         height: floor(360px * @large-screen-ratio); // 原 360px
         min-height: floor(360px * @large-screen-ratio); // 原 360px
         padding: floor(20px * @large-screen-ratio); // 原 20px
+    }
+
+    .filter-header {
+        padding: 0;
+        height: 25px;
     }
 
     .filter-group {
@@ -598,6 +603,14 @@
 
     .filter-title {
         font-size: floor(16px * @large-screen-ratio); // 原 16px
+    }
+
+    .filter-options {
+        gap: 4px;
+    }
+
+    .filter-options-expanded {
+        margin: 2px 0;
     }
 
     .filter-icon {
@@ -622,9 +635,33 @@
         height: floor(16px * @large-screen-ratio); // 原 16px
     }
 
+    .tuition-range {
+      //  margin-bottom: 4px;
+    }
+
+    .tuition-input-row {
+        margin-bottom: 4px;
+        .tuition-label {
+            font-size: 10px;
+        }
+        .tuition-input {
+            font-size: 10px;
+        }
+        input {
+            height: 20px;
+        }
+        input::placeholder {
+            font-size: 10px;
+        }
+    }
+
+    .tuition-range.filter-options-expanded {
+        padding: 2px 0;
+    }
+
     .programs-list {
         width: floor(1120px * @large-screen-ratio); // 原 1120px
-        gap: 12px; // 原 30px
+        gap: 15px; // 原 30px
     }
 
     .program-card {
