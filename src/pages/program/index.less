@@ -205,7 +205,7 @@
 .program-card {
     border-radius: 10px;
     padding: 25px;
-    height: 220px;
+    height: 240px;
     cursor: pointer;
     // min-height: 260px;
     background: #ffffff;
@@ -250,7 +250,7 @@
     height: 160px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .program-header {
@@ -592,8 +592,8 @@
     }
 
     .filter-header {
-        padding: 0;
-        height: 25px;
+        // padding: 0;
+        height: 30px;
     }
 
     .filter-group {
@@ -602,7 +602,7 @@
     }
 
     .filter-title {
-        font-size: floor(16px * @large-screen-ratio); // 原 16px
+        font-size: floor(18px * @large-screen-ratio); // 原 16px
     }
 
     .filter-options {
@@ -610,7 +610,7 @@
     }
 
     .filter-options-expanded {
-        margin: 2px 0;
+        margin: 4px 0;
     }
 
     .filter-icon {
@@ -626,7 +626,7 @@
 
     .filter-option {
         height: floor(30px * @large-screen-ratio); // 原 30px
-        font-size: floor(15px * @large-screen-ratio); // 原 15px
+        font-size: floor(16px * @large-screen-ratio); // 原 15px
         gap: floor(12px * @large-screen-ratio); // 原 12px
     }
 
@@ -636,22 +636,22 @@
     }
 
     .tuition-range {
-      //  margin-bottom: 4px;
+        //  margin-bottom: 4px;
     }
 
     .tuition-input-row {
-        margin-bottom: 4px;
+        margin-bottom: 6px;
         .tuition-label {
-            font-size: 10px;
+            font-size: 12px;
         }
         .tuition-input {
-            font-size: 10px;
+            font-size: 12px;
         }
         input {
-            height: 20px;
+            height: 22px;
         }
         input::placeholder {
-            font-size: 10px;
+            font-size: 12px;
         }
     }
 
@@ -666,23 +666,23 @@
 
     .program-card {
         padding: 18px; // 原 25px
-        height: 125px;
-        gap: 10px; // 原 25px
+        height: 135px;
+        gap: 20px; // 原 25px
     }
 
     .program-card-left {
         // width: floor(160px * @large-screen-ratio); // 原 160px
         // height: floor(160px * @large-screen-ratio); // 原 160px
-        width: 90px;
-        height: 90px;
+        width: 100px;
+        height: 100px;
     }
 
     .program-card-right {
-        height: 90px;
+        height: 100px;
     }
 
     .program-header {
-        min-height: 40px;
+        min-height: 45px;
     }
 
     .program-title {
@@ -706,28 +706,28 @@
 
     .university-name {
         font-size: floor(18px * @large-screen-ratio); // 原 18px
-        height: floor(32px * @large-screen-ratio); // 原 32px
+        height: floor(34px * @large-screen-ratio); // 原 32px
         line-height: floor(32px * @large-screen-ratio); // 原 32px
     }
 
     .program-item-container {
         gap: floor(20px * @large-screen-ratio); // 原 20px
-        height: 40px;
+        height: 45px;
 
         .program-item {
             width: floor(100px * @large-screen-ratio); // 原 100px
             height: 40px; // 原 52px
 
             .program-item-label {
-                height: 14px;
-                font-size: 10px; // 原 16px
-                line-height: 14px; // 原 26px
+                height: 16px;
+                font-size: 12px; // 原 16px
+                line-height: 16px; // 原 26px
             }
 
             .program-item-value {
-                height: 14px;
-                font-size: 10px; // 原 16px
-                line-height: 14px; // 原 26px
+                height: 16px;
+                font-size: 12px; // 原 16px
+                line-height: 16px; // 原 26px
             }
         }
 
@@ -761,5 +761,12 @@
         width: floor(50px * @large-screen-ratio); // 原 50px
         height: floor(50px * @large-screen-ratio); // 原 50px
         font-size: floor(17px * @large-screen-ratio); // 原 17px
+    }
+
+    .apply-now-container {
+        width: 60px;
+        height: 60px;
+        right: 40px;
+        bottom: 40px;
     }
 }

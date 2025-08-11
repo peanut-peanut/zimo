@@ -975,11 +975,16 @@ export default {
                 const reqText = programDetail.value.requirements;
                 const requirements = [];
 
-                // 尝试按句子分割文本，支持多种分隔符
-                let sentences = reqText
-                    .split(/[.。;；\n]/)
-                    .map((s) => s.trim())
-                    .filter((s) => s.length > 0);
+                // 首先尝试按数字序号分割（如：1. 2. 3.）
+                let sentences = reqText.split(/(?=\d+\.\s)/).map(s => s.trim()).filter(s => s.length > 0);
+                
+                // 如果没有数字序号，尝试按句子分割文本，支持多种分隔符
+                if (sentences.length <= 1) {
+                    sentences = reqText
+                        .split(/[.。;；\n]/)
+                        .map((s) => s.trim())
+                        .filter((s) => s.length > 0);
+                }
 
                 // 如果分割后的句子太少，可能是一整段文字，尝试其他分割方式
                 if (sentences.length <= 2) {
@@ -997,7 +1002,30 @@ export default {
                     const cleanSentence = sentence
                         .replace(/^[^\w\u4e00-\u9fa5]+/, "")
                         .trim();
-                    if (cleanSentence.length < 10) return; // 忽略太短的片段
+                    if (cleanSentence.length < 5) return; // 忽略太短的片段
+
+                    // 直接处理带数字序号的要求
+                    if (/^\d+\.\s/.test(cleanSentence)) {
+                        // 检查是否包含子要求（如HSK级别要求）
+                        if (/\([^)]+\)/.test(cleanSentence) && cleanSentence.includes('(1)') && cleanSentence.includes('(2)')) {
+                            // 分离主要要求和子要求
+                            const parts = cleanSentence.split(/(?=\(\d+\))/);
+                            const mainReq = parts[0].trim();
+                            const subReqs = parts.slice(1).map(part => part.trim()).filter(part => part.length > 0);
+                            
+                            if (subReqs.length > 0) {
+                                requirements.push({
+                                    main: mainReq,
+                                    sub: subReqs
+                                });
+                                return;
+                            }
+                        }
+                        
+                        // 普通的数字序号要求
+                        requirements.push(cleanSentence);
+                        return;
+                    }
 
                     // 国籍要求
                     if (
@@ -2124,11 +2152,11 @@ export default {
     }
 
     .left-content {
-        width: floor(872px * @large-screen-ratio); // 原 872px
+        width: floor(920px * @large-screen-ratio); // 原 872px
     }
 
     .right-sidebar {
-        width: floor(488px * @large-screen-ratio); // 原 488px
+        width: floor(540px * @large-screen-ratio); // 原 488px
 
         .info-card {
             padding: floor(30px * @large-screen-ratio)
@@ -2140,11 +2168,11 @@ export default {
                 line-height: floor(28px * @large-screen-ratio); // 原 28px
 
                 .info-label {
-                    font-size: floor(20px * @large-screen-ratio); // 原 20px
+                    font-size: floor(22px * @large-screen-ratio); // 原 20px
                 }
 
                 .info-value {
-                    font-size: floor(18px * @large-screen-ratio); // 原 18px
+                    font-size: floor(20px * @large-screen-ratio); // 原 18px
                 }
             }
 
@@ -2163,7 +2191,7 @@ export default {
             padding: 0 floor(20px * @large-screen-ratio); // 原 0 20px
 
             .why-choose-zimo-title {
-                font-size: floor(28px * @large-screen-ratio); // 原 28px
+                font-size: floor(30px * @large-screen-ratio); // 原 28px
                 margin-bottom: floor(30px * @large-screen-ratio); // 原 30px
             }
 
@@ -2176,7 +2204,7 @@ export default {
                 }
 
                 .benefit-text {
-                    font-size: floor(20px * @large-screen-ratio); // 原 20px
+                    font-size: floor(22px * @large-screen-ratio); // 原 20px
                     line-height: floor(28px * @large-screen-ratio); // 原 28px
                 }
             }
@@ -2196,7 +2224,7 @@ export default {
             gap: 3px; // 原 7px
 
             .program-title {
-                font-size: floor(24px * @large-screen-ratio); // 原 28px
+                font-size: floor(28px * @large-screen-ratio); // 原 28px
                 max-height: 46px;
 
                 .title-text {
@@ -2212,7 +2240,7 @@ export default {
             }
 
             .university-name {
-                font-size: floor(18px * @large-screen-ratio); // 原 22px
+                font-size: floor(22px * @large-screen-ratio); // 原 22px
             }
         }
     }
@@ -2261,13 +2289,13 @@ export default {
             }
 
             .section-header-text {
-                font-size: floor(22px * @large-screen-ratio); // 原 22px
+                font-size: floor(24px * @large-screen-ratio); // 原 22px
                 height: floor(31px * @large-screen-ratio); // 原 31px
             }
         }
 
         .section-content {
-            font-size: floor(20px * @large-screen-ratio); // 原 20px
+            font-size: floor(22px * @large-screen-ratio); // 原 20px
             line-height: floor(32px * @large-screen-ratio); // 原 32px
             max-height: floor(240px * @large-screen-ratio); // 原 240px
 
@@ -2291,7 +2319,7 @@ export default {
         margin-bottom: floor(60px * @large-screen-ratio); // 原 60px
 
         .table-font {
-            font-size: floor(18px * @large-screen-ratio); // 原 18px
+            font-size: floor(20px * @large-screen-ratio); // 原 18px
         }
 
         .fee-table-wrapper {
@@ -2378,11 +2406,11 @@ export default {
         padding: 0 120px;
         .similar-programs-list {
             margin-top: floor(30px * @large-screen-ratio); // 原 30px
-            gap: floor(20px * @large-screen-ratio); // 原 20px
+            gap: floor(40px * @large-screen-ratio); // 原 20px
 
             .similar-program-card {
-                width: floor(453px * @large-screen-ratio); // 原 453px
-                height: floor(200px * @large-screen-ratio); // 原 200px
+                width: floor(473px * @large-screen-ratio); // 原 453px
+                height: floor(220px * @large-screen-ratio); // 原 200px
                 padding: floor(20px * @large-screen-ratio); // 原 20px
 
                 .card-header {
@@ -2390,8 +2418,8 @@ export default {
                     margin-bottom: floor(20px * @large-screen-ratio); // 原 20px
 
                     .similar-program-logo {
-                        width: floor(68px * @large-screen-ratio); // 原 68px
-                        height: floor(68px * @large-screen-ratio); // 原 68px
+                        width: floor(90px * @large-screen-ratio); // 原 68px
+                        height: floor(90px * @large-screen-ratio); // 原 68px
                     }
 
                     .similar-program-info {
@@ -2399,13 +2427,13 @@ export default {
 
                         .similar-program-title {
                             font-size: floor(
-                                18px * @large-screen-ratio
+                                20px * @large-screen-ratio
                             ); // 原 18px
                         }
 
                         .similar-program-university {
                             font-size: floor(
-                                14px * @large-screen-ratio
+                                16px * @large-screen-ratio
                             ); // 原 14px
                         }
                     }
@@ -2421,13 +2449,13 @@ export default {
 
                         .similar-detail-label {
                             font-size: floor(
-                                14px * @large-screen-ratio
+                                16px * @large-screen-ratio
                             ); // 原 14px
                         }
 
                         .similar-detail-value {
                             font-size: floor(
-                                14px * @large-screen-ratio
+                                16px * @large-screen-ratio
                             ); // 原 14px
                         }
                     }

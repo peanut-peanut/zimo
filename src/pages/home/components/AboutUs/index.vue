@@ -1,5 +1,10 @@
 <template>
-    <section id="about" ref="sectionRef" class="about-section" :class="{ 'from-detail': isFromDetail }">
+    <section
+        id="about"
+        ref="sectionRef"
+        class="about-section"
+        :class="{ 'from-detail': isFromDetail }"
+    >
         <div class="container">
             <!-- 标题部分 -->
             <!-- <SectionTitle title="About Us" /> -->
@@ -817,31 +822,33 @@ export default {
 
 /* 当从 detail 页面调用时的媒体查询 */
 .about-section.from-detail {
-    padding: 0 100px;
     @media (min-width: 1681px) {
+        padding: 0 100px;
         .container {
-            padding: floor(75px * @detail-screen-ratio) floor(200px * @detail-screen-ratio); // 原 75px 200px
+            padding: floor(50px * @detail-screen-ratio)
+                floor(200px * @detail-screen-ratio); // 原 75px 200px
         }
 
         .footer-title {
-            font-size: floor(21px * @detail-screen-ratio); // 原 21px
+            font-size: floor(22px * @detail-screen-ratio); // 原 21px
         }
 
         .footer-link {
-            font-size: floor(18px * @detail-screen-ratio); // 原 18px
+            font-size: floor(20px * @detail-screen-ratio); // 原 18px
         }
 
         .social-icons {
-            gap: floor(22.5px * @detail-screen-ratio); // 原 22.5px
+            gap: floor(26px * @detail-screen-ratio); // 原 22.5px
         }
 
         .social-icon {
-            width: floor(24px * @detail-screen-ratio); // 原 24px
-            height: floor(24px * @detail-screen-ratio); // 原 24px
+            width: floor(26px * @detail-screen-ratio); // 原 24px
+            height: floor(26px * @detail-screen-ratio); // 原 24px
         }
 
         .stats {
-            gap: floor(40px * @detail-screen-ratio) floor(80px * @detail-screen-ratio); // 原 40px 80px
+            gap: floor(40px * @detail-screen-ratio)
+                floor(80px * @detail-screen-ratio); // 原 40px 80px
             width: floor(296px * @detail-screen-ratio); // 原 296px
         }
 
@@ -884,7 +891,8 @@ export default {
         .telegram-tooltip-content {
             width: floor(220px * @detail-screen-ratio); // 原 220px
             height: floor(100px * @detail-screen-ratio); // 原 100px
-            padding: floor(30px * @detail-screen-ratio) floor(20px * @detail-screen-ratio); // 原 30px 20px
+            padding: floor(30px * @detail-screen-ratio)
+                floor(20px * @detail-screen-ratio); // 原 30px 20px
             font-size: floor(24px * @detail-screen-ratio); // 原 24px
             line-height: floor(36px * @detail-screen-ratio); // 原 36px
         }
@@ -915,8 +923,10 @@ export default {
             &::before {
                 top: floor(-12px * @detail-screen-ratio); // 原 -12px
                 left: floor(-12px * @detail-screen-ratio); // 原 -12px
-                border-left: floor(12px * @detail-screen-ratio) solid transparent; // 原 12px
-                border-right: floor(12px * @detail-screen-ratio) solid transparent; // 原 12px
+                border-left: floor(12px * @detail-screen-ratio) solid
+                    transparent; // 原 12px
+                border-right: floor(12px * @detail-screen-ratio) solid
+                    transparent; // 原 12px
                 border-top: floor(12px * @detail-screen-ratio) solid #fff; // 原 12px
             }
         }
