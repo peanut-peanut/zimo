@@ -9,7 +9,12 @@
         @mouseenter="handleMouseEnter"
     >
         <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
+            <img
+                src="/assets/image/Logo2.png"
+                alt="logo"
+                class="logo"
+                @click="goToHome"
+            />
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
@@ -34,7 +39,9 @@
                     class="nav-link"
                     :class="{ active: isFrom === 'successful-cases' }"
                     target="_blank"
-                    @click="handleNavClick('Successful Cases', '/successful-cases')"
+                    @click="
+                        handleNavClick('Successful Cases', '/successful-cases')
+                    "
                     >Successful cases</a
                 >
                 <div class="nav-dropdown" ref="dropdownRef">
@@ -112,6 +119,8 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { isMobileDevice } from "@/utils/common.js";
 import baiduAnalytics from "@/utils/baidu-analytics";
+import { useRouter } from "vue-router";
+import { ROUTES } from "@/router/routes";
 
 export default {
     name: "Header",
@@ -123,6 +132,10 @@ export default {
     },
     setup(props) {
         console.log(props.isFrom);
+        const router = useRouter();
+        const goToHome = () => {
+            router.push(ROUTES.HOME);
+        };
         const isScrolled = ref(false);
 
         const showGuidesDropdown = ref(false);
@@ -130,10 +143,13 @@ export default {
 
         // 文档URL映射
         const docUrls = {
-            'study-in-china': 'https://kfk0ae7phot.sg.larksuite.com/docx/G3vDdQIAhoIIyjxCW6ilQMqagAg',
-            'cities': 'https://kfk0ae7phot.sg.larksuite.com/docx/W2SWd1mlgotFZvxEQFSloiY7gFb',
-            'universities': 'https://kfk0ae7phot.sg.larksuite.com/docx/BRT4dRFenoXmKzxfrsklAY9XgAd',
-            'scholarships': 'https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf'
+            "study-in-china":
+                "https://kfk0ae7phot.sg.larksuite.com/docx/G3vDdQIAhoIIyjxCW6ilQMqagAg",
+            cities: "https://kfk0ae7phot.sg.larksuite.com/docx/W2SWd1mlgotFZvxEQFSloiY7gFb",
+            universities:
+                "https://kfk0ae7phot.sg.larksuite.com/docx/BRT4dRFenoXmKzxfrsklAY9XgAd",
+            scholarships:
+                "https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf",
         };
 
         const handleScroll = () => {
@@ -183,24 +199,33 @@ export default {
 
         const handleNavClick = (navName, navUrl) => {
             // 上报导航点击事件
-            baiduAnalytics.trackLinkClick('navigation', navUrl, navName);
-            baiduAnalytics.trackEvent('navigation', 'nav_click', navName, 1);
+            baiduAnalytics.trackLinkClick("navigation", navUrl, navName);
+            baiduAnalytics.trackEvent("navigation", "nav_click", navName, 1);
         };
 
         const handleGuideClick = (guide) => {
             // 关闭下拉菜单
             showGuidesDropdown.value = false;
-            
+
             // 上报Guides子菜单点击事件
-            baiduAnalytics.trackEvent('navigation', 'guides_submenu_click', guide, 1);
-            
+            baiduAnalytics.trackEvent(
+                "navigation",
+                "guides_submenu_click",
+                guide,
+                1
+            );
+
             if (isMobileDevice()) {
                 // 移动端：直接跳转到文档地址
                 const docUrl = docUrls[guide];
                 if (docUrl) {
                     console.log(`移动端检测到，直接跳转到文档: ${docUrl}`);
-                    baiduAnalytics.trackLinkClick('external_doc', docUrl, guide);
-                    window.open(docUrl, '_blank');
+                    baiduAnalytics.trackLinkClick(
+                        "external_doc",
+                        docUrl,
+                        guide
+                    );
+                    window.open(docUrl, "_blank");
                 } else {
                     console.error(`未找到对应的文档URL: ${guide}`);
                 }
@@ -208,8 +233,8 @@ export default {
                 // 桌面端：跳转到guides页面
                 const guideUrl = `/guides/${guide}`;
                 console.log(`桌面端检测到，跳转到guides页面: ${guideUrl}`);
-                baiduAnalytics.trackLinkClick('internal_page', guideUrl, guide);
-                window.open(guideUrl, '_blank');
+                baiduAnalytics.trackLinkClick("internal_page", guideUrl, guide);
+                window.open(guideUrl, "_blank");
             }
         };
 
@@ -241,12 +266,16 @@ export default {
             handleDropdownLeave,
             handleGuideClick,
             handleNavClick,
+            goToHome,
         };
     },
 };
 </script>
 
 <style lang="less" scoped>
+// 大屏幕缩放系数
+@large-screen-scale: 0.8;
+
 .header {
     position: fixed;
     top: 0;
@@ -284,6 +313,11 @@ export default {
             animation: slideIn 0.3s ease-out;
         }
     }
+
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        height: 80px * @large-screen-scale;
+    }
 }
 
 .header-container {
@@ -295,16 +329,29 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        padding-left: 400px * @large-screen-scale;
+    }
 }
 
 .logo {
     position: absolute;
-    // top: -30px;
-    left: 160px;
+    top: 12px;
+    left: 190px;
     width: 216px;
     height: 59px;
     cursor: pointer;
     z-index: 99999;
+
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        top: 12px * @large-screen-scale;
+        width: 216px * @large-screen-scale;
+        height: 59px * @large-screen-scale;
+        left: 255px * @large-screen-scale;
+    }
 }
 
 // 桌面端导航
@@ -327,6 +374,7 @@ export default {
     text-decoration: none;
     position: relative;
     display: inline-block;
+    
 
     // Hover 放大效果（不包括active的元素）
     &:not(.active):hover {
@@ -344,6 +392,11 @@ export default {
         height: 4px;
         background-color: #fff;
         border-radius: 1px;
+        @media (min-width: 1681px) {
+            width: 40px * @large-screen-scale;
+            height: 4px * @large-screen-scale;
+            bottom: -10px * @large-screen-scale;
+        }
     }
 
     // 当hover非active菜单时显示hover菜单的横线
@@ -358,6 +411,11 @@ export default {
         background-color: #fff;
         border-radius: 1px;
         animation: slideIn 0.3s ease-out;
+        @media (min-width: 1681px) {
+            width: 40px * @large-screen-scale;
+            height: 4px * @large-screen-scale;
+            bottom: -10px * @large-screen-scale;
+        }
     }
 
     // 下划线动画
@@ -366,7 +424,7 @@ export default {
             width: 0;
         }
         to {
-            width: 40p x;
+            width: 40px;
         }
     }
 }
@@ -375,7 +433,7 @@ export default {
 .nav-dropdown {
     position: relative;
     display: inline-block;
-    
+
     // 扩大hover区域，减少意外关闭
     &::after {
         content: "";
@@ -456,7 +514,6 @@ export default {
     &:hover {
         background-color: #fffade;
         font-weight: 500;
-        
     }
     &.active {
         background-color: #fffade;

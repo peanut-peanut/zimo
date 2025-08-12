@@ -1,7 +1,10 @@
 <template>
     <div class="guides-container">
         <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
+            <img src="/assets/image/Logo2.png" alt="logo" class="logo"  
+            
+            @click="goToHome"
+            />
         </div>
         
         
@@ -9,10 +12,18 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+import { ROUTES } from "../../router/routes";
 export default {
     name: "Guides",
     setup() {
-        return {};
+        const router = useRouter();
+        const goToHome = () => {
+            router.push(ROUTES.HOME);
+        };
+        return {
+            goToHome,
+        };
     },
 };
 </script>

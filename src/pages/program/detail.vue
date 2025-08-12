@@ -18,7 +18,9 @@
                     </div>
                     <div class="program-info">
                         <h1 class="program-title">
-                            <span class="title-text">{{ programDetail.course_name }}</span>
+                            <span class="title-text">{{
+                                programDetail.course_name
+                            }}</span>
                             <span
                                 class="scholarship-badge"
                                 v-if="programDetail.has_scholarship"
@@ -267,8 +269,140 @@
                                         }"
                                     >
                                         <td class="left-cell">
-                                            <div class="table-font">
-                                                {{ formatFeeLabel(feeKey) }}
+                                            <div
+                                                class="table-font"
+                                                style="
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                "
+                                            >
+                                                <div>
+                                                    {{ formatFeeLabel(feeKey) }}
+                                                </div>
+                                                <div
+                                                    style="
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                    "
+                                                >
+                                                    <a-tooltip
+                                                        v-if="
+                                                            feeKey.includes(
+                                                                'service_fee'
+                                                            )
+                                                        "
+                                                        placement="top"
+                                                        overlay-class-name="service-fee-tooltip"
+                                                        trigger="hover"
+                                                    >
+                                                        <template #title>
+                                                            <div
+                                                                class="tooltip-content"
+                                                            >
+                                                                Explanation of
+                                                                Study Abroad
+                                                                Application
+                                                                Service Fees<br /><br />
+
+                                                                I. Basic
+                                                                Administrative
+                                                                Fee
+                                                                (Mandatory)<br />
+                                                                - A 54 USD fee
+                                                                is required
+                                                                upfront for all
+                                                                application
+                                                                programs, which
+                                                                covers:<br />
+                                                                &nbsp;&nbsp;&nbsp;-
+                                                                Basic
+                                                                administrative
+                                                                costs, document
+                                                                preparation, and
+                                                                submission fees
+                                                                during the
+                                                                application
+                                                                process;<br />
+                                                                &nbsp;&nbsp;&nbsp;-
+                                                                Full scholarship
+                                                                application
+                                                                services (no
+                                                                additional
+                                                                charges).<br /><br /><br />
+
+                                                                II. Application
+                                                                Guarantee and
+                                                                Secondary
+                                                                Service<br />
+                                                                - If the
+                                                                application to
+                                                                the first school
+                                                                fails, we will
+                                                                apply to a
+                                                                second school
+                                                                for you free of
+                                                                charge, with no
+                                                                need to pay an
+                                                                additional basic
+                                                                fee.<br /><br /><br />
+
+                                                                III. Rules for
+                                                                Remaining
+                                                                Service Fees
+                                                                (Charged after
+                                                                Successful
+                                                                Application)<br />
+                                                                1. No
+                                                                scholarship
+                                                                awarded: The
+                                                                remaining fee
+                                                                will be charged
+                                                                after
+                                                                successfully
+                                                                receiving an
+                                                                admission
+                                                                letter, based on
+                                                                the specific
+                                                                application
+                                                                program (details
+                                                                can be consulted
+                                                                with your
+                                                                advisor).<br />
+                                                                2. Scholarship
+                                                                awarded:<br />
+                                                                &nbsp;&nbsp;&nbsp;-
+                                                                Full
+                                                                scholarship: The
+                                                                remaining fee is
+                                                                1,000 USD;<br />
+                                                                &nbsp;&nbsp;&nbsp;-
+                                                                Partial
+                                                                scholarship: The
+                                                                remaining fee is
+                                                                600 USD.<br /><br /><br />
+
+                                                                Note: All fee
+                                                                details are
+                                                                transparent and
+                                                                verifiable, with
+                                                                no hidden
+                                                                charges during
+                                                                the application
+                                                                process. For any
+                                                                questions, feel
+                                                                free to contact
+                                                                your dedicated
+                                                                advisor for
+                                                                clarification.
+                                                            </div>
+                                                        </template>
+                                                        <QuestionCircleOutlined
+                                                            class="service-fee-icon"
+                                                        />
+                                                    </a-tooltip>
+                                                </div>
                                             </div>
                                         </td>
                                         <td class="right-cell">
@@ -456,7 +590,7 @@
                 </div>
 
                 <div class="why-choose-zimo">
-                    <div class="why-choose-zimo-title">Why choose zimo?</div>
+                    <div class="why-choose-zimo-title">Why choose Zimo?</div>
                     <div class="benefit-item">
                         <img
                             src="/assets/image/Program/Detail/FinishIcon.png"
@@ -576,6 +710,8 @@ import { setSEO } from "@/utils/seo.js";
 import { searchStore } from "@/store/searchStore.js";
 import AboutUs from "../home/components/AboutUs/index.vue";
 import Footer from "../home/components/Footer/index.vue";
+import { QuestionCircleOutlined } from "@ant-design/icons-vue";
+// import { Tooltip } from "ant-design-vue"; // 使用 a-tooltip 全局组件
 
 // 导入API工具函数
 import { apiGet, apiPost } from "@/utils/api.js";
@@ -587,6 +723,7 @@ export default {
         LazyImage,
         AboutUs,
         Footer,
+        QuestionCircleOutlined,
     },
     setup() {
         const route = useRoute();
@@ -976,8 +1113,11 @@ export default {
                 const requirements = [];
 
                 // 首先尝试按数字序号分割（如：1. 2. 3.）
-                let sentences = reqText.split(/(?=\d+\.\s)/).map(s => s.trim()).filter(s => s.length > 0);
-                
+                let sentences = reqText
+                    .split(/(?=\d+\.\s)/)
+                    .map((s) => s.trim())
+                    .filter((s) => s.length > 0);
+
                 // 如果没有数字序号，尝试按句子分割文本，支持多种分隔符
                 if (sentences.length <= 1) {
                     sentences = reqText
@@ -1007,21 +1147,28 @@ export default {
                     // 直接处理带数字序号的要求
                     if (/^\d+\.\s/.test(cleanSentence)) {
                         // 检查是否包含子要求（如HSK级别要求）
-                        if (/\([^)]+\)/.test(cleanSentence) && cleanSentence.includes('(1)') && cleanSentence.includes('(2)')) {
+                        if (
+                            /\([^)]+\)/.test(cleanSentence) &&
+                            cleanSentence.includes("(1)") &&
+                            cleanSentence.includes("(2)")
+                        ) {
                             // 分离主要要求和子要求
                             const parts = cleanSentence.split(/(?=\(\d+\))/);
                             const mainReq = parts[0].trim();
-                            const subReqs = parts.slice(1).map(part => part.trim()).filter(part => part.length > 0);
-                            
+                            const subReqs = parts
+                                .slice(1)
+                                .map((part) => part.trim())
+                                .filter((part) => part.length > 0);
+
                             if (subReqs.length > 0) {
                                 requirements.push({
                                     main: mainReq,
-                                    sub: subReqs
+                                    sub: subReqs,
                                 });
                                 return;
                             }
                         }
-                        
+
                         // 普通的数字序号要求
                         requirements.push(cleanSentence);
                         return;
@@ -1228,7 +1375,7 @@ export default {
 
 <style lang="less" scoped>
 .program-detail-container {
-    padding: 220px 260px 40px 260px;
+    padding: 180px 260px 40px 260px;
     background-color: #fff;
 }
 
@@ -1666,8 +1813,25 @@ export default {
                 }
             }
         }
+
+        .service-fee-icon {
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #ff6b35;
+            font-size: 18px;
+            cursor: pointer;
+
+            &:hover {
+                color: #e55a2b;
+            }
+        }
     }
 }
+
+/* 移除重复的样式代码，已在下方单独的 style 块中定义 */
 
 .admissions-process {
     margin-bottom: 60px;
@@ -2349,6 +2513,11 @@ export default {
                 padding: floor(10px * @large-screen-ratio)
                     floor(15px * @large-screen-ratio); // 原 10px 15px
             }
+
+            .service-fee-icon {
+                margin-left: floor(10px * @large-screen-ratio); // 原 10px
+                font-size: floor(18px * @large-screen-ratio); // 原 18px
+            }
         }
     }
 
@@ -2513,6 +2682,50 @@ export default {
 
     .carousel-controls .next-btn {
         right: floor(10px * @large-screen-ratio); // 原 10px
+    }
+
+    /* 大屏幕下的 Tooltip 样式缩放已移动到单独的 style 块 */
+}
+</style>
+
+<style>
+/* Tooltip 全局样式 */
+.service-fee-tooltip .ant-tooltip-inner {
+    max-width: 904px !important;
+    width: 904px !important;
+    min-height: 554px !important;
+    background-color: #2d2d2d !important;
+    border-radius: 8px !important;
+    padding: 30px !important;
+    font-family: "PingFang SC", sans-serif !important;
+}
+
+.service-fee-tooltip .ant-tooltip-arrow::before {
+    background-color: #2d2d2d !important;
+}
+
+.service-fee-tooltip .tooltip-content {
+    font-family: "PingFang SC", sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 0em;
+    font-variation-settings: "opsz" auto;
+    color: #ffffff;
+    text-align: left;
+}
+
+/* 大屏幕下的 Tooltip 样式缩放 */
+@media (min-width: 1681px) {
+    .service-fee-tooltip .ant-tooltip-inner {
+        max-width: 542px !important; /* 904px * 0.6 */
+        width: 542px !important;
+        min-height: 332px !important; /* 554px * 0.6 */
+        padding: 18px !important; /* 30px * 0.6 */
+    }
+
+    .service-fee-tooltip .tooltip-content {
+        font-size: 10px; /* 16px * 0.6 */
     }
 }
 </style>

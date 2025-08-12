@@ -68,6 +68,7 @@ export default defineConfig({
                 // 分包策略
                 manualChunks: {
                     vendor: ["vue", "vue-router"],
+                    antd: ["ant-design-vue"],
                     utils: ["libphonenumber-js", "country-flag-emoji-json"],
                 },
                 // 静态资源处理

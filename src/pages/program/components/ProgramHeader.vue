@@ -2,7 +2,7 @@
     <div class="program-header-component">
         <!-- 搜索区域 -->
         <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" />
+            <img src="/assets/image/Logo2.png" alt="logo" class="logo" @click="handleLogoClick" />
             <div class="search-container">
                 <input
                     type="text"
@@ -133,6 +133,7 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { isMobileDevice } from "@/utils/common.js";
 import baiduAnalytics from "@/utils/baidu-analytics";
+import { useRouter } from "vue-router";
 
 export default {
     name: "ProgramHeader",
@@ -148,6 +149,7 @@ export default {
     },
     emits: ["search"],
     setup(props, { emit }) {
+        const router = useRouter();
         const showGuidesDropdown = ref(false);
         const dropdownRef = ref(null);
 
@@ -236,6 +238,10 @@ export default {
             }
         };
 
+        const handleLogoClick = () => {
+            router.push("/");
+        };
+
         onMounted(() => {
             document.addEventListener("click", handleClickOutside);
         });
@@ -245,6 +251,7 @@ export default {
         });
 
         return {
+            router,
             showGuidesDropdown,
             dropdownRef,
             handleMouseLeave,
@@ -254,12 +261,16 @@ export default {
             handleGuideClick,
             handleNavClick,
             handleSearchInput,
+            handleLogoClick,
         };
     },
 };
 </script>
 
 <style lang="less" scoped>
+// 大屏幕缩放系数
+@large-screen-scale: 0.7;
+
 .program-header-component {
     position: fixed;
     top: 0;
@@ -271,6 +282,11 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        height: 160px * @large-screen-scale;
+    }
 }
 
 .header-container {
@@ -284,6 +300,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        height: 80px * @large-screen-scale;
+    }
 }
 
 .search-container {
@@ -297,6 +318,13 @@ export default {
     background: #ffffff;
     box-sizing: border-box;
     border: 1px solid #ffffff;
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        width: 593px * @large-screen-scale;
+        height: 50px * @large-screen-scale;
+        border-radius: 227px * @large-screen-scale;
+    }
 }
 
 .search-input {
@@ -307,7 +335,7 @@ export default {
     border: none;
     outline: none;
     font-family: PingFang SC;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: normal;
     line-height: 22px;
     display: flex;
@@ -317,13 +345,28 @@ export default {
 
     &::placeholder {
         font-family: PingFang SC;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: normal;
         line-height: 22px;
         display: flex;
         align-items: center;
         letter-spacing: normal;
         color: #dbdfec;
+    }
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        width: 559px * @large-screen-scale;
+        height: 42px * @large-screen-scale;
+        padding: 0 20px * @large-screen-scale;
+        border-radius: 20px * @large-screen-scale;
+        font-size: 20px * @large-screen-scale;
+        line-height: 22px * @large-screen-scale;
+        
+        &::placeholder {
+            font-size: 18px * @large-screen-scale;
+            line-height: 22px * @large-screen-scale;
+        }
     }
 }
 
@@ -333,15 +376,29 @@ export default {
     width: 24px;
     height: 24px;
     pointer-events: none;
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        right: 16px * @large-screen-scale;
+        width: 24px * @large-screen-scale;
+        height: 24px * @large-screen-scale;
+    }
 }
 
 .logo {
     position: absolute;
-    left: 160px;
+    left: 255px;
     width: 216px;
     height: 59px;
     cursor: pointer;
     z-index: 100;
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        left: 255px * @large-screen-scale;
+        width: 216px * @large-screen-scale;
+        height: 59px * @large-screen-scale;
+    }
 }
 
 .program-navigation {
@@ -350,6 +407,12 @@ export default {
     box-shadow: 0px 4px 10px 0px #f0f0f0;
     height: 80px;
     padding: 0 260px;
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        height: 80px * @large-screen-scale;
+        padding: 0 260px * @large-screen-scale;
+    }
 
     // 当整个navigation被hover时，显示激活菜单的下划线
     &:hover {
@@ -387,6 +450,12 @@ export default {
     // 当任何非active的nav-link被hover时，隐藏所有active的横线
     &:hover .nav-link:not(:hover).active::after {
         display: none;
+    }
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        gap: 60px * @large-screen-scale;
+        font-size: 22px * @large-screen-scale;
     }
 }
 
@@ -440,6 +509,37 @@ export default {
             width: 40px;
         }
     }
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        // 默认显示isFrom对应的横线
+        &.active::after {
+            bottom: -14px * @large-screen-scale;
+            width: 40px * @large-screen-scale;
+            height: 4px * @large-screen-scale;
+        }
+
+        // 当hover非active菜单时显示hover菜单的横线
+        &:not(.active):hover::after {
+            bottom: -14px * @large-screen-scale;
+            width: 40px * @large-screen-scale;
+            height: 4px * @large-screen-scale;
+        }
+        
+        // 大屏幕下的下划线动画
+        @keyframes slideInLarge {
+            from {
+                width: 0;
+            }
+            to {
+                width: 40px * @large-screen-scale;
+            }
+        }
+        
+        &:not(.active):hover::after {
+            animation: slideInLarge 0.3s ease-out;
+        }
+    }
 }
 
 // 下拉菜单容器
@@ -457,6 +557,15 @@ export default {
         height: 10px;
         background: transparent;
         z-index: 99999;
+    }
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        &::after {
+            left: -20px * @large-screen-scale;
+            right: -20px * @large-screen-scale;
+            height: 10px * @large-screen-scale;
+        }
     }
 }
 
@@ -492,6 +601,20 @@ export default {
         border-right: 8px solid transparent;
         border-bottom: 8px solid #ff6b35;
     }
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        transform: translateX(-50%) translateY(8px * @large-screen-scale);
+        border-radius: 8px * @large-screen-scale;
+        min-width: 190px * @large-screen-scale;
+        
+        &::before {
+            top: -8px * @large-screen-scale;
+            border-left: 8px * @large-screen-scale solid transparent;
+            border-right: 8px * @large-screen-scale solid transparent;
+            border-bottom: 8px * @large-screen-scale solid #ff6b35;
+        }
+    }
 }
 
 .dropdown-item {
@@ -521,6 +644,13 @@ export default {
 
     &:last-child {
         border-bottom: none;
+    }
+    
+    /* 大屏幕缩放 - 屏幕宽度大于1680px */
+    @media (min-width: 1681px) {
+        padding: 15px * @large-screen-scale 20px * @large-screen-scale;
+        font-size: 18px * @large-screen-scale;
+        margin: 0 10px * @large-screen-scale;
     }
 }
 
