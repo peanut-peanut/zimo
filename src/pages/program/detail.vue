@@ -1375,7 +1375,7 @@ export default {
 
 <style lang="less" scoped>
 .program-detail-container {
-    padding: 180px 260px 40px 260px;
+    padding: 210px 260px 40px 260px;
     background-color: #fff;
 }
 
@@ -2309,18 +2309,18 @@ export default {
     }
 
     .content-container {
-        padding: 0 120px;
+        padding: 0 40px;
         gap: 0px; // 原 40px
         //space-around
         justify-content: space-between;
     }
 
     .left-content {
-        width: floor(920px * @large-screen-ratio); // 原 872px
+        width: floor(1050px * @large-screen-ratio); // 原 872px
     }
 
     .right-sidebar {
-        width: floor(540px * @large-screen-ratio); // 原 488px
+        width: floor(600px * @large-screen-ratio); // 原 488px
 
         .info-card {
             padding: floor(30px * @large-screen-ratio)

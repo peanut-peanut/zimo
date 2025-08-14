@@ -2,7 +2,12 @@
     <div class="program-header-component">
         <!-- 搜索区域 -->
         <div class="header-container">
-            <img src="/assets/image/Logo2.png" alt="logo" class="logo" @click="handleLogoClick" />
+            <img
+                src="/assets/image/Logo2.png"
+                alt="logo"
+                class="logo"
+                @click="handleLogoClick"
+            />
             <div class="search-container">
                 <input
                     type="text"
@@ -282,7 +287,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         height: 160px * @large-screen-scale;
@@ -300,7 +305,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         height: 80px * @large-screen-scale;
@@ -318,7 +323,7 @@ export default {
     background: #ffffff;
     box-sizing: border-box;
     border: 1px solid #ffffff;
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         width: 593px * @large-screen-scale;
@@ -353,7 +358,7 @@ export default {
         letter-spacing: normal;
         color: #dbdfec;
     }
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         width: 559px * @large-screen-scale;
@@ -362,7 +367,7 @@ export default {
         border-radius: 20px * @large-screen-scale;
         font-size: 20px * @large-screen-scale;
         line-height: 22px * @large-screen-scale;
-        
+
         &::placeholder {
             font-size: 18px * @large-screen-scale;
             line-height: 22px * @large-screen-scale;
@@ -376,7 +381,7 @@ export default {
     width: 24px;
     height: 24px;
     pointer-events: none;
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         right: 16px * @large-screen-scale;
@@ -392,10 +397,10 @@ export default {
     height: 59px;
     cursor: pointer;
     z-index: 100;
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
-        left: 255px * @large-screen-scale;
+        left: 420px;
         width: 216px * @large-screen-scale;
         height: 59px * @large-screen-scale;
     }
@@ -407,11 +412,11 @@ export default {
     box-shadow: 0px 4px 10px 0px #f0f0f0;
     height: 80px;
     padding: 0 260px;
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         height: 80px * @large-screen-scale;
-        padding: 0 260px * @large-screen-scale;
+        padding: 0 420px;
     }
 
     // 当整个navigation被hover时，显示激活菜单的下划线
@@ -435,7 +440,7 @@ export default {
     width: 100%;
     // max-width: 1200px;
     margin: 0 auto;
-   // padding: 0 260px;
+    // padding: 0 260px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -451,7 +456,7 @@ export default {
     &:hover .nav-link:not(:hover).active::after {
         display: none;
     }
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         gap: 60px * @large-screen-scale;
@@ -509,7 +514,7 @@ export default {
             width: 40px;
         }
     }
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         // 默认显示isFrom对应的横线
@@ -525,7 +530,7 @@ export default {
             width: 40px * @large-screen-scale;
             height: 4px * @large-screen-scale;
         }
-        
+
         // 大屏幕下的下划线动画
         @keyframes slideInLarge {
             from {
@@ -535,7 +540,7 @@ export default {
                 width: 40px * @large-screen-scale;
             }
         }
-        
+
         &:not(.active):hover::after {
             animation: slideInLarge 0.3s ease-out;
         }
@@ -558,7 +563,7 @@ export default {
         background: transparent;
         z-index: 99999;
     }
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         &::after {
@@ -601,13 +606,13 @@ export default {
         border-right: 8px solid transparent;
         border-bottom: 8px solid #ff6b35;
     }
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         transform: translateX(-50%) translateY(8px * @large-screen-scale);
         border-radius: 8px * @large-screen-scale;
         min-width: 190px * @large-screen-scale;
-        
+
         &::before {
             top: -8px * @large-screen-scale;
             border-left: 8px * @large-screen-scale solid transparent;
@@ -645,7 +650,7 @@ export default {
     &:last-child {
         border-bottom: none;
     }
-    
+
     /* 大屏幕缩放 - 屏幕宽度大于1680px */
     @media (min-width: 1681px) {
         padding: 15px * @large-screen-scale 20px * @large-screen-scale;
