@@ -2303,7 +2303,7 @@ export default {
 /* 大屏幕字体缩放和尺寸调整 - 屏幕宽度大于1680px时 */
 @media (min-width: 1681px) {
     .program-detail-container {
-        //  padding: 80px 300px 40px 300px;
+        padding: 180px 260px 40px 260px;
         max-width: 1680px;
         margin: 0 auto;
     }
