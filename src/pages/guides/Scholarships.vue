@@ -17,10 +17,14 @@
             </div>
         </div>
     </div>
+    <AboutUs :need-large-screen-adaptation="true" />
+    <Footer :need-large-screen-adaptation="true" />
 </template>
 
 <script>
 import Header from "../home/components/Header/index.vue";
+import AboutUs from "../home/components/AboutUs/index.vue";
+import Footer from "../home/components/Footer/index.vue";
 import { isMobileDevice } from "@/utils/common.js";;
 
 const DOC_URL = "https://kfk0ae7phot.sg.larksuite.com/docx/BTcQdwY4foASJqx9vV2lWLrjglf";
@@ -29,6 +33,8 @@ export default {
     name: "Scholarships",
     components: {
         Header,
+        AboutUs,
+        Footer,
     },
     data() {
         return {

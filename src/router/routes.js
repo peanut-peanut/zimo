@@ -13,6 +13,12 @@ export const ROUTES = {
   GUIDES_CITIES: '/guides/cities',
   GUIDES_UNIVERSITIES: '/guides/universities',
   GUIDES_SCHOLARSHIPS: '/guides/scholarships',
+  POPULAR_CITIES_BEIJING: '/popular-cities/beijing',
+  POPULAR_CITIES_SHANGHAI: '/popular-cities/shanghai',
+  POPULAR_CITIES_HANGZHOU: '/popular-cities/hangzhou',
+  POPULAR_CITIES_SHENZHEN: '/popular-cities/shenzhen',
+  POPULAR_CITIES_WUHAN: '/popular-cities/wuhan',
+  POPULAR_CITIES_GUANGDONG: '/popular-cities/guangdong',
   APPLYNOW: '/apply-now',
 }
 

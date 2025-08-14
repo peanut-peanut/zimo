@@ -43,6 +43,7 @@
                         ]"
                         @mouseenter="handleCityCardHover(city.id)"
                         @mouseleave="handleCityCardLeave"
+                        @click="handleCityCardClick(city.id)"
                     >
                         <img
                             :src="city.image"
@@ -86,8 +87,8 @@ export default {
                 image: "/assets/image/Home/PopularCities/Hangzhou.png",
             },
             {
-                id: "hongkong",
-                name: "Hongkong",
+                id: "guangdong",
+                name: "GuangDong",
                 image: "/assets/image/Home/PopularCities/HongKong.png",
             },
             {
@@ -118,6 +119,24 @@ export default {
             hoveredCity.value = null;
         };
 
+        const handleCityCardClick = (cityId) => {
+            // 定义城市ID到路由路径的映射
+            const cityRouteMap = {
+                beijing: "/popular-cities/beijing",
+                shanghai: "/popular-cities/shanghai",
+                hangzhou: "/popular-cities/hangzhou",
+                shenzhen: "/popular-cities/shenzhen",
+                wuhan: "/popular-cities/wuhan",
+                guangdong: "/popular-cities/guangdong",
+            };
+
+            const routePath = cityRouteMap[cityId];
+            if (routePath) {
+                // 新开窗口跳转到对应的城市页面
+                window.open(routePath, "_blank");
+            }
+        };
+
         return {
             hoveredCity,
             cities,
@@ -125,6 +144,7 @@ export default {
             handleCityCardLeave,
             handleMapMarkerHover,
             handleMapMarkerLeave,
+            handleCityCardClick,
         };
     },
 };
@@ -229,10 +249,9 @@ export default {
         .marker-hangzhou {
             top: 500px;
             right: 320px;
-      
         }
 
-        .marker-hongkong {
+        .marker-guangdong {
             top: 590px;
             right: 385px;
         }
@@ -343,23 +362,18 @@ export default {
 @media (max-width: 1024px) {
     .marker-beijing {
         top: 230px !important;
-  
     }
     .marker-shanghai {
         top: 350px !important;
-
     }
     .marker-hangzhou {
         top: 380px !important;
-   
     }
-    .marker-hongkong {
+    .marker-guangdong {
         top: 450px !important;
-
     }
     .marker-shenzhen {
         top: 440px !important;
-
     }
     .marker-wuhan {
         top: 380px !important;

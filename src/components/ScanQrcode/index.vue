@@ -1,5 +1,5 @@
 <template>
-    <div class="popup-content" :class="{ 'from-detail': isFromDetail }">
+    <div class="popup-content" :class="{ 'need-large-screen-adaptation': needLargeScreenAdaptation }">
         <div class="contact-details">
             <div class="popup-header">
                 <img
@@ -43,7 +43,7 @@
 export default {
     name: "ScanQrcode",
     props: {
-        isFromDetail: {
+        needLargeScreenAdaptation: {
             type: Boolean,
             default: false,
         },
@@ -153,7 +153,7 @@ export default {
 @detail-screen-ratio: 0.6;
 
 /* 当从 detail 页面调用时的媒体查询 */
-.popup-content.from-detail {
+.popup-content.need-large-screen-adaptation {
     @media (min-width: 1681px) {
         padding: floor(22px * @detail-screen-ratio); // 原 22px
         width: floor(520px * @detail-screen-ratio); // 原 520px

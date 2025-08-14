@@ -696,8 +696,8 @@
             <p>Loading program details...</p>
         </div>
     </div>
-    <AboutUs v-if="!isLoading" :is-from-detail="true" />
-    <Footer v-if="!isLoading" :is-from-detail="true" />
+    <AboutUs v-if="!isLoading" :need-large-screen-adaptation="true" />
+    <Footer v-if="!isLoading" :need-large-screen-adaptation="true" />
 </template>
 
 <script>

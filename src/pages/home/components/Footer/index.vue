@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer" :class="{ 'from-detail': isFromDetail }">
+    <footer class="footer" :class="{ 'need-large-screen-adaptation': needLargeScreenAdaptation }">
         <div class="container">
             <!-- 左侧版权信息 -->
             <div class="copyright">
@@ -20,7 +20,7 @@
 
                 <!-- 联系方式弹窗 -->
                 <div v-if="showContactPopup" class="contact-popup">
-                    <ScanQrcode :is-from-detail="isFromDetail" />
+                    <ScanQrcode :need-large-screen-adaptation="needLargeScreenAdaptation" />
                 </div>
             </div>
 
@@ -50,7 +50,7 @@ export default {
         ScanQrcode
     },
     props: {
-        isFromDetail: {
+        needLargeScreenAdaptation: {
             type: Boolean,
             default: false,
         },
@@ -232,7 +232,7 @@ export default {
 @detail-screen-ratio: 0.7;
 
 /* 当从 detail 页面调用时的媒体查询 */
-.footer.from-detail {
+.footer.need-large-screen-adaptation {
     @media (min-width: 1681px) {
         height: floor(80px * @detail-screen-ratio); // 原 80px
 

@@ -3,7 +3,7 @@
         id="about"
         ref="sectionRef"
         class="about-section"
-        :class="{ 'from-detail': isFromDetail }"
+        :class="{ 'need-large-screen-adaptation': needLargeScreenAdaptation }"
     >
         <div class="container">
             <!-- 标题部分 -->
@@ -212,7 +212,7 @@ export default {
         SectionTitle,
     },
     props: {
-        isFromDetail: {
+        needLargeScreenAdaptation: {
             type: Boolean,
             default: false,
         },
@@ -429,9 +429,9 @@ export default {
     flex-shrink: 0;
 }
 
-.feature-content {
-    /* margin-bottom: 15px; */
-}
+/* .feature-content {
+    margin-bottom: 15px;
+} */
 
 .feature-title {
     font-size: 16.5px;
@@ -821,7 +821,7 @@ export default {
 @detail-screen-ratio: 0.7;
 
 /* 当从 detail 页面调用时的媒体查询 */
-.about-section.from-detail {
+.about-section.need-large-screen-adaptation {
     @media (min-width: 1681px) {
         padding: 0 100px;
         .container {

@@ -581,16 +581,22 @@
             </div>
         </div>
     </div>
+    <AboutUs v-if="!isLoading" :need-large-screen-adaptation="true" />
+    <Footer v-if="!isLoading" :need-large-screen-adaptation="true" />
 </template>
 
 <script>
 import { useProgram } from "./index.js";
 import ProgramHeader from "./components/ProgramHeader.vue";
+import AboutUs from "../home/components/AboutUs/index.vue";
+import Footer from "../home/components/Footer/index.vue";
 
 export default {
     name: "Program",
     components: {
         ProgramHeader,
+        AboutUs,
+        Footer,
     },
     setup() {
         return useProgram();

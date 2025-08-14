@@ -17,6 +17,12 @@ import StudyInChina from '../pages/guides/studyInChina.vue'
 import Cities from '../pages/guides/cities.vue'
 import Universities from '../pages/guides/Universities.vue'
 import Scholarships from '../pages/guides/Scholarships.vue'
+import Beijing from '../pages/guides/Beijing.vue'
+import Shanghai from '../pages/guides/Shanghai.vue'
+import Hangzhou from '../pages/guides/Hangzhou.vue'
+import Shenzhen from '../pages/guides/Shenzhen.vue'
+import Wuhan from '../pages/guides/Wuhan.vue'
+import GuangDong from '../pages/guides/GuangDong.vue'
 
 /**
  * 路由配置
@@ -88,6 +94,42 @@ const routes = [
     meta: { title: 'scholarships' }
   },
   {
+    path: ROUTES.POPULAR_CITIES_BEIJING,
+    name: 'PopularCitiesBeijing',
+    component: Beijing,
+    meta: { title: 'beijing' }
+  },
+  {
+    path: ROUTES.POPULAR_CITIES_SHANGHAI,
+    name: 'PopularCitiesShanghai',
+    component: Shanghai,
+    meta: { title: 'shanghai' }
+  },
+  {
+    path: ROUTES.POPULAR_CITIES_HANGZHOU,
+    name: 'PopularCitiesHangzhou',
+    component: Hangzhou,
+    meta: { title: 'hangzhou' }
+  },
+  {
+    path: ROUTES.POPULAR_CITIES_SHENZHEN,
+    name: 'PopularCitiesShenzhen',
+    component: Shenzhen,
+    meta: { title: 'shenzhen' }
+  },
+  {
+    path: ROUTES.POPULAR_CITIES_WUHAN,
+    name: 'PopularCitiesWuhan',
+    component: Wuhan,
+    meta: { title: 'wuhan' }
+  },
+  {
+    path: ROUTES.POPULAR_CITIES_GUANGDONG,
+    name: 'PopularCitiesGuangDong',
+    component: GuangDong,
+    meta: { title: 'guangdong' }
+  },
+  {
     path: ROUTES.APPLYNOW,
     name: 'ApplyNow',
     component: ApplyNow,
@@ -128,6 +170,12 @@ router.beforeEach((to, from, next) => {
     'GuidesCities': 'cities',
     'GuidesUniversities': 'universities',
     'GuidesScholarships': 'scholarships',
+    'PopularCitiesBeijing': 'beijing',
+    'PopularCitiesShanghai': 'shanghai',
+    'PopularCitiesHangzhou': 'hangzhou',
+    'PopularCitiesShenzhen': 'shenzhen',
+    'PopularCitiesWuhan': 'wuhan',
+    'PopularCitiesGuangDong': 'guangdong',
     'ApplyNow': 'applyNow'
   }
   
