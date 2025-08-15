@@ -41,7 +41,7 @@
                 <div class="card-content">
                     <div class="card-title">Study Tours</div>
                     <div class="card-description">
-                        HShort-term educational and cultural trips across China.
+                        Short-term educational and cultural trips across China.
                     </div>
                 </div>
             </div>
