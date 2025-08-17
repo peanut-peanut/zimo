@@ -1,9 +1,15 @@
 <template>
-    <footer class="footer" :class="{ 'need-large-screen-adaptation': needLargeScreenAdaptation }">
+    <footer
+        class="footer"
+        :class="{ 'need-large-screen-adaptation': needLargeScreenAdaptation }"
+    >
         <div class="container">
             <!-- 左侧版权信息 -->
             <div class="copyright">
-                <span>©2022-2023 Zimo</span>
+                <span>Zimo EDU © 2025-</span>
+                <span class="footer-link" @click="handleTermsClick">Terms & Conditions</span>
+                <span>-</span>
+                <span class="footer-link" @click="handlePrivacyClick">Privacy Policy</span>
             </div>
 
             <!-- 中间联系人信息 -->
@@ -20,7 +26,11 @@
 
                 <!-- 联系方式弹窗 -->
                 <div v-if="showContactPopup" class="contact-popup">
-                    <ScanQrcode :need-large-screen-adaptation="needLargeScreenAdaptation" />
+                    <ScanQrcode
+                        :need-large-screen-adaptation="
+                            needLargeScreenAdaptation
+                        "
+                    />
                 </div>
             </div>
 
@@ -47,7 +57,7 @@ import { ROUTES } from "../../../../router/routes";
 export default {
     name: "Footer",
     components: {
-        ScanQrcode
+        ScanQrcode,
     },
     props: {
         needLargeScreenAdaptation: {
@@ -69,7 +79,17 @@ export default {
         const handlePlanClick = () => {
             // 这里可以添加发送邮件或跳转到联系页面的逻辑
             // window.location.href = "mailto:mia@zimo.group";
-            window.open(ROUTES.APPLYNOW, '_blank');
+            window.open(ROUTES.APPLYNOW, "_blank");
+        };
+
+        // 处理Terms & Conditions点击
+        const handleTermsClick = () => {
+            window.open(ROUTES.TERMS_CONDITIONS, "_blank");
+        };
+
+        // 处理Privacy Policy点击
+        const handlePrivacyClick = () => {
+            window.open(ROUTES.PRIVACY_POLICY, "_blank");
         };
 
         return {
@@ -77,6 +97,8 @@ export default {
             handleContactMouseEnter,
             handleContactMouseLeave,
             handlePlanClick,
+            handleTermsClick,
+            handlePrivacyClick,
         };
     },
 };
@@ -107,6 +129,18 @@ export default {
         line-height: normal;
         letter-spacing: normal;
         color: #ffffff;
+    }
+    .footer-link {
+        text-decoration: underline;
+        cursor: pointer;
+        text-underline-offset: 5px;
+        transition: all 0.3s ease;
+        color: #ffffff;
+
+        &:hover {
+            color: #f0f0f0 !important;
+            transform: translateY(-1px);
+        }
     }
 }
 
@@ -197,6 +231,7 @@ export default {
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: underline;
+    text-underline-offset: 5px;
     line-height: normal;
     letter-spacing: normal;
     background: none;
@@ -283,8 +318,10 @@ export default {
             &::after {
                 right: 220px; // 原 175px
                 border-left: floor(8px * @detail-screen-ratio) solid transparent; // 原 8px
-                border-right: floor(8px * @detail-screen-ratio) solid transparent; // 原 8px
-                border-top: floor(8px * @detail-screen-ratio) solid rgba(255, 255, 255, 0.95); // 原 8px
+                border-right: floor(8px * @detail-screen-ratio) solid
+                    transparent; // 原 8px
+                border-top: floor(8px * @detail-screen-ratio) solid
+                    rgba(255, 255, 255, 0.95); // 原 8px
             }
         }
     }

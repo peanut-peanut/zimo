@@ -30,6 +30,8 @@ import OurServices from '../pages/documents/OurServices.vue'
 import WhyZimo from '../pages/documents/WhyZimo.vue'
 import Support from '../pages/documents/Support.vue'
 import AdvertiseWithUs from '../pages/documents/AdvertiseWithUs.vue'
+import TermsConditions from '../pages/documents/TermsConditions.vue'
+import PrivacyPolicy from '../pages/documents/PrivacyPolicy.vue'
 
 /**
  * 路由配置
@@ -173,6 +175,19 @@ const routes = [
     component: AdvertiseWithUs,
     meta: { title: 'advertise-with-us' }
   },
+  // 法律文档页面路由
+  {
+    path: ROUTES.TERMS_CONDITIONS,
+    name: 'TermsConditions',
+    component: TermsConditions,
+    meta: { title: 'terms-conditions' }
+  },
+  {
+    path: ROUTES.PRIVACY_POLICY,
+    name: 'PrivacyPolicy',
+    component: PrivacyPolicy,
+    meta: { title: 'privacy-policy' }
+  },
   {
     path: '/:pathMatch(.*)*',
     redirect: ROUTES.HOME
@@ -219,7 +234,9 @@ router.beforeEach((to, from, next) => {
     'AboutUsOurServices': 'ourServices',
     'AboutUsWhyZimo': 'whyZimo',
     'ForStudentsSupport': 'support',
-    'ForUniversitiesAdvertiseWithUs': 'advertiseWithUs'
+    'ForUniversitiesAdvertiseWithUs': 'advertiseWithUs',
+    'TermsConditions': 'termsConditions',
+    'PrivacyPolicy': 'privacyPolicy'
   }
   
   const seoPage = seoPageMap[to.name]

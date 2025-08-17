@@ -26,6 +26,9 @@ export const ROUTES = {
   ABOUT_US_WHY_ZIMO: '/about-us/why-zimo',
   FOR_STUDENTS_SUPPORT: '/for-students/support',
   FOR_UNIVERSITIES_ADVERTISE: '/for-universities/advertise-with-us',
+  // 法律文档页面路由
+  TERMS_CONDITIONS: '/terms-conditions',
+  PRIVACY_POLICY: '/privacy-policy',
 }
 
 /**

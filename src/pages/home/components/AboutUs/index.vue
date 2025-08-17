@@ -14,20 +14,82 @@
                 <div class="footer-columns">
                     <div class="footer-column">
                         <div class="footer-title">About us</div>
-                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('our-stories')">Our stories</a>
-                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('our-services')">Our Services</a>
-                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('why-zimo')">WHY ZIMO</a>
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleLinkClick('our-stories')"
+                            >Our stories</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleLinkClick('our-services')"
+                            >Our Services</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleLinkClick('why-zimo')"
+                            >WHY ZIMO</a
+                        >
                     </div>
 
                     <div class="footer-column">
                         <div class="footer-title">For students</div>
-                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('support')">Support</a>
-                        <a href="#" class="footer-link">Admission</a>
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleProgramClick('Chinese')"
+                            >Chinese Programs</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleProgramClick('Bachelor')"
+                            >Undergraduate Courses</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleProgramClick('Master')"
+                            >Postgraduate Courses</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleProgramClick('PHD')"
+                            >Doctoral Courses</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleProgramClick('MBBS')"
+                            >MBBS Courses</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleScholarshipClick()"
+                            >China Scholarship</a
+                        >
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="handleLinkClick('support')"
+                            >Support</a
+                        >
                     </div>
 
                     <div class="footer-column">
                         <div class="footer-title">For universities</div>
-                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('advertise-with-us')">Advertise with us</a>
+                        <a
+                            href="#"
+                            class="footer-link"
+                            @click.prevent="
+                                handleLinkClick('advertise-with-us')
+                            "
+                            >Advertise with us</a
+                        >
                     </div>
 
                     <div class="footer-column">
@@ -206,6 +268,8 @@
 <script>
 import { ref, onMounted, onUnmounted } from "vue";
 import SectionTitle from "../../../../components/SectionTitle.vue";
+import { searchStore } from "../../../../store/searchStore";
+import { ROUTES } from "../../../../router/routes";
 
 export default {
     name: "AboutUs",
@@ -327,11 +391,11 @@ export default {
         // 处理footer链接点击
         const handleLinkClick = (linkType) => {
             const linkRouteMap = {
-                'our-stories': '/about-us/our-stories',
-                'our-services': '/about-us/our-services',
-                'why-zimo': '/about-us/why-zimo',
-                'support': '/for-students/support',
-                'advertise-with-us': '/for-universities/advertise-with-us',
+                "our-stories": "/about-us/our-stories",
+                "our-services": "/about-us/our-services",
+                "why-zimo": "/about-us/why-zimo",
+                support: "/for-students/support",
+                "advertise-with-us": "/for-universities/advertise-with-us",
             };
 
             const routePath = linkRouteMap[linkType];
@@ -339,6 +403,63 @@ export default {
                 // 新开窗口跳转到对应的文档页面
                 window.open(routePath, "_blank");
             }
+        };
+
+        // 处理程序类型点击 - 跳转到Program页面并应用筛选
+        const handleProgramClick = (programType) => {
+            // 先清除所有之前的搜索和筛选参数
+            searchStore.clearAll();
+
+            // 设置对应的筛选参数，使用完整的初始状态
+            const filterParams = {
+                // 清空所有筛选选项
+                selectedDegrees: [],
+                selectedScholarship: "",
+                selectedLanguages: [],
+                selectedCities: [],
+                selectedDurations: [],
+                selectedStartDate: "",
+                minFees: "",
+                maxFees: "",
+                // 默认的展开状态
+                expandedFilters: {
+                    cities: false,
+                    durations: false,
+                    startDates: false,
+                    tuition: false,
+                    degrees: false,
+                    scholarship: false,
+                    languages: false,
+                },
+            };
+
+            if (programType === "Chinese") {
+                // Chinese Programs - 按语言筛选
+                filterParams.selectedLanguages = ["Chinese"];
+                filterParams.expandedFilters.languages = true;
+            } else if (programType === "MBBS") {
+                // MBBS Courses - 按搜索关键词，清除所有筛选但保持degree默认展开
+                filterParams.expandedFilters.degrees = true; // 确保学位筛选器展开
+                searchStore.setSearchQuery("MBBS");
+                searchStore.setFilterParams(filterParams); // 设置筛选参数
+                window.open(ROUTES.PROGRAM, "_blank");
+                return;
+            } else {
+                // Bachelor, Master, PHD - 按学位筛选
+                filterParams.selectedDegrees = [programType];
+                filterParams.expandedFilters.degrees = true;
+            }
+
+            // 设置筛选参数到store
+            searchStore.setFilterParams(filterParams);
+
+            // 打开Program页面
+            window.open(ROUTES.PROGRAM, "_blank");
+        };
+
+        // 处理China Scholarship点击 - 跳转到Guides-Scholarship页面
+        const handleScholarshipClick = () => {
+            window.open(ROUTES.GUIDES_SCHOLARSHIPS, "_blank");
         };
 
         onMounted(() => {
@@ -372,6 +493,8 @@ export default {
             handleYouTubeMouseLeave,
             handleYouTubeClick,
             handleLinkClick,
+            handleProgramClick,
+            handleScholarshipClick,
         };
     },
 };
@@ -381,7 +504,7 @@ export default {
 .about-section {
     background-color: #f6f6f6;
     position: relative;
-    padding: 75px 200px;
+    padding: 50px 200px;
 }
 
 .container {
@@ -555,6 +678,7 @@ export default {
     margin-bottom: 10px;
     transition: color 0.3s ease;
     text-decoration: none;
+    cursor: pointer !important;
 
     &:hover {
         color: #ff6b35;

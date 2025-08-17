@@ -443,7 +443,7 @@ export const useProgram = () => {
         window.open(ROUTES.GUIDES_STUDY_IN_CHINA, "_blank");
     };
 
-    // 在组件挂载时，从store获取搜索内容
+    // 在组件挂载时，从store获取搜索内容和筛选参数
     onMounted(async () => {
         // 添加结构化数据
         addStructuredData({
@@ -462,14 +462,48 @@ export const useProgram = () => {
         // 先获取城市数据
         await fetchCities();
 
+        // 从store获取搜索查询和筛选参数
         const query = searchStore.getSearchQuery();
+        const filters = searchStore.getFilterParams();
+        
+        // 应用搜索查询
         if (query) {
             searchQuery.value = query;
-            // 立即触发搜索
-            handleSearch();
-            // 清除store中的搜索内容，避免下次进入时仍然存在
-            searchStore.clearSearchQuery();
         }
+        
+        // 应用筛选参数
+        if (filters && Object.keys(filters).length > 0) {
+            // 重置所有筛选状态到初始值
+            selectedDegrees.value = filters.selectedDegrees || [];
+            selectedScholarship.value = filters.selectedScholarship || "";
+            selectedLanguages.value = filters.selectedLanguages || [];
+            selectedCities.value = filters.selectedCities || [];
+            selectedDurations.value = filters.selectedDurations || [];
+            selectedStartDate.value = filters.selectedStartDate || "";
+            minFees.value = filters.minFees || "";
+            maxFees.value = filters.maxFees || "";
+            
+            // 重置展开状态
+            if (filters.expandedFilters) {
+                Object.assign(expandedFilters.value, {
+                    cities: false,
+                    durations: false,
+                    startDates: false,
+                    tuition: false,
+                    degrees: true, // 默认展开学位
+                    scholarship: false,
+                    languages: false,
+                }, filters.expandedFilters);
+            }
+        }
+        
+        // 如果有搜索查询或筛选参数，立即触发搜索
+        if (query || (filters && Object.keys(filters).length > 0)) {
+            handleSearch();
+        }
+        
+        // 清除store中的搜索内容和筛选参数，避免下次进入时仍然存在
+        searchStore.clearAll();
 
         // 获取API数据
         fetchDataFromApi();
