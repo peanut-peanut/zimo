@@ -24,6 +24,13 @@ import Shenzhen from '../pages/guides/Shenzhen.vue'
 import Wuhan from '../pages/guides/Wuhan.vue'
 import GuangDong from '../pages/guides/GuangDong.vue'
 
+// 文档页面组件导入
+import OurStories from '../pages/documents/OurStories.vue'
+import OurServices from '../pages/documents/OurServices.vue'
+import WhyZimo from '../pages/documents/WhyZimo.vue'
+import Support from '../pages/documents/Support.vue'
+import AdvertiseWithUs from '../pages/documents/AdvertiseWithUs.vue'
+
 /**
  * 路由配置
  * 定义了应用的路由结构，包括：
@@ -135,6 +142,37 @@ const routes = [
     component: ApplyNow,
     meta: { title: 'Start Your Application' }
   },
+  // 文档页面路由 - 更有语义的路径结构
+  {
+    path: ROUTES.ABOUT_US_OUR_STORIES,
+    name: 'AboutUsOurStories',
+    component: OurStories,
+    meta: { title: 'our-stories' }
+  },
+  {
+    path: ROUTES.ABOUT_US_OUR_SERVICES,
+    name: 'AboutUsOurServices',
+    component: OurServices,
+    meta: { title: 'our-services' }
+  },
+  {
+    path: ROUTES.ABOUT_US_WHY_ZIMO,
+    name: 'AboutUsWhyZimo',
+    component: WhyZimo,
+    meta: { title: 'why-zimo' }
+  },
+  {
+    path: ROUTES.FOR_STUDENTS_SUPPORT,
+    name: 'ForStudentsSupport',
+    component: Support,
+    meta: { title: 'support' }
+  },
+  {
+    path: ROUTES.FOR_UNIVERSITIES_ADVERTISE,
+    name: 'ForUniversitiesAdvertiseWithUs',
+    component: AdvertiseWithUs,
+    meta: { title: 'advertise-with-us' }
+  },
   {
     path: '/:pathMatch(.*)*',
     redirect: ROUTES.HOME
@@ -176,7 +214,12 @@ router.beforeEach((to, from, next) => {
     'PopularCitiesShenzhen': 'shenzhen',
     'PopularCitiesWuhan': 'wuhan',
     'PopularCitiesGuangDong': 'guangdong',
-    'ApplyNow': 'applyNow'
+    'ApplyNow': 'applyNow',
+    'AboutUsOurStories': 'ourStories',
+    'AboutUsOurServices': 'ourServices',
+    'AboutUsWhyZimo': 'whyZimo',
+    'ForStudentsSupport': 'support',
+    'ForUniversitiesAdvertiseWithUs': 'advertiseWithUs'
   }
   
   const seoPage = seoPageMap[to.name]

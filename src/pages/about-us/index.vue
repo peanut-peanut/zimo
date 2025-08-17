@@ -4,7 +4,7 @@
         <Header isFrom="AboutUs" />
         <Top />
         <CompanyIntroduction />
-        
+
         <!-- 懒加载的非首屏组件 -->
         <div class="fade-in-section" data-fade-section="products-services">
             <Suspense>
@@ -60,8 +60,11 @@
                 </template>
             </Suspense>
         </div>
-        <Footer />
-        
+        <!-- <Footer /> -->
+
+        <AboutUsComponent :need-large-screen-adaptation="true" />
+        <Footer :need-large-screen-adaptation="true" />
+
         <!-- 置顶按钮 -->
         <button
             v-if="showScrollToTop"
@@ -87,6 +90,8 @@ import Top from "./components/Top/index.vue";
 import CompanyIntroduction from "./components/CompanyIntroduction/index.vue";
 import baiduAnalytics from "@/utils/baidu-analytics";
 import { setSEO } from "../../utils/seo.js";
+import AboutUsComponent from "../home/components/AboutUs/index.vue";
+import Footer from "../home/components/Footer/index.vue";
 
 // 懒加载非首屏组件
 const ProductsServices = defineAsyncComponent(() =>
@@ -104,9 +109,9 @@ const Partners = defineAsyncComponent(() =>
 const JoinUs = defineAsyncComponent(() =>
     import("./components/JoinUs/index.vue")
 );
-const Footer = defineAsyncComponent(() =>
-    import("./components/Footer/index.vue")
-);
+// const Footer = defineAsyncComponent(() =>
+//     import("./components/Footer/index.vue")
+// );
 
 // 加载占位组件
 const LoadingComponent = {
@@ -135,12 +140,13 @@ export default {
         Partners,
         JoinUs,
         Footer,
+        AboutUsComponent,
         LoadingComponent,
     },
     setup() {
         let observer = null;
         const showScrollToTop = ref(false);
-        
+
         // 立即回到顶部，在组件初始化时就执行
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
@@ -166,8 +172,7 @@ export default {
                                     const isInSpecialComponent =
                                         element.closest(
                                             ".section-title-container"
-                                        ) ||
-                                        element.closest(".footer");
+                                        ) || element.closest(".footer");
 
                                     // 避免影响已有动画的元素或特殊组件的元素
                                     if (
@@ -212,8 +217,13 @@ export default {
         // 平滑滚动到顶部
         const scrollToTop = () => {
             // 上报回到顶部按钮点击事件
-            baiduAnalytics.trackEvent('navigation', 'back_to_top_click', 'about_us_page', 1);
-            
+            baiduAnalytics.trackEvent(
+                "navigation",
+                "back_to_top_click",
+                "about_us_page",
+                1
+            );
+
             window.scrollTo({
                 top: 0,
                 behavior: "smooth",
@@ -225,22 +235,22 @@ export default {
             window.scrollTo(0, 0);
             document.documentElement.scrollTop = 0;
             document.body.scrollTop = 0;
-            
+
             // 延迟再次确保回到顶部，防止其他组件影响
             setTimeout(() => {
                 window.scrollTo(0, 0);
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
             }, 100);
-            
+
             // 使用SEO工具设置页面SEO信息
-            setSEO('aboutUs');
+            setSEO("aboutUs");
 
             // 延迟初始化动画，确保DOM完全加载
             setTimeout(() => {
                 initFadeInAnimations();
             }, 300);
-            
+
             // 添加滚动事件监听
             window.addEventListener("scroll", handleScroll);
         });
@@ -329,7 +339,7 @@ export default {
         opacity: 0 !important;
         transform: translateY(30px) !important;
     }
-    
+
     &.fade-in {
         opacity: 1 !important;
         transform: translateY(0) !important;
@@ -343,7 +353,7 @@ export default {
         // 保护卡片内的文字不被页面级别的动画影响
         opacity: 1 !important;
         transform: none !important;
-        
+
         &.text-fade-in {
             opacity: 1 !important;
             transform: none !important;

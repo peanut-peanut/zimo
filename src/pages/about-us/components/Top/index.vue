@@ -37,6 +37,9 @@ export default {
     align-items: center;
     justify-content: center;
     //  z-index: 99;
+    @media (min-width: 1681px) {
+        margin-top: 64px;
+    }
 }
 .top-background {
     position: absolute;

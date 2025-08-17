@@ -20,6 +20,12 @@ export const ROUTES = {
   POPULAR_CITIES_WUHAN: '/popular-cities/wuhan',
   POPULAR_CITIES_GUANGDONG: '/popular-cities/guangdong',
   APPLYNOW: '/apply-now',
+  // 文档页面路由 - 更有语义的路径结构
+  ABOUT_US_OUR_STORIES: '/about-us/our-stories',
+  ABOUT_US_OUR_SERVICES: '/about-us/our-services',
+  ABOUT_US_WHY_ZIMO: '/about-us/why-zimo',
+  FOR_STUDENTS_SUPPORT: '/for-students/support',
+  FOR_UNIVERSITIES_ADVERTISE: '/for-universities/advertise-with-us',
 }
 
 /**
@@ -56,7 +62,7 @@ export const mainRoutes = [
     path: ROUTES.APPLYNOW,
     exact: true,
     title: 'Start Your Application',
-  },
+  }
 ]
 
 /**

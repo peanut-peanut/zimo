@@ -14,19 +14,20 @@
                 <div class="footer-columns">
                     <div class="footer-column">
                         <div class="footer-title">About us</div>
-                        <a href="#" class="footer-link">our services</a>
-                        <a href="#" class="footer-link">our stories</a>
+                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('our-stories')">Our stories</a>
+                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('our-services')">Our Services</a>
+                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('why-zimo')">WHY ZIMO</a>
                     </div>
 
                     <div class="footer-column">
                         <div class="footer-title">For students</div>
-                        <a href="#" class="footer-link">Support</a>
+                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('support')">Support</a>
                         <a href="#" class="footer-link">Admission</a>
                     </div>
 
                     <div class="footer-column">
                         <div class="footer-title">For universities</div>
-                        <a href="#" class="footer-link">Advertise with us</a>
+                        <a href="#" class="footer-link" @click.prevent="handleLinkClick('advertise-with-us')">Advertise with us</a>
                     </div>
 
                     <div class="footer-column">
@@ -323,6 +324,23 @@ export default {
             window.open("https://www.youtube.com/@zimo.studyinchina", "_blank");
         };
 
+        // 处理footer链接点击
+        const handleLinkClick = (linkType) => {
+            const linkRouteMap = {
+                'our-stories': '/about-us/our-stories',
+                'our-services': '/about-us/our-services',
+                'why-zimo': '/about-us/why-zimo',
+                'support': '/for-students/support',
+                'advertise-with-us': '/for-universities/advertise-with-us',
+            };
+
+            const routePath = linkRouteMap[linkType];
+            if (routePath) {
+                // 新开窗口跳转到对应的文档页面
+                window.open(routePath, "_blank");
+            }
+        };
+
         onMounted(() => {
             window.addEventListener("scroll", handleScroll);
         });
@@ -353,6 +371,7 @@ export default {
             handleYouTubeMouseEnter,
             handleYouTubeMouseLeave,
             handleYouTubeClick,
+            handleLinkClick,
         };
     },
 };
