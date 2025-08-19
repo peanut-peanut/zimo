@@ -18,9 +18,12 @@ export const durations = [
     "6 years",
 ];
 export const startDates = [
-    "September 2024",
     "September 2025",
+    "November 2025",
+    "March 2026",
+    "August 2026",
     "September 2026",
+    "November 2026",
 ];
 
 // 导入API工具函数
@@ -293,6 +296,26 @@ export const useProgram = () => {
         currentPage.value = gotoPage.value;
     };
 
+    // 处理奖学金筛选的切换逻辑
+    const handleScholarshipToggle = (value) => {
+        // 如果点击的是当前选中的选项，则取消选择
+        if (selectedScholarship.value === value) {
+            selectedScholarship.value = "";
+        } else {
+            selectedScholarship.value = value;
+        }
+    };
+
+    // 处理开始日期筛选的切换逻辑
+    const handleStartDateToggle = (date) => {
+        // 如果点击的是当前选中的选项，则取消选择
+        if (selectedStartDate.value === date) {
+            selectedStartDate.value = "";
+        } else {
+            selectedStartDate.value = date;
+        }
+    };
+
     // 计算要显示哪些页码按钮
     const displayedPageNumbers = computed(() => {
         const total = totalPages.value;
@@ -562,6 +585,8 @@ export const useProgram = () => {
         handleSearch,
         fetchDataFromApi,
         handleGotoPage,
+        handleScholarshipToggle,
+        handleStartDateToggle,
         fetchCities,
     };
 };

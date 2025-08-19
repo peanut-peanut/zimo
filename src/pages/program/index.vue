@@ -93,20 +93,11 @@
                         <div class="filter-option">
                             <input
                                 type="radio"
-                                id="scholarship-all"
-                                value=""
-                                v-model="selectedScholarship"
-                                name="scholarship"
-                            />
-                            <label for="scholarship-all">All</label>
-                        </div>
-                        <div class="filter-option">
-                            <input
-                                type="radio"
                                 id="scholarship-yes"
                                 value="true"
                                 v-model="selectedScholarship"
                                 name="scholarship"
+                                @click="handleScholarshipToggle('true')"
                             />
                             <label for="scholarship-yes">Available</label>
                         </div>
@@ -117,6 +108,7 @@
                                 value="false"
                                 v-model="selectedScholarship"
                                 name="scholarship"
+                                @click="handleScholarshipToggle('false')"
                             />
                             <label for="scholarship-no">Not Available</label>
                         </div>
@@ -310,6 +302,7 @@
                                 :value="date"
                                 v-model="selectedStartDate"
                                 name="startDate"
+                                @click="handleStartDateToggle(date)"
                             />
                             <label :for="`date-${date}`">{{ date }}</label>
                         </div>
