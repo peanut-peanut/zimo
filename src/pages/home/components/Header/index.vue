@@ -111,6 +111,9 @@
                     >Apply Now</a
                 >
             </nav>
+            
+            <!-- 语言切换器 -->
+            <LanguageSwitcher />
         </div>
     </header>
 </template>
@@ -121,9 +124,13 @@ import { isMobileDevice } from "@/utils/common.js";
 import baiduAnalytics from "@/utils/baidu-analytics";
 import { useRouter } from "vue-router";
 import { ROUTES } from "@/router/routes";
+import LanguageSwitcher from "../../../../components/LanguageSwitcher.vue";
 
 export default {
     name: "Header",
+    components: {
+        LanguageSwitcher,
+    },
     props: {
         isFrom: {
             type: String,

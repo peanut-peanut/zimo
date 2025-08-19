@@ -1,0 +1,127 @@
+/* RTL (Right-to-Left) 样式支持 */
+
+/* 全局RTL样式 */
+html[dir="rtl"] {
+    /* 文本对齐 */
+    body {
+        text-align: right;
+    }
+    
+    /* 浮动元素反转 */
+    .float-left {
+        float: right !important;
+    }
+    
+    .float-right {
+        float: left !important;
+    }
+    
+    /* Flexbox方向反转 */
+    .flex-row {
+        flex-direction: row-reverse;
+    }
+    
+    /* 边距和填充反转 */
+    .margin-left {
+        margin-right: auto;
+        margin-left: 0;
+    }
+    
+    .margin-right {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    
+    .padding-left {
+        padding-right: auto;
+        padding-left: 0;
+    }
+    
+    .padding-right {
+        padding-left: auto;
+        padding-right: 0;
+    }
+    
+    /* 文本对齐 */
+    .text-left {
+        text-align: right !important;
+    }
+    
+    .text-right {
+        text-align: left !important;
+    }
+}
+
+/* 特定组件的RTL支持 */
+html[dir="rtl"] {
+    /* Header组件 */
+    .content-container {
+        padding: 0px 200px;
+        
+        .left-content {
+            text-align: right;
+        }
+    }
+    
+    /* Footer组件 */
+    .footer-columns {
+        flex-direction: row-reverse;
+    }
+    
+    /* 搜索框 */
+    .search-container {
+        flex-direction: row-reverse;
+        
+        .search-input {
+            text-align: right;
+        }
+    }
+    
+    /* 程序卡片 */
+    .program-card {
+        .program-card-left {
+            order: 2;
+        }
+        
+        .program-card-right {
+            order: 1;
+            text-align: right;
+        }
+    }
+    
+    /* 筛选器 */
+    .filter-sidebar {
+        .filter-header {
+            flex-direction: row-reverse;
+        }
+        
+        .filter-options {
+            text-align: right;
+        }
+    }
+    
+    /* 社交图标 */
+    .social-icons {
+        flex-direction: row-reverse;
+    }
+    
+    /* 导航 */
+    .pagination {
+        flex-direction: row-reverse;
+    }
+}
+
+/* 阿拉伯字体支持 */
+html[lang="ar"] {
+    font-family: "Arial", "Tahoma", "Segoe UI", sans-serif;
+    
+    /* 改善阿拉伯文字显示 */
+    * {
+        font-feature-settings: "liga" 1, "calt" 1;
+    }
+    
+    /* 行高调整以适应阿拉伯文字 */
+    body, p, div, span, a, button, input {
+        line-height: 1.6;
+    }
+}

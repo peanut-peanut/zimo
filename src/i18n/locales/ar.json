@@ -1,0 +1,96 @@
+{
+  "header": {
+    "title": "ابحث عن الجامعة التي تناسبك",
+    "subtitle": "اكتشف الإجابة على حياتك في الصين",
+    "searchPlaceholder": "أدخل اسم الجامعة",
+    "searchButton": "بحث",
+    "popularContent": "المحتوى الشائع"
+  },
+  "footer": {
+    "aboutUs": {
+      "title": "معلومات عنا",
+      "ourStories": "قصصنا",
+      "ourServices": "خدماتنا",
+      "whyZimo": "لماذا زيمو"
+    },
+    "forStudents": {
+      "title": "للطلاب",
+      "chinesePrograms": "البرامج الصينية",
+      "undergraduateCourses": "مقررات البكالوريوس",
+      "postgraduateCourses": "مقررات الماجستير",
+      "doctoralCourses": "مقررات الدكتوراه",
+      "mbbsCourses": "مقررات الطب",
+      "chinaScholarship": "منحة الصين",
+      "support": "الدعم"
+    },
+    "forUniversities": {
+      "title": "للجامعات",
+      "advertiseWithUs": "أعلن معنا"
+    },
+    "followUs": {
+      "title": "تابعنا"
+    },
+    "contact": {
+      "weAreHereToHelp": "نحن هنا للمساعدة",
+      "getCustomizedPlan": "احصل على خطة تطبيق مخصصة"
+    },
+    "copyright": "زيمو التعليمية © 2025-",
+    "termsConditions": "الشروط والأحكام",
+    "privacyPolicy": "سياسة الخصوصية"
+  },
+  "program": {
+    "filters": {
+      "degree": "الدرجة العلمية",
+      "scholarship": "المنحة الدراسية",
+      "city": "المدينة",
+      "duration": "المدة",
+      "language": "اللغة",
+      "startingDate": "تاريخ البدء",
+      "tuitionFee": "الرسوم الدراسية",
+      "minFees": "الحد الأدنى للرسوم",
+      "maxFees": "الحد الأقصى للرسوم",
+      "enterMinFees": "أدخل الحد الأدنى للرسوم",
+      "enterMaxFees": "أدخل الحد الأقصى للرسوم",
+      "all": "الكل",
+      "available": "متاح",
+      "notAvailable": "غير متاح"
+    },
+    "degrees": {
+      "bachelor": "بكالوريوس",
+      "master": "ماجستير",
+      "phd": "دكتوراه"
+    },
+    "languages": {
+      "chinese": "الصينية",
+      "english": "الإنجليزية"
+    },
+    "programCard": {
+      "scholarship": "منحة دراسية",
+      "applyNow": "تقدم الآن",
+      "startingDate": "تاريخ البدء",
+      "duration": "المدة",
+      "applicationDeadline": "الموعد النهائي للتقديم",
+      "language": "اللغة",
+      "city": "المدينة",
+      "tuitionFeeRMB": "الرسوم الدراسية (يوان صيني)"
+    },
+    "noResults": {
+      "title": "عذراً! لم نتمكن من العثور على نتائج تطابق بحثك.",
+      "subtitle": "ربما قم بتحسين كلماتك المفتاحية، أو استكشف أقسام أخرى من موقعنا."
+    },
+    "loading": "جارٍ تحميل البرامج..."
+  },
+  "popularTags": {
+    "mbbs": "الطب",
+    "chineseLanguage": "اللغة الصينية",
+    "english": "الإنجليزية"
+  },
+  "social": {
+    "whatsapp": "واتساب/هاتف:",
+    "telegram": "تيليجرام:",
+    "wechat": "ويتشات:"
+  },
+  "navigation": {
+    "scrollToTop": "العودة إلى الأعلى"
+  }
+}

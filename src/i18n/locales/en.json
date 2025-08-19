@@ -1,0 +1,96 @@
+{
+  "header": {
+    "title": "FIND THE UNIVERSITY THAT SUITS YOU",
+    "subtitle": "UNLOCK YOUR LIFE ANSWER IN CHINA",
+    "searchPlaceholder": "Enter the name of a university",
+    "searchButton": "Search",
+    "popularContent": "POPULAR CONTENT"
+  },
+  "footer": {
+    "aboutUs": {
+      "title": "About us",
+      "ourStories": "Our stories",
+      "ourServices": "Our Services",
+      "whyZimo": "WHY ZIMO"
+    },
+    "forStudents": {
+      "title": "For students",
+      "chinesePrograms": "Chinese Programs",
+      "undergraduateCourses": "Undergraduate Courses",
+      "postgraduateCourses": "Postgraduate Courses",
+      "doctoralCourses": "Doctoral Courses",
+      "mbbsCourses": "MBBS Courses",
+      "chinaScholarship": "China Scholarship",
+      "support": "Support"
+    },
+    "forUniversities": {
+      "title": "For universities",
+      "advertiseWithUs": "Advertise with us"
+    },
+    "followUs": {
+      "title": "Follow us"
+    },
+    "contact": {
+      "weAreHereToHelp": "We are here to help",
+      "getCustomizedPlan": "Get Customized Application Plan"
+    },
+    "copyright": "Zimo EDU © 2025-",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "program": {
+    "filters": {
+      "degree": "Degree",
+      "scholarship": "Scholarship",
+      "city": "City",
+      "duration": "Duration",
+      "language": "Language",
+      "startingDate": "Starting Date",
+      "tuitionFee": "Tuition Fee",
+      "minFees": "Min Fees",
+      "maxFees": "Max Fees",
+      "enterMinFees": "Enter Min Fees",
+      "enterMaxFees": "Enter Max Fees",
+      "all": "All",
+      "available": "Available",
+      "notAvailable": "Not Available"
+    },
+    "degrees": {
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "phd": "PHD"
+    },
+    "languages": {
+      "chinese": "Chinese",
+      "english": "English"
+    },
+    "programCard": {
+      "scholarship": "Scholarship",
+      "applyNow": "APPLY NOW",
+      "startingDate": "Starting Date",
+      "duration": "Duration",
+      "applicationDeadline": "Application Deadline",
+      "language": "Language",
+      "city": "City",
+      "tuitionFeeRMB": "Tuition Fee (RMB)"
+    },
+    "noResults": {
+      "title": "Oops! We couldn't find any results matching your search.",
+      "subtitle": "Maybe refine your keywords, or explore other sections of our site."
+    },
+    "loading": "Loading programs..."
+  },
+  "popularTags": {
+    "mbbs": "MBBS",
+    "chineseLanguage": "Chinese language",
+    "english": "English"
+  },
+  "social": {
+    "whatsapp": "WhatsApp/Phone:",
+    "telegram": "Telegram：",
+    "wechat": "WeChat:"
+  },
+  "navigation": {
+    "scrollToTop": "Scroll to top"
+  }
+}

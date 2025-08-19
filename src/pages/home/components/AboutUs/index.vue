@@ -13,87 +13,87 @@
             <div class="footer">
                 <div class="footer-columns">
                     <div class="footer-column">
-                        <div class="footer-title">About us</div>
+                        <div class="footer-title">{{ $t('footer.aboutUs.title') }}</div>
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleLinkClick('our-stories')"
-                            >Our stories</a
+                            >{{ $t('footer.aboutUs.ourStories') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleLinkClick('our-services')"
-                            >Our Services</a
+                            >{{ $t('footer.aboutUs.ourServices') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleLinkClick('why-zimo')"
-                            >WHY ZIMO</a
+                            >{{ $t('footer.aboutUs.whyZimo') }}</a
                         >
                     </div>
 
                     <div class="footer-column">
-                        <div class="footer-title">For students</div>
+                        <div class="footer-title">{{ $t('footer.forStudents.title') }}</div>
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleProgramClick('Chinese')"
-                            >Chinese Programs</a
+                            >{{ $t('footer.forStudents.chinesePrograms') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleProgramClick('Bachelor')"
-                            >Undergraduate Courses</a
+                            >{{ $t('footer.forStudents.undergraduateCourses') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleProgramClick('Master')"
-                            >Postgraduate Courses</a
+                            >{{ $t('footer.forStudents.postgraduateCourses') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleProgramClick('PHD')"
-                            >Doctoral Courses</a
+                            >{{ $t('footer.forStudents.doctoralCourses') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleProgramClick('MBBS')"
-                            >MBBS Courses</a
+                            >{{ $t('footer.forStudents.mbbsCourses') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleScholarshipClick()"
-                            >China Scholarship</a
+                            >{{ $t('footer.forStudents.chinaScholarship') }}</a
                         >
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="handleLinkClick('support')"
-                            >Support</a
+                            >{{ $t('footer.forStudents.support') }}</a
                         >
                     </div>
 
                     <div class="footer-column">
-                        <div class="footer-title">For universities</div>
+                        <div class="footer-title">{{ $t('footer.forUniversities.title') }}</div>
                         <a
                             href="#"
                             class="footer-link"
                             @click.prevent="
                                 handleLinkClick('advertise-with-us')
                             "
-                            >Advertise with us</a
+                            >{{ $t('footer.forUniversities.advertiseWithUs') }}</a
                         >
                     </div>
 
                     <div class="footer-column">
-                        <div class="footer-title">Follow us</div>
+                        <div class="footer-title">{{ $t('footer.followUs.title') }}</div>
                         <div class="social-icons">
                             <!-- WhatsApp 图标 -->
                             <div
@@ -116,7 +116,7 @@
                                         <div
                                             class="wechat-tooltip-content-title"
                                         >
-                                            <div>WhatsApp/Phone:</div>
+                                            <div>{{ $t('social.whatsapp') }}</div>
                                             <div>+853 65702421</div>
                                         </div>
                                         <div
@@ -153,7 +153,7 @@
                                     <div
                                         class="tooltip-content telegram-tooltip-content"
                                     >
-                                        <div>Telegram：</div>
+                                        <div>{{ $t('social.telegram') }}</div>
                                         <div>+853 65702421</div>
                                     </div>
                                     <div class="tooltip-arrow"></div>
@@ -181,7 +181,7 @@
                                         <div
                                             class="wechat-tooltip-content-title"
                                         >
-                                            <div>WeChat:</div>
+                                            <div>{{ $t('social.wechat') }}</div>
                                             <div>Mia_Miaoao</div>
                                         </div>
                                         <div

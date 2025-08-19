@@ -6,10 +6,10 @@
         <div class="container">
             <!-- 左侧版权信息 -->
             <div class="copyright">
-                <span>Zimo EDU © 2025-</span>
-                <span class="footer-link" @click="handleTermsClick">Terms & Conditions</span>
+                <span>{{ $t('footer.copyright') }}</span>
+                <span class="footer-link" @click="handleTermsClick">{{ $t('footer.termsConditions') }}</span>
                 <span>-</span>
-                <span class="footer-link" @click="handlePrivacyClick">Privacy Policy</span>
+                <span class="footer-link" @click="handlePrivacyClick">{{ $t('footer.privacyPolicy') }}</span>
             </div>
 
             <!-- 中间联系人信息 -->
@@ -18,7 +18,7 @@
                 @mouseenter="handleContactMouseEnter"
                 @mouseleave="handleContactMouseLeave"
             >
-                <div class="help-text">We are here to help :</div>
+                <div class="help-text">{{ $t('footer.contact.weAreHereToHelp') }} :</div>
                 <div class="person-info">
                     <div class="avatar">M</div>
                     <div class="person-name">Mia</div>
@@ -42,7 +42,7 @@
                         alt="Email"
                         class="email-icon"
                     />
-                    Get Customized Application Plan
+                    {{ $t('footer.contact.getCustomizedPlan') }}
                 </button>
             </div>
         </div>

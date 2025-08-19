@@ -15,20 +15,18 @@
             <div class="left-content">
                 <!-- Main Title -->
                 <div class="main-title">
-                    FIND THE UNIVERSITY
-                    <br />
-                    THAT SUITS YOU
+                    {{ $t('header.title') }}
                 </div>
 
                 <!-- Subtitle -->
-                <div class="subtitle">UNLOCK YOUR LIFE ANSWER IN CHINA</div>
+                <div class="subtitle">{{ $t('header.subtitle') }}</div>
 
                 <!-- Search Form -->
                 <form @submit="handleSearch" class="search-form">
                     <div class="search-container">
                         <input
                             type="text"
-                            placeholder="Enter the name of a university"
+                            :placeholder="$t('header.searchPlaceholder')"
                             class="search-input"
                             v-model="searchTerm"
                         />
@@ -49,22 +47,22 @@
                                     stroke-linejoin="round"
                                 />
                             </svg>
-                            Search
+                            {{ $t('header.searchButton') }}
                         </button>
                     </div>
                 </form>
 
                 <!-- Popular Content -->
                 <div class="popular-content">
-                    <div class="popular-label">POPULAR CONTENT:</div>
+                    <div class="popular-label">{{ $t('header.popularContent') }}:</div>
                     <div class="popular-tags">
                         <button
                             v-for="(tag, index) in popularTags"
                             :key="index"
                             class="popular-tag"
-                            @click="setSearchTerm(tag)"
+                            @click="setSearchTerm(tag.value)"
                         >
-                            {{ tag }}
+                            {{ $t(tag.label) }}
                         </button>
                     </div>
                 </div>
@@ -107,7 +105,11 @@ export default {
             window.open(ROUTES.PROGRAM, "_blank");
         };
 
-        const popularTags = ["MBBS", "Chinese language", "English"];
+        const popularTags = [
+            { value: "MBBS", label: "popularTags.mbbs" },
+            { value: "Chinese language", label: "popularTags.chineseLanguage" },
+            { value: "English", label: "popularTags.english" }
+        ];
 
         return {
             searchTerm,
