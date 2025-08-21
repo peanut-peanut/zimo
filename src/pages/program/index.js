@@ -2,10 +2,10 @@ import { ref, computed, watch, onMounted } from "vue";
 import { searchStore } from "../../store/searchStore";
 import { ROUTES, getProgramDetailPath } from "../../router/routes";
 import { addStructuredData, structuredDataTemplates } from "../../utils/seo.js";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 // 筛选选项数据
-export const degrees = ["Bachelor", "Master", "PHD"];
+export const degrees = ["Bachelor", "Master", "PHD", "Non-degree"];
 export const languages = ["Chinese", "English"];
 // 将cities改为响应式数据，从API获取
 export const cities = ref([]);
@@ -132,7 +132,7 @@ export const processApiResponse = (response) => {
 
 export const useProgram = () => {
     const router = useRouter();
-    
+
     // 搜索功能
     const searchQuery = ref("");
     let searchTimeout = null;
@@ -392,7 +392,7 @@ export const useProgram = () => {
         fetchDataFromApi(newPage);
     });
 
-    // 监听筛选条件变化，重置到第一页并重新获取数据
+    // 监听筛选条件变化，重置到第一页并重新获取数据（除了学费字段）
     watch(
         [
             selectedDegrees,
@@ -401,12 +401,31 @@ export const useProgram = () => {
             selectedCities,
             selectedDurations,
             selectedStartDate,
-            minFees,
-            maxFees,
         ],
         () => {
             currentPage.value = 1; // 重置到第一页
             fetchDataFromApi(1);
+        },
+        { deep: true }
+    );
+
+    // 学费筛选的防抖处理
+    let tuitionTimeout = null;
+    
+    // 单独监听学费字段变化，添加防抖
+    watch(
+        [minFees, maxFees],
+        () => {
+            // 清除之前的定时器
+            if (tuitionTimeout) {
+                clearTimeout(tuitionTimeout);
+            }
+            
+            // 设置新的定时器，1秒后触发搜索
+            tuitionTimeout = setTimeout(() => {
+                currentPage.value = 1; // 重置到第一页
+                fetchDataFromApi(1);
+            }, 1000);
         },
         { deep: true }
     );
@@ -450,16 +469,22 @@ export const useProgram = () => {
     const goToProgramDetail = (programId) => {
         // 上报点击事件
         if (window._hmt) {
-            window._hmt.push(['_trackEvent', 'program', 'click', `program_${programId}`, 1]);
+            window._hmt.push([
+                "_trackEvent",
+                "program",
+                "click",
+                `program_${programId}`,
+                1,
+            ]);
         }
-        
-        console.log('跳转到详情页:', programId);
-        
+
+        console.log("跳转到详情页:", programId);
+
         // 确保ID是数字
         const id = Number(programId) || programId;
-        
+
         // 在新窗口打开详情页
-        window.open(`/program/${id}`, '_blank');
+        window.open(`/program/${id}`, "_blank");
     };
 
     const goToGuides = () => {
@@ -472,28 +497,30 @@ export const useProgram = () => {
         addStructuredData({
             "@context": "https://schema.org",
             "@type": "ItemList",
-            "name": "Study Programs in China",
-            "description": "Browse over 30,000 study programs across 400+ Chinese universities",
-            "numberOfItems": 30000,
-            "itemListElement": {
+            name: "Study Programs in China",
+            description:
+                "Browse over 30,000 study programs across 400+ Chinese universities",
+            numberOfItems: 30000,
+            itemListElement: {
                 "@type": "Course",
-                "name": "Chinese University Programs",
-                "description": "Comprehensive listing of academic programs available at Chinese universities for international students"
-            }
+                name: "Chinese University Programs",
+                description:
+                    "Comprehensive listing of academic programs available at Chinese universities for international students",
+            },
         });
-        
+
         // 先获取城市数据
         await fetchCities();
 
         // 从store获取搜索查询和筛选参数
         const query = searchStore.getSearchQuery();
         const filters = searchStore.getFilterParams();
-        
+
         // 应用搜索查询
         if (query) {
             searchQuery.value = query;
         }
-        
+
         // 应用筛选参数
         if (filters && Object.keys(filters).length > 0) {
             // 重置所有筛选状态到初始值
@@ -505,26 +532,30 @@ export const useProgram = () => {
             selectedStartDate.value = filters.selectedStartDate || "";
             minFees.value = filters.minFees || "";
             maxFees.value = filters.maxFees || "";
-            
+
             // 重置展开状态
             if (filters.expandedFilters) {
-                Object.assign(expandedFilters.value, {
-                    cities: false,
-                    durations: false,
-                    startDates: false,
-                    tuition: false,
-                    degrees: true, // 默认展开学位
-                    scholarship: false,
-                    languages: false,
-                }, filters.expandedFilters);
+                Object.assign(
+                    expandedFilters.value,
+                    {
+                        cities: false,
+                        durations: false,
+                        startDates: false,
+                        tuition: false,
+                        degrees: true, // 默认展开学位
+                        scholarship: false,
+                        languages: false,
+                    },
+                    filters.expandedFilters
+                );
             }
         }
-        
+
         // 如果有搜索查询或筛选参数，立即触发搜索
         if (query || (filters && Object.keys(filters).length > 0)) {
             handleSearch();
         }
-        
+
         // 清除store中的搜索内容和筛选参数，避免下次进入时仍然存在
         searchStore.clearAll();
 
@@ -534,10 +565,10 @@ export const useProgram = () => {
 
     const handleSearch = (query) => {
         // 如果有传入query参数，更新searchQuery
-        if (typeof query === 'string') {
+        if (typeof query === "string") {
             searchQuery.value = query;
         }
-        
+
         // 防抖处理
         if (searchTimeout) {
             clearTimeout(searchTimeout);
