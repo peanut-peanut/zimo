@@ -169,10 +169,13 @@ export const useProgram = () => {
 
             // 添加学位筛选（数组）
             if (selectedDegrees.value.length > 0) {
-                // 将选中的学位转换为小写
-                requestBody.degrees = selectedDegrees.value.map((degree) =>
-                    degree.toLowerCase()
-                );
+                // 将选中的学位转换为小写，并将PHD转换为doctoral
+                requestBody.degrees = selectedDegrees.value.map((degree) => {
+                    if (degree.toUpperCase() === "PHD") {
+                        return "doctoral";
+                    }
+                    return degree.toLowerCase();
+                });
             }
 
             // 添加奖学金筛选
